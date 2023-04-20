@@ -12,6 +12,9 @@
 /build
 dist
 
+# config
+/config
+
 # misc
 .DS_Store
 .env

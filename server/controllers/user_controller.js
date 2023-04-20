@@ -1,13 +1,17 @@
 const User = require('../models/user_model');
-const bcrypt = require('bcrypt');
 
+const passport = require('passport');
+var LocalStrategy = require('passport-local');
+
+passport.use(User.createStrategy());
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 const createUser = async (req, res) => {
   try {
-    User.create({
+    User.register({
       username: req.body.username,
-      password: bcrypt.hashSync(req.body.password,8),
-      name: req.body.name,
+      name: '',
       phone: '',
       email: '',
       profilePicture: req.body.profilePicture,
@@ -16,7 +20,7 @@ const createUser = async (req, res) => {
       following: [],
       savedEvents: [],
       joinedEvents: []
-    })
+    }, req.body.password)
     res.json(req.body);
     res.status(201);
   } catch (e) {
@@ -25,4 +29,27 @@ const createUser = async (req, res) => {
   }
 };
 
-module.exports = {createUser};
+const login = async(req, res) => {
+  try {
+    const authenticate = User.authenticate()
+    authenticate(req.body.username, req.body.password, function(err, result) {
+      if (err) {console.log(err)}
+      if(result != false){
+        const token = jwt.sign({ userId: User._id, username: User.username }, secretkey, { expiresIn: "24h" });
+        console.log(result)
+        res.json({ success: true, message: "Authentication successful", token: token });
+        //res.redirect('/');
+      }
+      else{
+        res.send('user is not authenticated')
+      }
+    });
+    res.status(201);
+  }catch(e){
+    res.status(400);
+    console.log(e)
+  }
+
+}
+
+module.exports = {createUser, login};
