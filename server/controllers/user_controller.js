@@ -1,5 +1,4 @@
 const User = require('../models/user_model');
-
 const passport = require('passport');
 var LocalStrategy = require('passport-local');
 
@@ -29,27 +28,37 @@ const createUser = async (req, res) => {
   }
 };
 
-const login = async(req, res) => {
-  try {
-    const authenticate = User.authenticate()
-    authenticate(req.body.username, req.body.password, function(err, result) {
-      if (err) {console.log(err)}
-      if(result != false){
-        const token = jwt.sign({ userId: User._id, username: User.username }, secretkey, { expiresIn: "24h" });
-        console.log(result)
-        res.json({ success: true, message: "Authentication successful", token: token });
-        //res.redirect('/');
-      }
-      else{
-        res.send('user is not authenticated')
-      }
-    });
-    res.status(201);
-  }catch(e){
-    res.status(400);
-    console.log(e)
+const getUser = async(req, res) => {
+  console.log(req.passport)
+  if (req.isAuthenticated()) {
+    res.json({ message: 'You made it to the secured profile' })
+  } else {
+    res.json({ message: 'You are not authenticated' })
   }
-
 }
 
-module.exports = {createUser, login};
+const getAllUsers = async(req, res) => {
+   try {
+    const user = await User.find({});
+    res.json(user)
+    res.status(201);
+   } catch(e) {
+    res.status(400);
+    console.log(e)
+   }
+}
+const getUserById = async(req, res) => {
+  console.log(req)
+  try {
+   const user = await User.findOne({_id: req.params.userId});
+   console.log(user)
+   res.json(user)
+   res.status(201);
+  } catch(e) {
+   res.status(400);
+   console.log(e)
+  }
+}
+
+
+module.exports = {createUser, getUser, getAllUsers, getUserById};

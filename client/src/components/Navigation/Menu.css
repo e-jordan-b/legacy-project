@@ -1,0 +1,39 @@
+.menu-wrapper {
+  padding: var(--m-m-spacing) 0;
+  position: absolute;
+  bottom: 0;
+  width: 100vw;
+  background-color: var(--white);
+  border-top: 2px solid var(--secondary-color)
+}
+
+.menu ul {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+.nav-item{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 40px;
+  justify-content: space-between;
+  color: var(--black);
+  text-decoration: none;
+}
+
+.nav-item small {
+  text-align: center
+}
+
+.create-button {
+  background-color: transparent;
+  border: none;
+}
+
+.nav-item img{
+ width: 40px;
+ height: 40px;
+ border-radius: 50%;
+}

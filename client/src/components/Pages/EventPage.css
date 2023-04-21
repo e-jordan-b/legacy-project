@@ -1,0 +1,6 @@
+.join-button {
+  position: fixed;
+  bottom: 170px;
+  right: 60px;
+  background-color: var(--primary-color);
+}

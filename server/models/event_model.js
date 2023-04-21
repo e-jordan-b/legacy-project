@@ -25,7 +25,8 @@ const eventSchema = mongoose.Schema({
   },
   description: {
     type: String,
-    required: true,
+    required: false,
+    default: ''
   },
   date: {
     type: Date,
@@ -36,7 +37,7 @@ const eventSchema = mongoose.Schema({
     required: true,
   },
   coordinates: {
-    type: String,
+    type: [Number],
     required: false,
   },
   image: {

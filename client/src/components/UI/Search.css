@@ -1,0 +1,6 @@
+.search-bar {
+  border-color: var(--primary-color);
+  border-radius: 10px;
+  margin-bottom: var(--m-basic-spacing);
+  width: 95vw;
+}

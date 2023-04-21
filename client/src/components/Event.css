@@ -1,0 +1,34 @@
+.event-snippet {
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+  border-top: 2px solid var(--secondary-color);
+  padding: var(--m-sm-spacing)
+}
+
+.event-picture{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  width: 150px;
+}
+
+.event-image{
+  width: 100%;
+  border-radius: 10px;
+}
+
+.event-like {
+  display: flex;
+  gap: 5px;
+  align-self: flex-end;
+}
+
+.event-like p {
+  text-align: right;
+}
+.event-like span {
+  text-align: right;
+  width: 30px;
+}
+

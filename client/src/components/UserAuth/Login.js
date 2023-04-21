@@ -1,10 +1,12 @@
+import { useContext } from "react";
+import Context from "../context/context";
 import InputComponent from "../UI/Input";
 import { Form, Button} from "antd";
 import { useState } from "react";
 import { loginUser } from "../../services/user_service";
 
 const Login = () => {
-
+  const {navigate} = useContext(Context)
   const [username, setUsername] = useState('')
 
   const [password, setPassword] = useState('')
@@ -26,7 +28,9 @@ const Login = () => {
 
   const handleFormSubmit = () => {
     console.log('submit login')
-    loginUser(username, password)
+    loginUser(username, password).then(()=>navigate(`/profile/aina_p`))
+
+    //.then(()=> navigate(`/profile/${username}`))
   }
 
   return (

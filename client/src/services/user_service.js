@@ -1,7 +1,9 @@
 const BASE_URL = 'http://localhost:3030';
 const fetchReq = async (url, parameters={}) => {
   return await fetch(`${BASE_URL}/${url}`, parameters)
-  .then(response => response.json())
+  .then(response => {
+    return response.json()
+  })
   .catch(err => console.log(err))
 }
 
@@ -23,8 +25,13 @@ const loginUser = (username,  password) => fetchReq('login', {
   body: JSON.stringify({username: username, password: password})
 });
 
+const getUserById = (userId) => fetchReq(`user/${userId}`);
+
+const getAllUsers = () => fetchReq('users');
 
 export {
   registerUser,
-  loginUser
+  loginUser,
+  getUserById,
+  getAllUsers
 }

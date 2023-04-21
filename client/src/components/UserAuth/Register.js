@@ -27,8 +27,6 @@ const Register = () => {
     }else {
       setFormIsValid(false)
     }
-
-    console.log(username,userAge ,password)
   }
 
 
@@ -36,8 +34,8 @@ const Register = () => {
       console.log(username,userAge ,password )
     //e.preventDefault();
     registerUser(username, userAge ,password)
-    .then(() => {
-
+    .then((data) => {
+      console.log(data)
     })
     return false;
   }
