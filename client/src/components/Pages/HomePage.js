@@ -1,6 +1,6 @@
 import EventList from "../EventList";
 import Layout from "../Layout/Layout";
-import SearchComponent from "../UI/Search";
+import SearchComponent from "../UI/SearchComponent";
 
 const HomePage = () => {
 

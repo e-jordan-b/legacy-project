@@ -36,10 +36,12 @@ function Event ({link, data}) {
   }
 
   function getUserName(userId) {
-    const owner = users.find(user => {
-      return user._id === userId
-    })
-   return owner.username;
+    if(users){
+      const owner = users.find(user => {
+        return user._id === userId
+      })
+      return owner.username;
+    }
   }
 
   return (

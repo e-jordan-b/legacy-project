@@ -22,11 +22,13 @@ const eventSchema = mongoose.Schema({
   title: {
     type: String,
     required: true,
+    maxLength: 220
   },
   description: {
     type: String,
     required: false,
-    default: ''
+    default: '',
+    maxLength: 2000
   },
   date: {
     type: Date,

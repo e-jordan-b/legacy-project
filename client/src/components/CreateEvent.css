@@ -1,0 +1,54 @@
+.create-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: auto;
+  border-bottom: 2px solid var(--secondary-color);
+  height: 30px;
+  padding: var(--m-sm-spacing);
+}
+
+.create-modal-title {
+  flex:1;
+  font-size: small;
+  font-weight: bold;
+}
+.dots {
+  flex:1;
+  text-align: center;
+}
+
+.modal-form-wrapper {
+  padding: var(--m-sm-spacing);
+  width:87vw;
+}
+
+.modal-form-wrapper input {
+  width: 87vw;
+}
+.create-modal-header .step-button {
+  background-color: transparent;
+  border: none;
+  color: var(--primary-color);
+  flex:1;
+}
+.back-button {
+  text-align: left;
+}
+
+.next-button {
+  text-align: right;
+}
+
+:where(.css-dev-only-do-not-override-15apr8r).ant-modal .ant-modal-content {
+  padding: 0;
+}
+
+:where(.css-dev-only-do-not-override-15apr8r).ant-form-horizontal .ant-form-item-control {
+  flex: none;
+  min-width: 0;
+}
+
+.ant-form-item {
+  margin-bottom: var(--m-sm-spacing)
+}

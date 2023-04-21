@@ -6,7 +6,7 @@
 
 .wrapper {
  padding: var(--m-sm-spacing);
- width: 95vw;
+ /* width: 95vw; */
 }
 
 h1 {
@@ -25,4 +25,10 @@ h2 {
   border-radius: 100px;
   color: white;
   border: none;
+}
+
+.divider {
+  background-color: var(--secondary-color);
+  height: 2px;
+  width: 95vw;
 }

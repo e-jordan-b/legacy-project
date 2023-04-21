@@ -12,7 +12,10 @@ const {events, isLoading} = useContext(Context)
  <div className="event-list" id="list">
     {events.map((singleEvent, index) => {
       if(singleEvent.title !== ''){
-        return <Event link={true} data={singleEvent} key={`event-${index}`}/>
+        return <div key={`event-${index}`}>
+          <div className="divider"></div>
+            <Event link={true} data={singleEvent} />
+          </div>
       }
       })}
   </div>}

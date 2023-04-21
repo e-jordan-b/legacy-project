@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import Context from "../context/context";
-import InputComponent from "../UI/Input";
+import InputComponent from "../UI/InputComponent";
 import { Form, Button} from "antd";
 import { useState } from "react";
 import { loginUser } from "../../services/user_service";
@@ -8,7 +8,6 @@ import { loginUser } from "../../services/user_service";
 const Login = () => {
   const {navigate} = useContext(Context)
   const [username, setUsername] = useState('')
-
   const [password, setPassword] = useState('')
   const [formIsValid, setFormIsValid] = useState(false)
 

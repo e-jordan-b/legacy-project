@@ -1,6 +1,6 @@
 import EventList from "../EventList";
 import Layout from "../Layout/Layout";
-import SearchComponent from "../UI/Search";
+import SearchComponent from "../UI/SearchComponent";
 import Context from "../context/context";
 import { useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";

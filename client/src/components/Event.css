@@ -2,7 +2,6 @@
   width: 95%;
   display: flex;
   justify-content: space-between;
-  border-top: 2px solid var(--secondary-color);
   padding: var(--m-sm-spacing)
 }
 

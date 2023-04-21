@@ -8,15 +8,16 @@ const fetchReq = async (url, parameters={}) => {
 
 const getAllEvents = () => fetchReq('all-events');
 
-// const addEvent = (title, date, venue) => fetchReq('events', {
-//   method: 'POST',
-//   headers: {
-//     "Content-Type": "application/json",
-//     "Access-Control-Allow-Origin": "*",
-//   },
-//   body: JSON.stringify({title: title, date: date, venue: venue})
-// })
+const addEvent = (newEvent) => fetchReq('add-event', {
+  method: 'POST',
+  headers: {
+    "Content-Type": "application/json",
+    "Access-Control-Allow-Origin": "*",
+  },
+  body: JSON.stringify(newEvent)
+})
 
 export {
   getAllEvents,
+  addEvent
 }
