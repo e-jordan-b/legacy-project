@@ -11,6 +11,7 @@ import HomePage from './components/Pages/HomePage';
 import * as EventService from './services/event_service';
 import * as UserService from './services/user_service';
 import EventPage from './components/Pages/EventPage';
+import MapPage from './components/Pages/MapPage';
 
 
 function App() {
@@ -32,10 +33,51 @@ function App() {
     return parsedDate
   }
 
-  function getAllEvents () {
-    EventService.getAllEvents()
+  function getLikedEvents(eventId){
+    if(activeUser.savedEvents.length >0) {
+      if(activeUser.savedEvents.find(savedEvent => savedEvent === eventId)){
+        return true;
+      }else{
+        return false
+      }
+    }
+  }
+
+  function getJoinedEvents(eventId){
+    if(activeUser.joinedEvents.length > 0) {
+      if(activeUser.joinedEvents.find(joinedEvent => joinedEvent === eventId)){
+        return true;
+      }else{
+        return false
+      }
+    }else{
+       return false
+    }
+  }
+
+  function addToSavedEvents(eventId){
+    UserService.addSavedEvent(activeUser._id, eventId)
+  }
+
+  function removeSavedEvent(eventId){
+    UserService.removeSavedEvent(activeUser._id, eventId)
+  }
+  function addToJoinedEvents(eventId){
+    EventService.addUserToJoinedList(activeUser._id, eventId)
+    UserService.addJoinedEvent(activeUser._id, eventId)
+  }
+
+  function removeJoinedEvent(eventId){
+    EventService.removeUserFromJoinedList(activeUser._id, eventId)
+    UserService.removeJoinedEvent(activeUser._id, eventId)
+  }
+
+  async function getAllEvents () {
+    EventService.getAllEvents(activeUser._id)
     .then(data => {
       data.forEach(el => {
+        el.liked = getLikedEvents(el._id)
+        el.joining = getJoinedEvents(el._id)
         el.date = parseDate(el.date)
       });
       let now = new Date();
@@ -44,6 +86,10 @@ function App() {
       setEvents(filteredFutureEvents)
 
     })
+    .then(() => {
+      console.log(events)
+      setIsLoading(false)}
+      )
   }
   function getAllUsers () {
     UserService.getAllUsers()
@@ -58,22 +104,20 @@ function App() {
     .then(data => {
       setActiveUser(data)
     })
-    .then(() => {
-      setIsLoading(false)}
-      )
+
   }
 
   useEffect(() => {
-    getAllEvents();
-  }, []);
-
-  useEffect(() => {
     getAllUsers();
-  }, [events])
+  }, [])
 
   useEffect(() => {
     getActiveUser()
   }, [users])
+
+  useEffect(() => {
+    getAllEvents();
+  }, [activeUser]);
 
   return (
     <ConfigProvider
@@ -82,12 +126,24 @@ function App() {
             colorPrimary: '#8663F3',
           },
         }}>
-    <Context.Provider value={{navigate, events, isLoading, users, activeUser}}>
+    <Context.Provider
+      value={{
+        navigate,
+        setEvents,
+        events,
+        isLoading,
+        users,
+        activeUser,
+        addToSavedEvents,
+        removeSavedEvent,
+        addToJoinedEvents,
+        removeJoinedEvent }}>
     <Routes>
     <Route path="/register" element={<Register />}/>
     <Route path="/login" element={<Login />}/>
     <Route path="/profile/:username" element={<ProfilePage />}/>
     <Route path="/event/:eventtitle" element={<EventPage />}/>
+    <Route path="/mapview" element={<MapPage />}/>
 
     <Route path="/" element={<HomePage />}/>
     </Routes>

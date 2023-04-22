@@ -27,16 +27,44 @@ const addEvent = function(req, res) {
   }
 }
 
+// When user is Authenticated we will hide the
+//events that are marked as hidden to that user
 const getAllEvents = async function (req, res) {
   try{
-    const events = await Event.find({});
-    res.json(events)
+    const allEvents = await Event.find({});
+    const eventsNonHiddenFromUser = allEvents.filter(event => {
+      if(!event.hideFrom.find(user => user == req.params.userId)){
+        return event;
+      }})
+    res.json(eventsNonHiddenFromUser)
     res.status(201)
   }catch(e){
     res.status(400);
     console.log(e);
   }
-
 }
 
-module.exports = {addEvent, getAllEvents};
+const addUserToJoinedList = async(req, res) => {
+  const event = await Event.findOne({_id: req.body.eventId})
+  try{
+    event.joined.push(req.body.userId)
+    event.save();
+    res.json(event)
+  }catch(e){
+    console.log(e)
+  }
+}
+
+const removeUserFromJoinedList = async(req, res) => {
+  const event = await Event.findOne({_id: req.body.eventId})
+  try{
+    const arrayWithoutUnjoinedUser = event.joined.filter(user => user !== req.body.userId)
+    event.joined = arrayWithoutUnjoinedUser;
+    event.save();
+    res.json(event)
+  }catch(e){
+    console.log(e)
+  }
+}
+
+module.exports = {addEvent, getAllEvents, addUserToJoinedList, removeUserFromJoinedList};

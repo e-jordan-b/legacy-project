@@ -2,7 +2,7 @@ import { Modal } from "antd";
 import { useState } from "react";
 
 const ModalComponent = (props) => {
-  const [open, setOpen] = useState(false);
+
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState('Content of the modal');
 
@@ -14,19 +14,16 @@ const ModalComponent = (props) => {
   //     setConfirmLoading(false);
   //   }, 2000);
   // };
-  // const handleCancel = () => {
-  //   console.log('Clicked cancel button');
-  //   setOpen(false);
-  // };
   return (
     <>
       <Modal
         open={props.open}
         confirmLoading={confirmLoading}
         // onOk={handleOk}
-        // onCancel={handleCancel}
-        style={{margin: "4.5vw", padding: 0}}
+        onCancel={props.close}
+        style={{margin: "4.5vw", padding: 0, minHeight: "50vh"}}
         footer={null}
+        width="auto"
         closable={false}
       >
         <div>{props.children}</div>

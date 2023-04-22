@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import Context from "../context/context";
-import InputComponent from "../UI/InputComponent";
+import InputComponent from "../UI/inputs/InputComponent";
 import { Form, Button} from "antd";
 import { useState } from "react";
 import { loginUser } from "../../services/user_service";

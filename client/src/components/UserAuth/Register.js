@@ -1,4 +1,4 @@
-import InputComponent from "../UI/InputComponent";
+import InputComponent from "../UI/inputs/InputComponent";
 import { Form, Button} from "antd";
 import { useState } from "react";
 import { registerUser } from "../../services/user_service";

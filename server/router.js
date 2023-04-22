@@ -1,3 +1,4 @@
+require('dotenv').config();
 const router = require('express').Router();
 const userController = require('./controllers/user_controller');
 const eventController = require('./controllers/event_controller');
@@ -37,7 +38,22 @@ router.get('/user/:userId', userController.getUserById)
 router.post('/register', userController.createUser);
 
 router.post('/add-event', eventController.addEvent);
-router.get('/all-events', eventController.getAllEvents);
+router.get('/all-events/:userId', eventController.getAllEvents);
+router.get('/cloudinary', function(req, res) {
+  console.log(process.env.CLOUDINARY_URL)
+  res.json(process.env.CLOUDINARY_URL)
+})
+
+router.post('/add-saved-event/:eventId', userController.addSavedEvent)
+router.post('/remove-saved-event/:eventId', userController.removeSavedEvent)
+router.post('/add-joined-event/:eventId', userController.addJoinedEvent)
+router.post('/remove-joined-event/:eventId', userController.removeJoinedEvent)
+router.post('/add-user-to-joined-list/:eventId', eventController.addUserToJoinedList)
+router.post('/remove-user-from-joined-list/:eventId', eventController.removeUserFromJoinedList)
+
+
+
+
 
 
 module.exports = router;

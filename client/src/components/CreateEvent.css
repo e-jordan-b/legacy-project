@@ -26,11 +26,21 @@
 .modal-form-wrapper input {
   width: 87vw;
 }
+
+.modal-form-wrapper input[type="file"] {
+  width: 150px;
+
+}
+
 .create-modal-header .step-button {
   background-color: transparent;
   border: none;
   color: var(--primary-color);
   flex:1;
+}
+
+.create-modal-header .step-button:disabled {
+  color: var(--secondary-color)
 }
 .back-button {
   text-align: left;
@@ -40,8 +50,18 @@
   text-align: right;
 }
 
+.preview-title {
+  text-align: center;
+  font-weight: bold;
+}
+
+.preview-details {
+  display: flex;
+}
+
 :where(.css-dev-only-do-not-override-15apr8r).ant-modal .ant-modal-content {
   padding: 0;
+  /* height: 50vh; */
 }
 
 :where(.css-dev-only-do-not-override-15apr8r).ant-form-horizontal .ant-form-item-control {
@@ -51,4 +71,8 @@
 
 .ant-form-item {
   margin-bottom: var(--m-sm-spacing)
+}
+
+:where(.css-dev-only-do-not-override-15apr8r).ant-input-number {
+  width: 100%
 }

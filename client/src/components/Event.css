@@ -5,6 +5,19 @@
   padding: var(--m-sm-spacing)
 }
 
+.event-details {
+  width: 50%
+}
+
+.event-details a {
+  text-decoration: none;
+  color: var(--black)
+}
+
+.event-title {
+  word-break: keep-all;
+}
+
 .event-picture{
   display: flex;
   flex-direction: column;

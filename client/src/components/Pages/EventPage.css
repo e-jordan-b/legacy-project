@@ -1,6 +1,25 @@
 .join-button {
   position: fixed;
-  bottom: 170px;
-  right: 60px;
+  bottom: 100px;
+  right: 2.5vw;
   background-color: var(--primary-color);
+}
+
+.event-page-section {
+  min-height: 20vh;
+  margin: var(--m-m-spacing) 0;
+  width: 90vw;
+  margin: auto;
+}
+
+.event-page-section h3 {
+  margin: var(--m-m-spacing) 0;
+}
+
+.event-page-map-container {
+  height: 30vh;
+  width: 90vw;
+  margin:auto;
+  border-radius: 10px;
+  margin-bottom: var(--m-m-spacing)
 }

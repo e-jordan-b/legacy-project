@@ -29,7 +29,6 @@ const createUser = async (req, res) => {
 };
 
 const getUser = async(req, res) => {
-  console.log(req.passport)
   if (req.isAuthenticated()) {
     res.json({ message: 'You made it to the secured profile' })
   } else {
@@ -48,7 +47,6 @@ const getAllUsers = async(req, res) => {
    }
 }
 const getUserById = async(req, res) => {
-  console.log(req)
   try {
    const user = await User.findOne({_id: req.params.userId});
    console.log(user)
@@ -60,5 +58,59 @@ const getUserById = async(req, res) => {
   }
 }
 
+const addSavedEvent = async(req, res) => {
+  const user = await User.findOne({_id: req.body.userId})
+  try{
+    user.savedEvents.push(req.body.eventId)
+    user.save();
+    res.json(user)
+  }catch(e){
+    console.log(e)
+  }
+}
 
-module.exports = {createUser, getUser, getAllUsers, getUserById};
+const removeSavedEvent = async(req, res) => {
+  const user = await User.findOne({_id: req.body.userId})
+  try{
+    const arrayWithoutUnsavedEvent = user.savedEvents.filter(event => event !== req.body.eventId)
+    user.savedEvents = arrayWithoutUnsavedEvent;
+    user.save();
+    res.json(user)
+  }catch(e){
+    console.log(e)
+  }
+}
+
+const addJoinedEvent = async(req, res) => {
+  const user = await User.findOne({_id: req.body.userId})
+  try{
+    user.joinedEvents.push(req.body.eventId)
+    user.save();
+    res.json(user)
+  }catch(e){
+    console.log(e)
+  }
+}
+
+const removeJoinedEvent = async(req, res) => {
+  const user = await User.findOne({_id: req.body.userId})
+  try{
+    const arrayWithoutUnjoinedEvent = user.joinedEvents.filter(event => event !== req.body.eventId)
+    user.joinedEvents = arrayWithoutUnjoinedEvent;
+    user.save();
+    res.json(user)
+  }catch(e){
+    console.log(e)
+  }
+}
+
+module.exports = {
+  createUser,
+  getUser,
+  getAllUsers,
+  getUserById,
+  addSavedEvent,
+  removeSavedEvent,
+  addJoinedEvent,
+  removeJoinedEvent
+};

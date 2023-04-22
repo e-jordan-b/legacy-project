@@ -12,7 +12,7 @@ var bodyParser = require('body-parser')
 app.use(cors())
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: false }))
-//app.use(verifyToken)
+
 app.use(session({
   key: 'user_sid',
   secret: process.env.SESSION_SECRET,

@@ -30,5 +30,6 @@ h2 {
 .divider {
   background-color: var(--secondary-color);
   height: 2px;
-  width: 95vw;
+  width: 90vw;
+  margin: auto;
 }

@@ -79,6 +79,11 @@ const eventSchema = mongoose.Schema({
     type: Boolean,
     required: true,
     default: true,
+  },
+  liked: {
+    type: Boolean,
+    required: true,
+    default: false
   }
 });
 
