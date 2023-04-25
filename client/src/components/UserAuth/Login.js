@@ -3,10 +3,12 @@ import Context from "../context/context";
 import InputComponent from "../UI/inputs/InputComponent";
 import { Form, Button} from "antd";
 import { useState } from "react";
-import { loginUser } from "../../services/user_service";
+import * as UserService from "../../services/user_service";
+import * as ActiveUserService from "../../services/active_user_service";
+import './Auth.css';
 
 const Login = () => {
-  const {navigate} = useContext(Context)
+  const {navigate, setAuthenticated} = useContext(Context)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [formIsValid, setFormIsValid] = useState(false)
@@ -15,25 +17,22 @@ const Login = () => {
     const input = e.target.name;
     if(input === 'username') setUsername(e.target.value)
     if(input === 'password') setPassword(e.target.value)
-
     if(username !== '' && password !== ''){
       setFormIsValid(true)
     }else {
       setFormIsValid(false)
     }
-
-    console.log(username, password)
   }
 
-  const handleFormSubmit = () => {
-    console.log('submit login')
-    loginUser(username, password).then(()=>navigate(`/profile/aina_p`))
-
-    //.then(()=> navigate(`/profile/${username}`))
+  const handleFormSubmit = async() => {
+    await UserService.loginUser(username, password)
+      .then(async(res) => {
+          await ActiveUserService.setActiveUser(res[0])
+      }).then(() => navigate(`/`) )
   }
 
   return (
-    <div>
+    <div className="auth-wrapper">
       <Form
         name="control-ref"
         onFinish={handleFormSubmit}
@@ -48,6 +47,7 @@ const Login = () => {
           placeholder="Enter your username"
           onchange={handleInputChange}/>
         </Form.Item>
+        <input name="chrome-autofill-dummy1" style={{display:'none'}} disabled/>
 
         <Form.Item name="password" label="password">
           <InputComponent

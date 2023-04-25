@@ -17,21 +17,6 @@ const addEvent = (newEvent) => fetchReq('add-event', {
   body: JSON.stringify(newEvent)
 })
 
-//FIX IMAGE SENT TO CLUDINARY. GETTING 400 BAD REQUEST
-const sendEventPictureToCloud = async (image) => {
-  console.log('savePictuee', image)
-  return await fetchReq('cloudinary')
-  .then(async(cloudUrl) => {
-    console.log(cloudUrl)
-     await fetch("https://api.cloudinary.com/v1_1/dyjtzcm9r/upload", {
-      method: 'POST',
-      body: image
-    })
-    .then(response => response.text())
-    .catch(err => console.log(err))
-  }).catch(err => console.log(err))
-}
-
 const addUserToJoinedList = (userId, eventId) => fetchReq(`add-user-to-joined-list/${eventId}`, {
   method: 'POST',
   headers: {
@@ -56,7 +41,6 @@ const removeUserFromJoinedList = (userId, eventId) => fetchReq(`remove-user-from
 export {
   getAllEvents,
   addEvent,
-  sendEventPictureToCloud,
   addUserToJoinedList,
   removeUserFromJoinedList
 }

@@ -1,8 +1,7 @@
 .event-snippet {
-  width: 95%;
   display: flex;
   justify-content: space-between;
-  padding: var(--m-sm-spacing)
+  margin: var(--m-sm-spacing)
 }
 
 .event-details {

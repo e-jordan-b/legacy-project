@@ -1,4 +1,4 @@
-import { Input, Select } from 'antd';
+import { Input} from 'antd';
 
 
 const InputComponent = (props) => {
@@ -8,7 +8,7 @@ const InputComponent = (props) => {
       id={props.id}
       name={props.name}
       type={props.type}
-      autoComplete={props.autocomplete}
+      autoComplete="off"
       required={props.required}
       placeholder={props.placeholder}
       onChange={props.onchange}

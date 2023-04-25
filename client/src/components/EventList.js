@@ -2,20 +2,21 @@ import { useContext } from "react";
 import Context from "./context/context";
 import Event from "./Event";
 import './EventList.css';
+import LoadingComponent from "./UI/LoadingComponent";
 
-function EventList () {
-const {events, isLoading} = useContext(Context)
+function EventList (props) {
+const {isLoading, query} = useContext(Context)
 
  return(
   <>
- {isLoading ? <p>Loading...</p> :
+ {isLoading ? <LoadingComponent /> :
  <div className="event-list" id="list">
-    {events.map((singleEvent, index) => {
+    {props.events.map((singleEvent, index) => {
       if(singleEvent.title !== ''){
-        return <div key={`event-${index}`}>
-          <div className="divider"></div>
-            <Event link={true} data={singleEvent} />
-          </div>
+        return singleEvent.title.toLowerCase().indexOf(query.toLowerCase()) !== -1 && <>
+            {index > 0 && <div className="divider"></div>}
+            <Event key={singleEvent.title} link={true} data={singleEvent} isEventFromOwner={props.isEventFromOwner}/>
+            </>
       }
       })}
   </div>}
@@ -24,4 +25,4 @@ const {events, isLoading} = useContext(Context)
  )
 }
 
-export default EventList
+export default EventList;

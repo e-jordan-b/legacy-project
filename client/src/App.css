@@ -1,7 +1,11 @@
 
 .header {
-  height: 30px;
+  height: 40px;
   padding: var(--m-m-spacing) var(--m-basic-spacing);
+}
+
+.logo {
+  height: 40px
 }
 
 .wrapper {
@@ -32,4 +36,42 @@ h2 {
   height: 2px;
   width: 90vw;
   margin: auto;
+}
+
+.loading-container{
+  width:"100vw";
+  height: "78%";
+  display:"flex";
+  align-items:"center";
+  justify-content:"center";
+}
+
+:where(.css-dev-only-do-not-override-du6qgt).ant-modal .ant-modal-content {
+  padding: 0;
+  /* height: 50vh; */
+}
+
+:where(.css-dev-only-do-not-override-du6qgt).ant-form-horizontal .ant-form-item-control {
+  flex: none;
+  min-width: 0;
+}
+
+.ant-form-item {
+  margin-bottom: var(--m-sm-spacing)
+}
+:where(.css-dev-only-do-not-override-du6qgt).ant-row {
+  flex-direction: column;
+}
+:where(.css-dev-only-do-not-override-du6qgt).ant-input-number {
+  width: 100%
+}
+:where(.css-dev-only-do-not-override-du6qgt).ant-input {
+  border-color: var(--primary-color)
+}
+:where(.css-dev-only-do-not-override-du6qgt).ant-form-item .ant-form-item-label{
+  text-align: start
+}
+
+:where(.css-dev-only-do-not-override-du6qgt).ant-modal .ant-modal-content{
+  padding:0;
 }

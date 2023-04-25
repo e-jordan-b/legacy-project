@@ -1,3 +1,14 @@
+.event-page{
+  max-height: 80vh;
+  overflow-y: scroll;
+  overflow-x: hidden
+
+}
+
+.event-page .event-picture {
+  width: 40vw;
+}
+
 .join-button {
   position: fixed;
   bottom: 100px;
@@ -6,11 +17,12 @@
 }
 
 .event-page-section {
-  min-height: 20vh;
+  min-height: 10vh;
   margin: var(--m-m-spacing) 0;
   width: 90vw;
   margin: auto;
 }
+
 
 .event-page-section h3 {
   margin: var(--m-m-spacing) 0;
@@ -21,5 +33,6 @@
   width: 90vw;
   margin:auto;
   border-radius: 10px;
-  margin-bottom: var(--m-m-spacing)
+  margin-bottom: var(--m-m-spacing);
+  z-index: 0;
 }

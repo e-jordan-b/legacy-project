@@ -27,14 +27,11 @@ const UploadInputComponent = (props) => {
   const [image, setImage] = useState();
 
   const handleChange = (e) => {
-      console.log(props.imageUpload)
-      const newImage = e.target.files[0];
-      console.log('newImage', newImage)
-      props.imageUpload(e);
-      if(newImage){
-        setImage(URL.createObjectURL(newImage));
-      }
-
+    const newImage = e.target.files[0];
+    props.imageUpload(e);
+    if(newImage){
+      setImage(URL.createObjectURL(newImage));
+    }
   };
 
 
@@ -60,7 +57,7 @@ const UploadInputComponent = (props) => {
     accept="image/*"
     id="photo-event-upload"
     type="file"
-    onChange={(e) =>handleChange(e)}>
+    onChange={handleChange}>
 
     </input>
       {/* <Upload

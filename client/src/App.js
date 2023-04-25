@@ -1,6 +1,6 @@
 import logo from './logo.svg';
 import './App.css';
-import {Routes, Route, useNavigate} from 'react-router-dom';
+import {Routes, Route, useNavigate, Redirect} from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import Register from './components/UserAuth/Register';
 import Login from './components/UserAuth/Login';
@@ -10,8 +10,10 @@ import Context from './components/context/context';
 import HomePage from './components/Pages/HomePage';
 import * as EventService from './services/event_service';
 import * as UserService from './services/user_service';
+import * as ActiveUserService from './services/active_user_service';
 import EventPage from './components/Pages/EventPage';
 import MapPage from './components/Pages/MapPage';
+import MyEventsPage from './components/Pages/MyEvents';
 
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
   const [users, setUsers] = useState(null);
   const [activeUser, setActiveUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [query, setQuery] = useState('')
 
   function sortEvents (data) {
     data.sort(function(a,b){
@@ -72,58 +75,60 @@ function App() {
     UserService.removeJoinedEvent(activeUser._id, eventId)
   }
 
-  async function getAllEvents () {
-    EventService.getAllEvents(activeUser._id)
-    .then(data => {
-      data.forEach(el => {
-        el.liked = getLikedEvents(el._id)
-        el.joining = getJoinedEvents(el._id)
-        el.date = parseDate(el.date)
-      });
-      let now = new Date();
-      let filteredFutureEvents = data.filter(el => el.date > now)
-      sortEvents(filteredFutureEvents);
-      setEvents(filteredFutureEvents)
-
-    })
-    .then(() => {
-      console.log(events)
-      setIsLoading(false)}
-      )
+   function getAllEvents () {
+    if(activeUser){
+      console.log(activeUser)
+      EventService.getAllEvents(activeUser._id)
+      .then(data => {
+        data.forEach(el => {
+          el.liked = getLikedEvents(el._id)
+          el.joining = getJoinedEvents(el._id)
+          el.date = parseDate(el.date)
+        });
+        let now = new Date();
+        let filteredFutureEvents = data.filter(el => el.date > now)
+        sortEvents(filteredFutureEvents);
+        setEvents(filteredFutureEvents)
+      })
+      .then(() => {
+        setIsLoading(false)}
+        )
+    }
   }
+
   function getAllUsers () {
     UserService.getAllUsers()
     .then(data => {
       setUsers(data)
     })
-
   }
 
-  function getActiveUser() {
-    UserService.getUserById("644116416da455b7fc0c8bba")
-    .then(data => {
-      setActiveUser(data)
-    })
-
+  //Manually set for demonstartion
+  async function getActiveUser() {
+   setActiveUser(await UserService.getUserById("644116416da455b7fc0c8bba"))
   }
 
   useEffect(() => {
     getAllUsers();
   }, [])
 
-  useEffect(() => {
-    getActiveUser()
+  useEffect(()=> {
+      if(users){
+        getActiveUser()
+      }
   }, [users])
 
   useEffect(() => {
     getAllEvents();
   }, [activeUser]);
 
+
   return (
     <ConfigProvider
         theme={{
           token: {
             colorPrimary: '#8663F3',
+            colorTextPlaceholder: '#8663F3'
           },
         }}>
     <Context.Provider
@@ -134,18 +139,23 @@ function App() {
         isLoading,
         users,
         activeUser,
+        setActiveUser,
         addToSavedEvents,
         removeSavedEvent,
         addToJoinedEvents,
-        removeJoinedEvent }}>
+        removeJoinedEvent,
+        setQuery,
+        query}}>
     <Routes>
     <Route path="/register" element={<Register />}/>
-    <Route path="/login" element={<Login />}/>
     <Route path="/profile/:username" element={<ProfilePage />}/>
     <Route path="/event/:eventtitle" element={<EventPage />}/>
     <Route path="/mapview" element={<MapPage />}/>
+    <Route path="/myevents" element={<MyEventsPage />}/>
 
+    <Route path="/login" element={<Login />}/>
     <Route path="/" element={<HomePage />}/>
+
     </Routes>
     </Context.Provider>
     </ConfigProvider>

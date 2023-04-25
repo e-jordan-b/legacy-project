@@ -1,18 +1,23 @@
-import { Input, Space } from 'antd';
+import { useContext } from 'react';
+import { Input } from 'antd';
 import './Search.css';
+import Context from '../context/context';
 
-//TODO: return different types
-//of inputs depending on type
 
 const { Search } = Input;
-const SearchComponent = (props) => {
+const SearchComponent = () => {
 
-  function onSearch(){}
+  const {setQuery} = useContext(Context)
+
+
+  function onChangeHandler(e) {
+    setQuery(e.target.value)
+  }
 
   return (
     <Search
         placeholder="input search text"
-        onSearch={onSearch}
+        onChange={onChangeHandler}
         className="search-bar"
      />
 )

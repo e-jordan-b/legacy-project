@@ -1,5 +1,5 @@
 import * as L from "leaflet";
-import { MapContainer, TileLayer, useMap, Marker, Popup, useMapEvents, Tooltip} from 'react-leaflet'
+import { MapContainer, TileLayer,Marker, Popup, useMapEvents, Tooltip} from 'react-leaflet'
 import Context from '../context/context';
 import { useContext, useEffect, useState } from 'react';
 import Layout from "../Layout/Layout";
@@ -21,7 +21,7 @@ function LocationMarker () {
   });
 
   const map = useMapEvents({
-    click() {
+    whenReady() {
       map.locate()
     },
     locationfound(e) {
@@ -37,10 +37,9 @@ function LocationMarker () {
   )
 }
 
-
 const MapPage = () => {
 
-const {events, isLoading} = useContext(Context);
+const {events, isLoading, query} = useContext(Context);
 
 var eventPositionIcon = new L.Icon({
   iconUrl: '/Map_marker_events.png',
@@ -51,12 +50,13 @@ var eventPositionIcon = new L.Icon({
   shadowSize: [41, 41]
 });
 
+
+
 function getMarkers(){
   return(
     events.map(event => {
-      console.log(event)
       if(event.coordinates.length ===2){
-        return <Marker
+        return event.title.toLowerCase().indexOf(query.toLowerCase()) !== -1 && <Marker
         position={[event.coordinates[0],event.coordinates[1]]}
         icon={eventPositionIcon}>
         <Popup>
@@ -70,23 +70,18 @@ function getMarkers(){
   )
 }
 
-
-useEffect(() => {
-
-})
-
 return (
 
   <Layout>
-      <SearchComponent />
 
+      <SearchComponent />
       {!isLoading &&
           <MapContainer className="mapContainer" center={[52.516357, 13.378979]} zoom={13} scrollWheelZoom={false}>
         <TileLayer
           attribution='<a href=\"https://www.jawg.io\" target=\"_blank\">&copy; Jawg</a> - <a href=\"https://www.openstreetmap.org\" target=\"_blank\">&copy; OpenStreetMap</a>&nbsp;contributors'
-          url="https://tile.jawg.io/jawg-streets/{z}/{x}/{y}{r}.png?access-token=gLEFUdwGIyJxOzqWgXnDyQdBUquHAVUDvqJFUliKpH3e5FQ68AZTwUphVyo81Tmn"
+          url="https://tile.jawg.io/jawg-sunny/{z}/{x}/{y}{r}.png?access-token=gLEFUdwGIyJxOzqWgXnDyQdBUquHAVUDvqJFUliKpH3e5FQ68AZTwUphVyo81Tmn"
         />
-<LocationMarker />
+        <LocationMarker />
           {getMarkers()}
         </MapContainer>}
 

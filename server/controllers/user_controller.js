@@ -28,13 +28,24 @@ const createUser = async (req, res) => {
   }
 };
 
-const getUser = async(req, res) => {
-  if (req.isAuthenticated()) {
-    res.json({ message: 'You made it to the secured profile' })
-  } else {
-    res.json({ message: 'You are not authenticated' })
-  }
+const loginUser = async(req, res) => {
+  try {
+    const user = await User.find({username: req.params.username});
+    res.json(user)
+    res.status(201);
+   } catch(e) {
+    res.status(400);
+    console.log(e)
+   }
 }
+
+// const getUser = async(req, res) => {
+//   if (req.isAuthenticated()) {
+//     res.json({ message: 'You made it to the secured profile' })
+//   } else {
+//     res.json({ message: 'You are not authenticated' })
+//   }
+// }
 
 const getAllUsers = async(req, res) => {
    try {
@@ -104,13 +115,46 @@ const removeJoinedEvent = async(req, res) => {
   }
 }
 
+const addFriend = async(req, res) => {
+  const activeUser = await User.findOne({_id: req.body.activeUserId})
+  const friendUser = await User.findOne({_id: req.body.friendUserId})
+
+  try{
+    activeUser.friends.push(req.body.friendUserId)
+    activeUser.save();
+    friendUser.friends.push(req.body.activeUserId)
+    friendUser.save();
+    res.json(activeUser);
+  }catch(e){
+    console.log(e)
+  }
+}
+
+const removeFriend = async(req, res) => {
+  const activeUser = await User.findOne({_id: req.body.activeUserId})
+  const friendUser = await User.findOne({_id: req.body.friendUserId})
+  try{
+    const ActiveUserArrayWithoutFriend = activeUser.friends.filter(friend => friend !== req.body.friendUserId)
+    activeUser.friends = ActiveUserArrayWithoutFriend;
+    activeUser.save();
+    const FriendUserArrayWithoutFriend = friendUser.friends.filter(friend => friend !== req.body.activeUserId)
+    friendUser.friends = FriendUserArrayWithoutFriend;
+    friendUser.save();
+    res.json(activeUser)
+  }catch(e){
+    console.log(e)
+  }
+}
+
 module.exports = {
   createUser,
-  getUser,
+  loginUser,
   getAllUsers,
   getUserById,
   addSavedEvent,
   removeSavedEvent,
   addJoinedEvent,
-  removeJoinedEvent
+  removeJoinedEvent,
+  addFriend,
+  removeFriend
 };

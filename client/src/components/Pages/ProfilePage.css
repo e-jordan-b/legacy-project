@@ -1,0 +1,30 @@
+.user-details {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.user-details span {
+  margin-bottom: var(--m-m-spacing);
+}
+
+.user-subdetails {
+  display: flex;
+  gap: 30px;
+  margin: var(--m-m-spacing) 0;
+}
+
+.username, .user-friends-number {
+  font-weight: bold;
+}
+
+.user-friends-number{
+  text-align: center;
+}
+
+.config-buttons{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+

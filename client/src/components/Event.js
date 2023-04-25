@@ -1,12 +1,13 @@
 import './Event.css';
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Context from "./context/context";
-import {HeartOutlined, HeartFilled} from '@ant-design/icons';
+import {HeartOutlined, HeartFilled, EditFilled} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-function Event ({link, data}) {
+function Event ({link, data, isEventFromOwner, numberUsersJoining}) {
 
   const {users, addToSavedEvents, removeSavedEvent} = useContext(Context);
   const [liked, setLiked] = useState(data.liked)
+  const [numberUsersJoiningEvent, setNumberUsersJoiningEvent] = useState(numberUsersJoining ? numberUsersJoining : data.joined.length)
   function getParsedDay (day) {
     if (day > 3 && day < 21) return `${day}th`;
   switch (day % 10) {
@@ -32,6 +33,7 @@ function Event ({link, data}) {
   }
 
   function getNumberAttendees(joined) {
+    if(joined.length)
     return joined.length;
   }
 
@@ -44,32 +46,37 @@ function Event ({link, data}) {
     }
   }
 
+  useEffect(()  => {
+    console.log(numberUsersJoiningEvent)
+
+  }, [numberUsersJoining])
 
   return (
-    <div className='event-snippet'>
+    <div className="event-snippet">
       <div className='event-details'>
-      <Link to={`/profile/${getUserName(data.owner)}`} state={{id: `${data.owner}`}}><p>{getUserName(data.owner)}</p></Link>
-      {link ? <Link to={`/event/${data.title}`} state={{id: `${data._id}`}}><h2 className='title'>{data.title}</h2></Link>:
-      <h2 className='event-title'>{data.title}</h2>
-      }
-      <p>{data.location}</p>
-      <p>{`${monthNames[data.date.getMonth()]} ${getParsedDay(data.date.getDate())}`} - {formatTimeAmPm(data.date)}</p>
+        <Link to={`/profile/${getUserName(data.owner)}`} state={{id: `${data.owner}`}}><p>{getUserName(data.owner)}</p></Link>
+        {link ? <Link to={`/event/${data.title}`} state={{id: `${data._id}`}}><h2 className='title'>{data.title}</h2></Link>:
+        <h2 className='event-title'>{data.title}</h2>
+        }
+        <p>{data.location}</p>
+        <p>{`${monthNames[data.date.getMonth()]} ${getParsedDay(data.date.getDate())}`} - {formatTimeAmPm(data.date)}</p>
       </div>
       <div className='event-picture'>
-        <img src={`/${data.image}`} alt={`event ${data.title}`} className="event-image"/>
+        <img src={`https://res.cloudinary.com/dyjtzcm9r/image/upload/c_scale,w_653/v1682328789/${data.image}`} alt={`event ${data.title}`} className="event-image"/>
         <div className='event-like'>
-        <p>{getNumberAttendees(data.joined)}</p>
-        {liked ? <HeartFilled onClick={()=>{
-          setLiked(false)
-          removeSavedEvent(data._id);
-        }}/> : <HeartOutlined onClick={()=>{
-          setLiked(true)
-          return addToSavedEvents(data._id); }}/> }
+          <p>{numberUsersJoiningEvent}</p>
+          {isEventFromOwner ? <EditFilled /> :
+          <>
+          {liked ? <HeartFilled onClick={()=>{
+            setLiked(false)
+            removeSavedEvent(data._id);
+          }}/> : <HeartOutlined onClick={()=>{
+            setLiked(true)
+            return addToSavedEvents(data._id); }}/> }
+          </>
+          }
         </div>
       </div>
-
-
-
     </div>
   )
 }
