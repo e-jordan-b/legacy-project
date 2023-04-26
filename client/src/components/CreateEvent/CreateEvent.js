@@ -1,21 +1,22 @@
 import { useState, useContext, useEffect } from "react";
-import InputComponent from "./UI/inputs/InputComponent";
+import InputComponent from "../UI/inputs/InputComponent";
 import { Button, Form  } from "antd";
-import Context from "./context/context";
-import SelectInputComponent from "./UI/inputs/SelectInputComponent";
-import ModalComponent from "./UI/ModalComponent";
-import SwitchInputComponent from "./UI/inputs/SwitchInputComponent";
-import NumberInputComponent from "./UI/inputs/NumberInputComponent";
+import Context from "../context/context";
+import SelectInputComponent from "../UI/inputs/SelectInputComponent";
+import ModalComponent from "../UI/ModalComponent";
+import SwitchInputComponent from "../UI/inputs/SwitchInputComponent";
+import NumberInputComponent from "../UI/inputs/NumberInputComponent";
 import './CreateEvent.css'
-import { addEvent } from "../services/event_service";
-import { sendPictureToCloud } from "../services/cloudinary_service";
-import TextareaInputComponent from "./UI/inputs/TextareaInputComponent";
-import UploadInputComponent from "./UI/inputs/UploadInputComponent";
+import * as EventService from "../../services/event_service";
+import { sendPictureToCloud } from "../../services/cloudinary_service";
+import TextareaInputComponent from "../UI/inputs/TextareaInputComponent";
 import PlacesAutocomplete, {
   geocodeByAddress,
   getLatLng,
 } from 'react-places-autocomplete';
-import MapComponent from "./UI/MapComponent";
+import MapComponent from "../UI/MapComponent";
+import { formatEvents } from "../../helpers/formatting_functions";
+import CreateEventModalHeader from './CreateEventModalHeader';
 
 
 const CreateEvent = (props) => {
@@ -50,19 +51,19 @@ const CreateEvent = (props) => {
   function handleSwitch(){ setVisibility(!visibility) }
   function handleHideFromSelect(e) { sethideFrom(e) }
   function handleInviteesSelect(e) { setInvitees(e) }
-  function handleMapSelect(newCoordinates) {
-    setCoordinates(newCoordinates)
-  }
+  function handleMapSelect(newCoordinates) {setCoordinates(newCoordinates)}
 
   async function photoUpload (file){
     const formData = new FormData();
-    formData.append("file", file);
-    formData.append('upload_preset', 'jy1wbdka');
-    sendPictureToCloud(formData)
+    formData.append("my_file", file);
+    // formData.append('upload_preset', 'jy1wbdka');
+    await sendPictureToCloud(formData)
+    .then(data => {
+      return data.public_id;
+    })
   }
 
   const handleLocationSelect = (e) => {
-
     setLocation(e);
     geocodeByAddress(e)
     .then(results => getLatLng(results[0]))
@@ -77,6 +78,7 @@ const CreateEvent = (props) => {
     if(method) { setStep(step+1) }
     else { setStep(step-1) }
   }
+
   function displayUserOptions () {
     let temp = []
     users.forEach(option => {
@@ -88,37 +90,44 @@ const CreateEvent = (props) => {
   }
 
   const handleFormSubmit = async() => {
-    photoUpload(imageSelected);
-    const newEvent = {
-      owner: activeUser._id,
-      title: title,
-      description: description,
-      date: date,
-      location: location,
-      coordinates: coordinates,
-      image: imageSelected.name ,
-      limitAttendees: limitAttendees,
-      visibility: visibility,
-      invitees: invitees,
-      hideFrom: hideFrom
-    }
-    addEvent(newEvent).then(()=> {
-      setEvents([...events, {owner: activeUser._id,
-        title: title,
-        description: description,
-        date: new Date( Date.parse(date)),
-        location: location,
-        coordinates: coordinates,
-        image: imageSelected.name ,
-        limitAttendees: limitAttendees,
-        visibility: visibility,
-        invitees: invitees,
-        hideFrom: hideFrom,
-        joined: [],
-        liked: false
-      }])
-      props.close()
-    })
+    //There may be problems when uploading the phots to cloudinary.
+    // the addEvent function may not wait for the photo to be uploaded
+    const public_id = await photoUpload(imageSelected);
+    console.log(public_id)
+
+
+    // const newEvent = {
+    //   owner: activeUser._id,
+    //   title: title,
+    //   description: description,
+    //   date: date,
+    //   location: location,
+    //   coordinates: coordinates,
+    //   image: imageSelected.name ,
+    //   limitAttendees: limitAttendees,
+    //   visibility: visibility,
+    //   invitees: invitees,
+    //   hideFrom: hideFrom
+    // };
+
+    // EventService.addEvent(newEvent).then(()=> {
+    //   const newEvents = [...events, {owner: activeUser._id,
+    //     title: title,
+    //     description: description,
+    //     date: new Date( Date.parse(date)),
+    //     location: location,
+    //     coordinates: coordinates,
+    //     image: imageSelected.name ,
+    //     limitAttendees: limitAttendees,
+    //     visibility: visibility,
+    //     invitees: invitees,
+    //     hideFrom: hideFrom,
+    //     joined: [],
+    //     liked: false
+    //   }]
+    //   setEvents(formatEvents(activeUser, newEvents))
+    //   props.close()
+    // })
   }
 
   useEffect(() => {
@@ -138,24 +147,7 @@ const CreateEvent = (props) => {
     open={props.open}
     close={props.close}
     >
-      <div className="create-modal-header">
-        {step > 0 ? <button className="step-button back-button" onClick={()=>handleStep(false)}>BACK</button>: <p className="create-modal-title">Create new Event</p>}
-        {/* <div className="dots">. . .</div> */}
-
-        {step === 0 &&
-        <Button form="create-event-first" type="primary" htmlType="submit">
-       NEXT
-      </Button> }
-        {step === 1 &&
-        <Button form="create-event-second" type="primary" htmlType="submit">
-        NEXT
-       </Button>
-        }
-
-        { step === 2 && <Button form="create-event" type="primary" htmlType="submit">
-            CREATE
-          </Button> }
-       </div>
+      <CreateEventModalHeader step={step} handleStep={handleStep} />
 
        <div className="modal-form-wrapper">
       {!isLoading && <>

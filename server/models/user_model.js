@@ -15,6 +15,7 @@ const userSchema = mongoose.Schema({
     required: false,
     default: '/public/blank-profile-picture.webp'
   },
+  // Phone, email, are for now not used in the app (created for future use)
   phone: {
     type: String,
     required: false,
@@ -30,19 +31,21 @@ const userSchema = mongoose.Schema({
     required: true
   },
   friends: {
-    type: [String],
+    type: [String],  // Array of other user IDs
     required: false,
   },
+  // "following" is created for the future.
+  // The user will be able to friend another user but not follow their feed
   following: {
     type: [String],
     required: false,
   },
   savedEvents: {
-    type: [String],
+    type: [String], // Array of event IDs
     required: false,
   },
   joinedEvents: {
-    type: [String],
+    type: [String], // Array of event IDs
     required: false,
   }
 });

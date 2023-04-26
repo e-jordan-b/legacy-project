@@ -1,6 +1,5 @@
-import logo from './logo.svg';
 import './App.css';
-import {Routes, Route, useNavigate, Redirect} from 'react-router-dom';
+import {Routes, Route, useNavigate} from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import Register from './components/UserAuth/Register';
 import Login from './components/UserAuth/Login';
@@ -10,91 +9,49 @@ import Context from './components/context/context';
 import HomePage from './components/Pages/HomePage';
 import * as EventService from './services/event_service';
 import * as UserService from './services/user_service';
-import * as ActiveUserService from './services/active_user_service';
+//import * as ActiveUserService from './services/active_user_service';
 import EventPage from './components/Pages/EventPage';
 import MapPage from './components/Pages/MapPage';
 import MyEventsPage from './components/Pages/MyEvents';
-
+import { formatEvents } from './helpers/formatting_functions';
 
 function App() {
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const [events, setEvents] = useState(null);
   const [users, setUsers] = useState(null);
   const [activeUser, setActiveUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState('')
 
-  function sortEvents (data) {
-    data.sort(function(a,b){
-      return new Date(a.date) - new Date(b.date) ;
-    });
-  }
-
-  function parseDate (date) {
-    let parsedDate = new Date( Date.parse(date))
-    return parsedDate
-  }
-
-  function getLikedEvents(eventId){
-    if(activeUser.savedEvents.length >0) {
-      if(activeUser.savedEvents.find(savedEvent => savedEvent === eventId)){
-        return true;
-      }else{
-        return false
-      }
-    }
-  }
-
-  function getJoinedEvents(eventId){
-    if(activeUser.joinedEvents.length > 0) {
-      if(activeUser.joinedEvents.find(joinedEvent => joinedEvent === eventId)){
-        return true;
-      }else{
-        return false
-      }
-    }else{
-       return false
-    }
-  }
-
   function addToSavedEvents(eventId){
-    UserService.addSavedEvent(activeUser._id, eventId)
+    UserService.addSavedEvent(activeUser._id, eventId).then(data=>setActiveUser(data))
   }
 
   function removeSavedEvent(eventId){
-    UserService.removeSavedEvent(activeUser._id, eventId)
+    UserService.removeSavedEvent(activeUser._id, eventId).then(data=>setActiveUser(data))
   }
+
   function addToJoinedEvents(eventId){
     EventService.addUserToJoinedList(activeUser._id, eventId)
-    UserService.addJoinedEvent(activeUser._id, eventId)
+    UserService.addJoinedEvent(activeUser._id, eventId).then(data=>setActiveUser(data))
   }
-
   function removeJoinedEvent(eventId){
     EventService.removeUserFromJoinedList(activeUser._id, eventId)
-    UserService.removeJoinedEvent(activeUser._id, eventId)
+    UserService.removeJoinedEvent(activeUser._id, eventId).then(data=>setActiveUser(data))
   }
 
-   function getAllEvents () {
-    if(activeUser){
-      console.log(activeUser)
-      EventService.getAllEvents(activeUser._id)
-      .then(data => {
-        data.forEach(el => {
-          el.liked = getLikedEvents(el._id)
-          el.joining = getJoinedEvents(el._id)
-          el.date = parseDate(el.date)
-        });
-        let now = new Date();
-        let filteredFutureEvents = data.filter(el => el.date > now)
-        sortEvents(filteredFutureEvents);
-        setEvents(filteredFutureEvents)
-      })
-      .then(() => {
-        setIsLoading(false)}
-        )
-    }
-  }
+  //Manually set for demonstartion
+  // As stated in the README file in the main project folder,
+  // if you added the mock-users and mock-events json files to your database
+  // getting the active User will work as you will have an existent user with
+  // id  "644116416da455b7fc0c8bba".
+  // If you started clean this will give you an error. You can create a user
+  // manually and then change the id here in the function.
+  // In the future this would be dinamically set with an authentication process.
+  async function getActiveUser() {
+    setActiveUser(await UserService.getUserById("644116416da455b7fc0c8bba"))
+   }
 
   function getAllUsers () {
     UserService.getAllUsers()
@@ -103,9 +60,18 @@ function App() {
     })
   }
 
-  //Manually set for demonstartion
-  async function getActiveUser() {
-   setActiveUser(await UserService.getUserById("644116416da455b7fc0c8bba"))
+   function getAllEvents () {
+    if(activeUser){
+      EventService.getAllEvents(activeUser._id)
+      .then(data => {
+        setEvents(formatEvents(activeUser, data))
+      })
+      .then(() => {
+        // only when all the activeUser, the users and the events states
+        // have been set the loading state will be set to false.
+        setIsLoading(false)
+      })
+    }
   }
 
   useEffect(() => {
@@ -122,8 +88,8 @@ function App() {
     getAllEvents();
   }, [activeUser]);
 
-
   return (
+    // Config provider from Ant-design
     <ConfigProvider
         theme={{
           token: {
@@ -139,6 +105,8 @@ function App() {
         isLoading,
         users,
         activeUser,
+        getAllEvents,
+        getActiveUser,
         setActiveUser,
         addToSavedEvents,
         removeSavedEvent,
@@ -147,15 +115,13 @@ function App() {
         setQuery,
         query}}>
     <Routes>
-    <Route path="/register" element={<Register />}/>
-    <Route path="/profile/:username" element={<ProfilePage />}/>
-    <Route path="/event/:eventtitle" element={<EventPage />}/>
-    <Route path="/mapview" element={<MapPage />}/>
-    <Route path="/myevents" element={<MyEventsPage />}/>
-
-    <Route path="/login" element={<Login />}/>
-    <Route path="/" element={<HomePage />}/>
-
+      <Route path="/login" element={<Login />}/>
+      <Route path="/register" element={<Register />}/>
+      <Route path="/profile/:username" element={<ProfilePage />}/>
+      <Route path="/event/:eventtitle" element={<EventPage />}/>
+      <Route path="/mapview" element={<MapPage />}/>
+      <Route path="/myevents" element={<MyEventsPage />}/>
+      <Route path="/" element={<HomePage />}/>
     </Routes>
     </Context.Provider>
     </ConfigProvider>

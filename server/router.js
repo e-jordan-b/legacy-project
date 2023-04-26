@@ -5,6 +5,16 @@ const eventController = require('./controllers/event_controller');
 const activeUserController = require('./controllers/activeUser_controller');
 var passport = require('passport');
 
+// const upload = require("./middleware/multer_middleware")
+const Multer = require("multer");
+
+const storage = new Multer.memoryStorage();
+const upload = Multer({
+  storage,
+});
+
+
+
 // USER AUTHENTICATION ROUTES
 router.get('/login/:username/:password', userController.loginUser);
 router.get('/get-active-user', activeUserController.getActiveUser);
@@ -17,6 +27,8 @@ router.post('/delete-active-user', activeUserController.deleteActiveUser)
   router.get('/users', userController.getAllUsers);
   router.get('/user/:userId', userController.getUserById)
   router.post('/register', userController.createUser);
+  // the login route is not used for now (the login form in the front-end only navigates to the homepage)
+  // router.post('/login', userController.loginUser);
   router.post('/add-saved-event/:eventId', userController.addSavedEvent)
   router.post('/remove-saved-event/:eventId', userController.removeSavedEvent)
   router.post('/add-joined-event/:eventId', userController.addJoinedEvent)
@@ -25,17 +37,18 @@ router.post('/delete-active-user', activeUserController.deleteActiveUser)
   router.post('/remove-friend', userController.removeFriend)
 
   // Related to Event-service in front-end
-
-    router.post('/add-event', eventController.addEvent);
-    router.get('/all-events/:userId', eventController.getAllEvents);
-    router.post('/add-user-to-joined-list/:eventId', eventController.addUserToJoinedList)
-    router.post('/remove-user-from-joined-list/:eventId', eventController.removeUserFromJoinedList)
+  router.post('/add-event', eventController.addEvent);
+  router.get('/all-events/:userId', eventController.getAllEvents);
+  router.post('/add-user-to-joined-list/:eventId', eventController.addUserToJoinedList)
+  router.post('/remove-user-from-joined-list/:eventId', eventController.removeUserFromJoinedList)
 
 // CLOUDINARY ROUTES (FOR NOW NOT USED)
 router.get('/cloudinary', function(req, res) {
   console.log(process.env.CLOUDINARY_URL)
   res.json(process.env.CLOUDINARY_URL)
 })
+
+router.post("/upload", upload.single("my_file"), eventController.handleUploadToCloudinary);
 
 //FUTURE FUNCTIONS FOR AUTHENTICATION WITH PASSPORT
 // router.post('/login', passport.authenticate('local', {
@@ -53,8 +66,5 @@ router.get('/cloudinary', function(req, res) {
 //   res.send('Login Attempt was successful.');
 //   // res.redirect(`/profile/${req.}`);
 // });
-
-
-
 
 module.exports = router;

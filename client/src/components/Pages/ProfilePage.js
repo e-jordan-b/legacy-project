@@ -22,11 +22,9 @@ const ProfilePage = (props) => {
   const [isFriend, setIsFriend] = useState();
   const [friends, setFriends] = useState()
 
-
 async function findUserByID (id) {
   setUser(await users.find(user => user._id === id));
   if(activeUser._id == id) setIsProfileFromActiveUser(true)
-
 }
 
 function filterOwnEvents(){
@@ -52,15 +50,14 @@ useEffect(() => {
 }, [user, events, state])
 
 const handleAddFriend = () => {
-  UserService.addFriend(activeUser._id, user._id)
   setIsFriend(true)
   setFriends(friends+1)
+  UserService.addFriend(activeUser._id, user._id)
 }
-
 const handleRemoveFriend = () => {
-  UserService.removeFriend(activeUser._id, user._id)
   setIsFriend(false)
   setFriends(friends-1)
+  UserService.removeFriend(activeUser._id, user._id)
 }
 
 const handleLogout = async(username) => {

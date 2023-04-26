@@ -10,6 +10,10 @@ const Announcement = mongoose.Schema({
     type: Date,
     default: Date.now,
     required: false
+  },
+  owner:{
+    type: String,
+    required: false
   }
  });
 
@@ -51,19 +55,19 @@ const eventSchema = mongoose.Schema({
     required: false,
   },
   visibility: {
-    type: mongoose.Mixed,
+    type: Boolean, // true means the event is public, false means the event is private
     required: false,
   },
   invitees: {
-    type: [String],
+    type: [String], // array of user IDs
     required: false,
   },
   hideFrom: {
-    type: [String],
+    type: [String], // array of user IDs
     required: false,
   },
   joined: {
-    type: [String],
+    type: [String], // array of user IDs
     required: false,
   },
   announcements: {
@@ -80,6 +84,8 @@ const eventSchema = mongoose.Schema({
     required: true,
     default: true,
   },
+  // This will be related to the user active in the session
+  // If the user has saved the event, it will be true
   liked: {
     type: Boolean,
     required: true,

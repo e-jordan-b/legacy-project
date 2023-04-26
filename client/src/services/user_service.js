@@ -1,20 +1,9 @@
-const BASE_URL = 'http://localhost:3030';
-const fetchReq = async (url, parameters={}) => {
-  return await fetch(`${BASE_URL}/${url}`, parameters)
-  .then(response => {
-    console.log(response)
-    return response.json()
-  })
-  .catch(err => console.log(err))
-}
+import {commonHeaders, fetchReq } from "./services_common_data"
 
 
 const registerUser = (username, age, password) => fetchReq('register', {
   method: 'POST',
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  },
+  headers: {...commonHeaders},
   body: JSON.stringify({username: username, age: age, password: password})
 });
 
@@ -27,62 +16,42 @@ const getAllUsers = () => fetchReq('users');
 const addSavedEvent = (userId, eventId) => {
   return fetchReq(`add-saved-event/${eventId}`, {
   method: 'POST',
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  },
+  headers: {...commonHeaders},
   body: JSON.stringify({userId: userId, eventId: eventId})
 });}
 
 const removeSavedEvent = (userId, eventId) => {
   return fetchReq(`remove-saved-event/${eventId}`, {
   method: 'POST',
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  },
+  headers: {...commonHeaders},
   body: JSON.stringify({userId: userId, eventId: eventId})
 });}
 
 const addJoinedEvent = (userId, eventId) => {
   return fetchReq(`add-joined-event/${eventId}`, {
   method: 'POST',
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  },
+  headers: {...commonHeaders},
   body: JSON.stringify({userId: userId, eventId: eventId})
 });}
 
 const removeJoinedEvent = (userId, eventId) => {
-
   return fetchReq(`remove-joined-event/${eventId}`, {
   method: 'POST',
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  },
+  headers: {...commonHeaders},
   body: JSON.stringify({userId: userId, eventId: eventId})
 });}
 
 const addFriend = (activeUserId, friendUserId) => {
-
   return fetchReq(`add-friend/`, {
   method: 'POST',
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  },
+  headers: {...commonHeaders},
   body: JSON.stringify({activeUserId: activeUserId, friendUserId:friendUserId})
 });}
 
 const removeFriend = (activeUserId, friendUserId) => {
   return fetchReq(`remove-friend/`, {
   method: 'POST',
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  },
+  headers: {...commonHeaders},
   body: JSON.stringify({activeUserId: activeUserId, friendUserId:friendUserId})
 });}
 

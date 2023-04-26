@@ -1,0 +1,334 @@
+[{
+  "_id": {
+    "$oid": "6441498035f35f8c13f25c5e"
+  },
+  "owner": {
+    "$oid": "64415e6c97483b215fd4c3ee"
+  },
+  "title": "Yoga in the Park",
+  "description": "Join us for a peaceful morning of yoga in the park. All levels welcome!",
+  "date": {
+    "$date": "2023-05-01T10:00:00.000Z"
+  },
+  "location": "Central Park, New York",
+  "coordinates": [
+    40.785091,
+    -73.968285
+  ],
+  "image": "event1-mock_bjhoxl.jpg",
+  "limitAttendees": 20,
+  "invitees": [],
+  "hideFrom": [],
+  "joined": [],
+  "announcements": [],
+  "canceled": false,
+  "active": true,
+  "__v": 2,
+  "liked": false
+},{
+  "_id": {
+    "$oid": "644149ca35f35f8c13f25c60"
+  },
+  "owner": {
+    "$oid": "64415e5f97483b215fd4c3eb"
+  },
+  "title": "Painting Workshop",
+  "description": "Join us for a painting workshop and unleash your inner artist!",
+  "date": {
+    "$date": "2023-08-01T14:00:00.000Z"
+  },
+  "location": "The Painted Canvas, New York",
+  "coordinates": [
+    40.720741,
+    -73.997352
+  ],
+  "image": "event2-mock_mnyigf.jpg",
+  "limitAttendees": 2,
+  "invitees": [],
+  "hideFrom": [],
+  "joined": [
+    "644116416da455b7fc0c8bba"
+  ],
+  "announcements": [],
+  "canceled": false,
+  "active": true,
+  "__v": 1,
+  "liked": false
+},{
+  "_id": {
+    "$oid": "64414a4235f35f8c13f25c62"
+  },
+  "owner": {
+    "$oid": "644116416da455b7fc0c8bba"
+  },
+  "title": "Book Club Meeting",
+  "description": "Join us for a discussion of 'To Kill a Mockingbird' by Harper Lee.",
+  "date": {
+    "$date": "2023-07-01T19:00:00.000Z"
+  },
+  "location": "The Local Cafe, New York",
+  "coordinates": [
+    40.732249,
+    -74.002843
+  ],
+  "image": "event3-mock_astchl.jpg",
+  "invitees": [],
+  "hideFrom": [],
+  "joined": [],
+  "announcements": [],
+  "canceled": false,
+  "active": true,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64414a9535f35f8c13f25c64"
+  },
+  "owner": {
+    "$oid": "644116416da455b7fc0c8bba"
+  },
+  "title": "Charity 5K Run",
+  "description": "Join us for a charity 5K run to support cancer research. All proceeds will go to the American Cancer Society.",
+  "date": {
+    "$date": "2023-06-01T08:00:00.000Z"
+  },
+  "location": "Central Park, New York",
+  "coordinates": [
+    40.785091,
+    -73.968285
+  ],
+  "image": "event3-mock_astchl.jpg",
+  "invitees": [],
+  "hideFrom": [],
+  "joined": [],
+  "announcements": [],
+  "canceled": false,
+  "active": true,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6441707097483b215fd4c460"
+  },
+  "owner": {
+    "$oid": "64415e7997483b215fd4c3f1"
+  },
+  "title": "Beer Tasting",
+  "description": "Join us for a beer tasting event featuring local brews from Berlin!",
+  "date": {
+    "$date": "2023-06-01T18:00:00.000Z"
+  },
+  "location": "The Hoppy Monk, Berlin",
+  "coordinates": [
+    52.498648,
+    13.422547
+  ],
+  "image": "event2-mock_mnyigf.jpg",
+  "limitAttendees": 4,
+  "invitees": [],
+  "hideFrom": [],
+  "joined": [],
+  "announcements": [],
+  "canceled": false,
+  "active": true,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6441708b97483b215fd4c462"
+  },
+  "owner": {
+    "$oid": "64415e7997483b215fd4c3f1"
+  },
+  "title": "Photography Walk",
+  "description": "Join us for a photography walk around the streets of Berlin!",
+  "date": {
+    "$date": "2023-07-01T10:00:00.000Z"
+  },
+  "location": "Brandenburg Gate, Berlin",
+  "coordinates": [
+    52.516275,
+    13.377704
+  ],
+  "image": "event1-mock_bjhoxl.jpg",
+  "invitees": [],
+  "hideFrom": [],
+  "joined": [],
+  "announcements": [],
+  "canceled": false,
+  "active": true,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "644295afe5526342bc28c8d0"
+  },
+  "owner": {
+    "$oid": "644116416da455b7fc0c8bba"
+  },
+  "title": "Summer Picnic in the Park",
+  "description": "Join us for a relaxing summer picnic in the park with games and activities!",
+  "date": {
+    "$date": "2023-04-27T17:55:00.000Z"
+  },
+  "location": "Volkspark Friedrichshain, Berlin",
+  "coordinates": [
+    "52.527973",
+    "13.436372"
+  ],
+  "image": "park1.png",
+  "limitAttendees": "5",
+  "visibility": true,
+  "invitees": [],
+  "hideFrom": [
+    "64415e6c97483b215fd4c3ee"
+  ],
+  "joined": [
+    "64415e7997483b215fd4c3f1",
+    "644116416da455b7fc0c8bba"
+  ],
+  "announcements": [],
+  "canceled": false,
+  "active": true,
+  "__v": 26,
+  "liked": false
+},{
+  "_id": {
+    "$oid": "6442b34aaaa9619f179c421f"
+  },
+  "owner": {
+    "$oid": "64415e6c97483b215fd4c3ee"
+  },
+  "title": "Oktoberfest Celebration",
+  "description": "Join us for a festive celebration of Oktoberfest with live music, food, and drinks!",
+  "date": {
+    "$date": "2023-10-01T18:00:00.000Z"
+  },
+  "location": "Prater Garten, Berlin",
+  "coordinates": [
+    52.535753,
+    13.397106
+  ],
+  "image": "event3-mock_astchl.jpg",
+  "invitees": [],
+  "hideFrom": [
+    "644116416da455b7fc0c8bba"
+  ],
+  "joined": [],
+  "announcements": [],
+  "canceled": false,
+  "active": true,
+  "liked": false,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6443ad73d8af784fd37b3c80"
+  },
+  "owner": {
+    "$oid": "644116416da455b7fc0c8bba"
+  },
+  "title": "Hiking Adventure in Grunewald Forest",
+  "description": "Join us for a fun day of hiking and exploring Grunewald Forest, followed by a picnic lunch.",
+  "date": {
+    "$date": "2023-05-16T13:52:00.000Z"
+  },
+  "location": "Grunewald Forest, Berlin",
+  "coordinates": [
+    "52.488303",
+    "3.256437"
+  ],
+  "image": "event1-mock_bjhoxl.jpg",
+  "visibility": true,
+  "invitees": [],
+  "hideFrom": [
+    "64415e6c97483b215fd4c3ee"
+  ],
+  "joined": [],
+  "announcements": [],
+  "canceled": false,
+  "active": true,
+  "liked": false,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "6447f42915cb6298974ec17b"
+  },
+  "owner": {
+    "$oid": "64415e6c97483b215fd4c3ee"
+  },
+  "title": "Going To Berghain sunday morning",
+  "description": "",
+  "date": {
+    "$date": "2023-04-30T06:30:00.000Z"
+  },
+  "location": "Berghain, Rüdersdorfer Straße, Berlin, Germany",
+  "coordinates": [
+    52.510544839994495,
+    13.436822138923993
+  ],
+  "image": "club1.jpeg",
+  "limitAttendees": 2,
+  "visibility": true,
+  "invitees": [],
+  "hideFrom": [],
+  "joined": [],
+  "announcements": [],
+  "canceled": false,
+  "active": true,
+  "liked": false,
+  "__v": 6
+},{
+  "_id": {
+    "$oid": "6447f62515cb6298974ec18d"
+  },
+  "owner": {
+    "$oid": "644116416da455b7fc0c8bba"
+  },
+  "title": "Goin for a run tonight in Volskpark Friederischain",
+  "description": "just gonna be a 20 min run but we can hang out after",
+  "date": {
+    "$date": "2023-05-02T19:00:00.000Z"
+  },
+  "location": "Volkspark Friedrichshain, Berlin, Germany",
+  "coordinates": [
+    52.5235356203048,
+    13.43312279576739
+  ],
+  "image": "park2.jpeg",
+  "limitAttendees": null,
+  "visibility": true,
+  "invitees": [],
+  "hideFrom": [],
+  "joined": [],
+  "announcements": [],
+  "canceled": false,
+  "active": true,
+  "liked": false,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64482ec0837535066a5e7606"
+  },
+  "owner": {
+    "$oid": "644116416da455b7fc0c8bba"
+  },
+  "title": "Tiergarten",
+  "description": "djalkdsa",
+  "date": {
+    "$date": "2023-04-27T21:50:00.000Z"
+  },
+  "location": "Tiergarten, Berlin, Germany",
+  "coordinates": [
+    52.51575769869691,
+    13.353109359741213
+  ],
+  "image": "park2.jpeg",
+  "limitAttendees": 2,
+  "visibility": true,
+  "invitees": [],
+  "hideFrom": [
+    "64415e5f97483b215fd4c3eb"
+  ],
+  "joined": [],
+  "announcements": [],
+  "canceled": false,
+  "active": true,
+  "liked": false,
+  "__v": 0
+}]

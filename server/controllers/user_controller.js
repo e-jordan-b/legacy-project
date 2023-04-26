@@ -115,10 +115,10 @@ const removeJoinedEvent = async(req, res) => {
   }
 }
 
+// this function updates both the active user and the friended user
 const addFriend = async(req, res) => {
   const activeUser = await User.findOne({_id: req.body.activeUserId})
   const friendUser = await User.findOne({_id: req.body.friendUserId})
-
   try{
     activeUser.friends.push(req.body.friendUserId)
     activeUser.save();
@@ -130,6 +130,7 @@ const addFriend = async(req, res) => {
   }
 }
 
+// this function updates both the active user and the friended user
 const removeFriend = async(req, res) => {
   const activeUser = await User.findOne({_id: req.body.activeUserId})
   const friendUser = await User.findOne({_id: req.body.friendUserId})

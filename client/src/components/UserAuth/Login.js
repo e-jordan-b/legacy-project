@@ -6,6 +6,8 @@ import { useState } from "react";
 import * as UserService from "../../services/user_service";
 import * as ActiveUserService from "../../services/active_user_service";
 import './Auth.css';
+import { Link } from "react-router-dom";
+
 
 const Login = () => {
   const {navigate, setAuthenticated} = useContext(Context)
@@ -27,12 +29,13 @@ const Login = () => {
   const handleFormSubmit = async() => {
     await UserService.loginUser(username, password)
       .then(async(res) => {
-          await ActiveUserService.setActiveUser(res[0])
+          //await ActiveUserService.setActiveUser(res[0])
       }).then(() => navigate(`/`) )
   }
 
   return (
     <div className="auth-wrapper">
+      <img className="logo" src="/imin-logo-text.png" alt="logo-text" />
       <Form
         name="control-ref"
         onFinish={handleFormSubmit}
@@ -65,6 +68,7 @@ const Login = () => {
           </Button>
         </Form.Item>
       </Form>
+      <Link to='/register'>Create an account</Link>
     </div>
   )
 }

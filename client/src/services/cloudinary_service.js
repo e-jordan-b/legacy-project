@@ -1,9 +1,9 @@
 
-const BASE_URL = 'https://api.cloudinary.com/v1_1/dyjtzcm9r/image/upload';
+const BASE_URL = 'http://localhost:3030/upload';
 
 const fetchReq = async (parameters={}) => {
   return await fetch(`${BASE_URL}`, parameters)
-  .then(response => response.json())
+  .then(async(response) => await response.json())
   .catch(err => console.log(err))
 }
 
@@ -21,7 +21,8 @@ const fetchReq = async (parameters={}) => {
 // }
 
 const sendPictureToCloud = (image) => {
-  fetchReq({
+  console.log('calling')
+  return fetchReq({
   method: 'POST',
   body: image
   })

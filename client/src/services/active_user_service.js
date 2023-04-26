@@ -1,19 +1,9 @@
-const BASE_URL = 'http://localhost:3030';
-const fetchReq = async (url, parameters={}) => {
-  return await fetch(`${BASE_URL}/${url}`, parameters)
-  .then(response => {
-    return response.json()
-  })
-  .catch(err => console.log(err))
-}
+import {commonHeaders, fetchReq } from "./services_common_data"
 
 const setActiveUser = async (user) => {
   return await fetchReq('set-active-user', {
   method: 'POST',
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  },
+  headers: {...commonHeaders},
   body: JSON.stringify({
     identifier: user._id,
     username: user.username,
@@ -33,10 +23,7 @@ const getActiveUser = () => fetchReq('get-active-user');
 
 const deleteActiveUser = (username) => fetchReq('delete-active-user', {
   method: 'POST',
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  },
+  headers: {...commonHeaders},
   body: JSON.stringify({username: username})
 });
 

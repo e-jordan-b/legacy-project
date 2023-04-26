@@ -9,7 +9,7 @@ import {
 import Context from "../context/context";
 import { useContext, useState } from "react";
 import ModalComponent from "../UI/ModalComponent";
-import CreateEvent from "../CreateEvent";
+import CreateEvent from "../CreateEvent/CreateEvent";
 import { Avatar } from "antd";
 
 const Menu = () => {

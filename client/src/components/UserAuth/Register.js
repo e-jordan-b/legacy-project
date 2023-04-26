@@ -2,6 +2,7 @@ import InputComponent from "../UI/inputs/InputComponent";
 import { Form, Button} from "antd";
 import { useState } from "react";
 import { registerUser } from "../../services/user_service";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const [username, setUsername] = useState('')
@@ -17,7 +18,6 @@ const Register = () => {
     if(input === 'username') setUsername(e.target.value)
     if(input === 'userAge') setUserAge(e.target.value)
     if(input === 'password') {
-      console.log('changepass')
       setPassword(e.target.value)
     }
     if(input === 'confirmPassword') setConfirmPassword(e.target.value)
@@ -31,17 +31,16 @@ const Register = () => {
 
 
     function handleFormSubmit (e) {
-      console.log(username,userAge ,password )
     //e.preventDefault();
     registerUser(username, userAge ,password)
     .then((data) => {
-      console.log(data)
     })
     return false;
   }
 
   return (
-    <div>
+    <div className="auth-wrapper">
+      <img className="logo" src="/imin-logo-text.png" alt="logo-text" />
       <Form
         name="control-ref"
         onFinish={handleFormSubmit}
@@ -89,10 +88,11 @@ const Register = () => {
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" htmlType="submit">
-            Submit
+            SignIn
           </Button>
         </Form.Item>
       </Form>
+      <Link to="/login"></Link>
     </div>
   )
 }

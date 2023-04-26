@@ -5,7 +5,7 @@ import {HeartOutlined, HeartFilled, EditFilled} from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 function Event ({link, data, isEventFromOwner, numberUsersJoining}) {
 
-  const {users, addToSavedEvents, removeSavedEvent} = useContext(Context);
+  const {users, addToSavedEvents, removeSavedEvent, getAllEvents, getActiveUser} = useContext(Context);
   const [liked, setLiked] = useState(data.liked)
   const [numberUsersJoiningEvent, setNumberUsersJoiningEvent] = useState(numberUsersJoining ? numberUsersJoining : data.joined.length)
   function getParsedDay (day) {
@@ -72,7 +72,9 @@ function Event ({link, data, isEventFromOwner, numberUsersJoining}) {
             removeSavedEvent(data._id);
           }}/> : <HeartOutlined onClick={()=>{
             setLiked(true)
-            return addToSavedEvents(data._id); }}/> }
+            addToSavedEvents(data._id);
+             }}
+            /> }
           </>
           }
         </div>
