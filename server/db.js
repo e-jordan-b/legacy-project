@@ -4,7 +4,8 @@ const DB_NAME = process.env.DB_NAME || 'imin';
 
 try{
   mongoose.connect(
-    `mongodb://localhost:${DB_PORT}/${DB_NAME}`
+    // `mongodb://localhost:${DB_PORT}/${DB_NAME}`
+    `mongodb://127.0.0.1/${DB_NAME}`
   )
 }catch(err){
   if (err) {
