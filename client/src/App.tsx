@@ -14,44 +14,13 @@ import EventPage from './components/Pages/EventPage';
 import MapPage from './components/Pages/MapPage';
 import MyEventsPage from './components/Pages/MyEvents';
 import { formatEvents } from './helpers/formatting_functions';
-
-interface User {
-  _id: string;
-  profilePicture: string;
-  phone: string;
-  email: string;
-  age: number;
-  friends: string[];
-  following: string[];
-  savedEvents: string[];
-  joinedEvents: string[];
-  username: string;
-}
-
-interface Event {
-  _id: string;
-  owner: string;
-  title: string;
-  description: string;
-  date: Date;
-  location: string;
-  coordinartes: number[];
-  image: string;
-  limitAttendees: number;
-  invitees: string[];
-  hideFrom: string[];
-  joined: string[];
-  announcements: string[];
-  canceled: boolean;
-  active: boolean;
-  joining?: boolean;
-  liked: boolean;
-}
+import { Event } from './@types/EventType';
+import { User } from './@types/UserType';
 
 const App: React.FC = () => {
 
   const navigate = useNavigate();
-  const [events, setEvents] = useState(null);
+  const [events, setEvents] = useState<Event[] | null>(null);
   const [users, setUsers] = useState <User[] | null> (null);
   const [activeUser, setActiveUser] = useState<User | null> (null);
   const [isLoading, setIsLoading] = useState(true);

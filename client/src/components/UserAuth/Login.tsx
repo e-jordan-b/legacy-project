@@ -10,12 +10,12 @@ import { Link } from "react-router-dom";
 
 
 const Login = () => {
-  const {navigate, setAuthenticated} = useContext(Context)
+  const {navigate} = useContext(Context) //setAuthenticated
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [formIsValid, setFormIsValid] = useState(false)
 
-  function handleInputChange (e) {
+  function handleInputChange (e: React.ChangeEvent<HTMLInputElement>) {
     const input = e.target.name;
     if(input === 'username') setUsername(e.target.value)
     if(input === 'password') setPassword(e.target.value)
@@ -28,9 +28,10 @@ const Login = () => {
 
   const handleFormSubmit = async() => {
     await UserService.loginUser(username, password)
-      .then(async(res) => {
-          //await ActiveUserService.setActiveUser(res[0])
-      }).then(() => navigate(`/`) )
+      // .then(async(res) => {
+      //     //await ActiveUserService.setActiveUser(res[0])
+      // })
+      .then(() => navigate(`/`) )
   }
 
   return (
