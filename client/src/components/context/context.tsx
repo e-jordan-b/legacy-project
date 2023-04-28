@@ -7,13 +7,13 @@ interface MyContextType {
   navigate: NavigateFunction;
   // setAuthenticated: (value: boolean) => void;
   setEvents: React.Dispatch<null | Event[]> | null;
-  events: Event[] | null
+  events: Event[] | null;
   isLoading: boolean;
-  users: User[] | null
+  users: User[] | null;
   activeUser: User | null;
   getAllEvents: () => void;
   getActiveUser: () => void;
-  setActiveUser: (user: User) => void
+  setActiveUser: (user: User | null) => void
   addToSavedEvents: (a: string) => void;
   removeSavedEvent: (a: string) => void;
   addToJoinedEvents: (a: string) => void;
