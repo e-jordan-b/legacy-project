@@ -4,36 +4,41 @@ import SearchComponent from "../UI/SearchComponent";
 import Context from "../context/context";
 import { useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
-import Event from "../Event";
 import { Avatar, FloatButton } from "antd";
+import Event from '../Event.js'
 import './EventPage.css';
 import { MapContainer, TileLayer,Marker} from 'react-leaflet'
-
+import { UserType } from "../../@types/UserType";
+import { EventType } from "../../@types/EventType"
 
 const EventPage = () => {
 
 const {events, addToJoinedEvents, removeJoinedEvent, users, activeUser} = useContext(Context);
 const {state} = useLocation();
-const [event, setEvent] = useState(null)
-const [joined, setJoined] = useState();
-const [listUsersJoining, setListUsersJoining] = useState([]);
-const [numberUsersJoining, setNumberUsersJoining] = useState()
+const [event, setEvent] = useState<EventType | null>(null)
+const [joined, setJoined] = useState<boolean>();
+const [listUsersJoining, setListUsersJoining] = useState<string[]>([]);
+const [numberUsersJoining, setNumberUsersJoining] = useState<number>(0)
 
-function findEventByID (id) {
-  const eventFound = events.find(event => event._id === id)
-  setEvent(eventFound);
-  setJoined(eventFound.joining)
-  setNumberUsersJoining(eventFound.joined.length)
-  setListUsersJoining(eventFound.joined);
+function findEventByID (id: string) {
+  if (events) {
+    const eventFound = events.find(event => event._id === id)
+    if(eventFound) {
+      setEvent(eventFound);
+      setJoined(eventFound.joining)
+      setNumberUsersJoining(eventFound.joined.length)
+      setListUsersJoining(eventFound.joined);
+    }
+  }
 }
 
-function getJoinedUsersInfo(userId) {
+function getJoinedUsersInfo(userId: string) {
   if(userId !==null){
     if(users){
       let avatar = users.find(user => {
         return user._id === userId
       })
-      return <Avatar src={`https://res.cloudinary.com/dyjtzcm9r/image/upload/v1682429215/${avatar.profilePicture}`} />;
+      if(avatar) return <Avatar src={`https://res.cloudinary.com/dyjtzcm9r/image/upload/v1682429215/${avatar.profilePicture}`} />;
     }
   }
 }
@@ -84,14 +89,14 @@ useEffect(() => {
             onClick={()=>{
               setJoined(false)
               setNumberUsersJoining(numberUsersJoining-1)
-              setListUsersJoining(listUsersJoining.filter(joinedUserId => joinedUserId !== activeUser._id))
+              setListUsersJoining(listUsersJoining.filter(joinedUserId => joinedUserId !== activeUser?._id))
               removeJoinedEvent(event._id); }}>JOINED</button>
               :
               <button className="button join-button"
               onClick={()=>{
               setJoined(true)
               setNumberUsersJoining(numberUsersJoining+1)
-              setListUsersJoining([...listUsersJoining, activeUser._id])
+              setListUsersJoining([...listUsersJoining, activeUser?._id ?? ''])
               addToJoinedEvents(event._id);
             }}>JOIN</button>
 

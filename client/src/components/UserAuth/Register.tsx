@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 const Register = () => {
   const [username, setUsername] = useState('')
-  const [userAge, setUserAge] = useState<string | number> (14)
+  const [userAge, setUserAge] = useState<number> (14)
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [formIsValid, setFormIsValid] = useState(false)
@@ -16,7 +16,7 @@ const Register = () => {
     const input = e.target.name;
     console.log(input)
     if(input === 'username') setUsername(e.target.value)
-    if(input === 'userAge') setUserAge(e.target.value)
+    if(input === 'userAge') setUserAge(Number(e.target.value))
     if(input === 'password') {
       setPassword(e.target.value)
     }

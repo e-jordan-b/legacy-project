@@ -10,17 +10,17 @@ import LoadingComponent from "../UI/LoadingComponent";
 import {Dropdown} from "antd";
 import * as ActiveUserService from '../../services/active_user_service';
 import * as UserService from '../../services/user_service';
-import { User } from "../../@types/UserType";
-import { Event } from "../../@types/EventType";
+import { UserType } from "../../@types/UserType";
+import { EventType } from "../../@types/EventType";
 
 const ProfilePage = () => {
 
   const {events, users, activeUser, setActiveUser, navigate} = useContext(Context);
 
   const {state} = useLocation();
-  const [user, setUser] = useState<User | null>(null)
+  const [user, setUser] = useState<UserType | null>(null)
   const [isProfileFromActiveUser, setIsProfileFromActiveUser] = useState(false)
-  const [filteredOwnEvents, setFilteredOwnEvents] = useState<Event[] | null>(null)
+  const [filteredOwnEvents, setFilteredOwnEvents] = useState<EventType[] | null>(null)
   const [isFriend, setIsFriend] = useState<boolean>();
   const [friends, setFriends] = useState<number>(0)
 

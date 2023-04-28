@@ -1,11 +1,11 @@
-export interface Event {
+export interface EventType {
   _id: string;
   owner: string;
   title: string;
   description: string;
   date: Date;
   location: string;
-  coordinartes: number[];
+  coordinates: number[];
   image: string;
   limitAttendees: number;
   invitees: string[];
