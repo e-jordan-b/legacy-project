@@ -1,7 +1,7 @@
 import User from '../models/user_model';
 import { Request, Response } from 'express';
 
-const createUser = async(req: Request, res: Response): Promise<void> => {
+const postUser = async(req: Request, res: Response): Promise<void> => {
  try {
     const userInstance = new User({
       username: req.body.username,
@@ -119,4 +119,4 @@ const postUserFriend = async(req: Request, res: Response): Promise<void> => {
    }
 }
 
-export default { createUser, loginUser, getAllUsers, getUserById, postUserEvent, postUserFriend };
+export default { postUser, loginUser, getAllUsers, getUserById, postUserEvent, postUserFriend };
