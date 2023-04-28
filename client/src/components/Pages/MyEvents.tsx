@@ -4,6 +4,7 @@ import Layout from "../Layout/Layout";
 import { Tabs } from 'antd';
 import EventList from "../EventList";
 import LoadingComponent from "../UI/LoadingComponent";
+import { EventType } from "../../@types/EventType";
 // import './MyEventsPage.css';
 
 
@@ -11,8 +12,8 @@ import LoadingComponent from "../UI/LoadingComponent";
 const MyEventsPage = () => {
 
   const {events, activeUser} = useContext(Context);
-  const [savedEvents, setSavedEvents] = useState(null)
-  const [joinedEvents, setJoinedEvents] = useState(null)
+  const [savedEvents, setSavedEvents] = useState<EventType[] | null>(null)
+  const [joinedEvents, setJoinedEvents] = useState<EventType[] | null>(null)
 
   // const items = [
   //   {
@@ -42,20 +43,27 @@ useEffect(() => {
 }, [activeUser, events])
 
 async function getSavedEvents(){
-  console.log('activeUser SavedEvents', activeUser.savedEvents)
-  const temp = []
-  await activeUser.savedEvents.forEach(eventId => {
-    temp.push(events.find(event => event._id == eventId));
-  })
+  console.log('activeUser SavedEvents', activeUser && activeUser.savedEvents)
+  const temp: EventType[] = []
+  if(activeUser?.savedEvents){
+    activeUser.savedEvents.forEach(eventId => {
+      const event = events?.find(event => event._id === eventId)
+      if (event) {
+        temp.push(event);
+      }
+    })
+  }
   setSavedEvents(temp)
   console.log(temp)
 }
 
 async function getJoinedEvents(){
-  const temp = []
-  await activeUser.joinedEvents.forEach(eventId => {
+  const temp: EventType[] = []
+  await activeUser?.joinedEvents.forEach(eventId => {
     console.log(eventId)
-    temp.push(events.find(event => event._id == eventId));
+    const event = events?.find(event => event._id === eventId)
+    // temp.push(events.find(event => event._id == eventId));
+    if (event) temp.push(event)
   })
   setJoinedEvents(temp)
   console.log(temp)

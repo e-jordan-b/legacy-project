@@ -8,7 +8,7 @@ import { Avatar, FloatButton } from "antd";
 import Event from '../Event.js'
 import './EventPage.css';
 import { MapContainer, TileLayer,Marker} from 'react-leaflet'
-import { UserType } from "../../@types/UserType";
+// import { UserType } from "../../@types/UserType";
 import { EventType } from "../../@types/EventType"
 
 const EventPage = () => {
