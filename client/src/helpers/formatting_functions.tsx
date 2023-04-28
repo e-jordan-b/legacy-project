@@ -8,7 +8,7 @@ export function sortEvents (data: EventType[]) {
 }
 
 export function parseDate (date: Date) {
-  let dateString = date.toISOString();
+  let dateString = date.toString();
   let parsedDate = new Date( Date.parse(dateString))
   return parsedDate;
 }

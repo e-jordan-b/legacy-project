@@ -18,6 +18,17 @@ import MapComponent from "../UI/MapComponent";
 import { formatEvents } from "../../helpers/formatting_functions";
 import CreateEventModalHeader from './CreateEventModalHeader';
 
+type Option = {
+  label: string;
+  value: string;
+}
+
+interface CloudinaryResponse {
+  public_id: string;
+  version: number;
+  format: string;
+  created_at: string;
+}
 
 const CreateEvent = (props) => {
 
@@ -27,20 +38,20 @@ const CreateEvent = (props) => {
   const [step, setStep] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState<string | null>(null);
   const [location, setLocation] = useState('');
-  const [coordinates, setCoordinates] = useState(null);
-  const [limitAttendees, setLimitAttendees] = useState(null);
+  const [coordinates, setCoordinates] = useState<any[] | null>(null);
+  const [limitAttendees, setLimitAttendees] = useState<string | null>(null);
   const [visibility, setVisibility] = useState(true);
-  const [invitees, setInvitees] = useState([]);
-  const [hideFrom, sethideFrom] = useState([]);
-  const [imageSelected, setImageSelected] = useState(null);
-  const [tempImageUrl, setTempImageUrl] = useState(null)
-  const [displayOptions, setDisplayOptions] = useState([]);
+  const [invitees, setInvitees] = useState<string[]>([]);
+  const [hideFrom, sethideFrom] = useState<string[]>([]);
+  const [imageSelected, setImageSelected] = useState<File | null>(null);
+  const [tempImageUrl, setTempImageUrl] = useState<string | null>(null)
+  const [displayOptions, setDisplayOptions] = useState<Option[]>([]);
 
   const [formIsValid, setFormIsValid] = useState(false)
 
-  function handleInputChange (e) {
+  function handleInputChange (e: React.ChangeEvent<HTMLInputElement>) {
     const input = e.target.name;
     if(input === 'title') setTitle(e.target.value)
     if(input === 'description') setDescription(e.target.value)
@@ -49,39 +60,52 @@ const CreateEvent = (props) => {
   }
 
   function handleSwitch(){ setVisibility(!visibility) }
-  function handleHideFromSelect(e) { sethideFrom(e) }
-  function handleInviteesSelect(e) { setInvitees(e) }
-  function handleMapSelect(newCoordinates) {setCoordinates(newCoordinates)}
 
-  async function photoUpload (file){
+  // function handleHideFromSelect(e: React.ChangeEvent<HTMLInputElement>) {
+  //   const newValue = e.target.value;
+  //   sethideFrom(prevHideFrom => [...prevHideFrom, newValue])
+  //  }
+   function handleHideFromSelect(e: string[]) {sethideFrom(e)}
+
+  // function handleInviteesSelect(e: React.ChangeEvent<HTMLInputElement>) {
+  //   const newValue = e.target;
+  //   setInvitees(preInvitee => [...preInvitee, newValue])
+  //  }
+
+  function handleInviteesSelect(e: string[]) {setInvitees(e)}
+  function handleMapSelect(newCoordinates: string[]) {setCoordinates(newCoordinates)}
+
+  async function photoUpload (file: File){
     const formData = new FormData();
     formData.append("my_file", file);
     // formData.append('upload_preset', 'jy1wbdka');
     await sendPictureToCloud(formData)
-    .then(data => {
+    .then((data: CloudinaryResponse)  => {
       return data.public_id;
     })
   }
 
-  const handleLocationSelect = (e) => {
+  const handleLocationSelect = (e: string) => {
+    console.log(e)
     setLocation(e);
     geocodeByAddress(e)
-    .then(results => getLatLng(results[0]))
-    .then((latLng) => {
+    .then((results: any) => getLatLng(results[0]))
+    .then((latLng: any) => {
+        console.log(latLng)
         setCoordinates([latLng.lat, latLng.lng]);
     }
     )
-    .catch(error => console.error('Error', error));
+    .catch((error: Error) => console.error('Error', error));
   };
 
-  function handleStep (method) {
+  function handleStep (method: boolean) {
     if(method) { setStep(step+1) }
     else { setStep(step-1) }
   }
 
   function displayUserOptions () {
-    let temp = []
-    users.forEach(option => {
+    let temp: Option[] = []
+    users?.forEach(option => {
       temp.push({
         "label": option.username,
         "value": option._id
@@ -92,8 +116,10 @@ const CreateEvent = (props) => {
   const handleFormSubmit = async() => {
     //There may be problems when uploading the phots to cloudinary.
     // the addEvent function may not wait for the photo to be uploaded
-    const public_id = await photoUpload(imageSelected);
-    console.log(public_id)
+    if(imageSelected){
+      const public_id = await photoUpload(imageSelected);
+      console.log(public_id)
+    }
 
 
     // const newEvent = {
@@ -326,8 +352,8 @@ const CreateEvent = (props) => {
                 id="photo-event-upload"
                 type="file"
                 onChange={(e) => {
-                  setImageSelected(e.target.files[0])
-                  setTempImageUrl(URL.createObjectURL(e.target.files[0]))
+                  setImageSelected(e.target.files?.[0] ?? null)
+                  setTempImageUrl(e.target.files?.[0]? URL.createObjectURL(e.target.files[0]) : null)
                 }}/>
         </Form.Item>
         {tempImageUrl && <img className="preview-image" src={tempImageUrl} alt="tempImage" />}
