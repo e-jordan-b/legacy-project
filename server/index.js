@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const router = require('./router');
 const app = express();
-const SERVER_PORT = process.env.PORT;
+const SERVER_PORT = process.env.PORT | 3002;
 const session = require('express-session');
 const passport = require('passport');
 //const {verifyToken} = require('./middleware/verifyToken');
@@ -15,7 +15,8 @@ app.use(bodyParser.urlencoded({ extended: false }))
 
 app.use(session({
   key: 'user_sid',
-  secret: process.env.SESSION_SECRET,
+  // secret: process.env.SESSION_SECRET,
+  secret: 'SUPERkey',
   resave: true,
   saveUninitialized: false,
   cookie: {
