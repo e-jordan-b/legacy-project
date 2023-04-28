@@ -1,19 +1,19 @@
 import { createContext } from 'react';
 import { NavigateFunction } from 'react-router-dom';
-import { User } from '../../@types/UserType';
-import { Event } from '../../@types/EventType';
+import { UserType } from '../../@types/UserType';
+import { EventType } from '../../@types/EventType';
 
 interface MyContextType {
   navigate: NavigateFunction;
   // setAuthenticated: (value: boolean) => void;
-  setEvents: React.Dispatch<null | Event[]> | null;
-  events: Event[] | null
+  setEvents: React.Dispatch<null | EventType[]> | null;
+  events: EventType[] | null;
   isLoading: boolean;
-  users: User[] | null
-  activeUser: User | null;
+  users: UserType[] | null;
+  activeUser: UserType | null;
   getAllEvents: () => void;
   getActiveUser: () => void;
-  setActiveUser: (user: User) => void
+  setActiveUser: (user: UserType | null) => void
   addToSavedEvents: (a: string) => void;
   removeSavedEvent: (a: string) => void;
   addToJoinedEvents: (a: string) => void;

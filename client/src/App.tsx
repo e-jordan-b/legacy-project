@@ -14,36 +14,36 @@ import EventPage from './components/Pages/EventPage';
 import MapPage from './components/Pages/MapPage';
 import MyEventsPage from './components/Pages/MyEvents';
 import { formatEvents } from './helpers/formatting_functions';
-import { Event } from './@types/EventType';
-import { User } from './@types/UserType';
+import { EventType } from './@types/EventType';
+import { UserType } from './@types/UserType';
 
 const App: React.FC = () => {
 
   const navigate = useNavigate();
-  const [events, setEvents] = useState<Event[] | null>(null);
-  const [users, setUsers] = useState <User[] | null> (null);
-  const [activeUser, setActiveUser] = useState<User | null> (null);
+  const [events, setEvents] = useState<EventType[] | null>(null);
+  const [users, setUsers] = useState <UserType[] | null> (null);
+  const [activeUser, setActiveUser] = useState<UserType | null> (null);
   const [isLoading, setIsLoading] = useState(true);
   const [query, setQuery] = useState('')
 
   function addToSavedEvents(eventId: string){
-    if (activeUser) UserService.addSavedEvent(activeUser._id, eventId).then((data: User) => setActiveUser(data))
+    if (activeUser) UserService.addSavedEvent(activeUser._id, eventId).then((data: UserType) => setActiveUser(data))
   }
 
   function removeSavedEvent(eventId: string){
-    if (activeUser) UserService.removeSavedEvent(activeUser._id, eventId).then((data: User)=> setActiveUser(data))
+    if (activeUser) UserService.removeSavedEvent(activeUser._id, eventId).then((data: UserType)=> setActiveUser(data))
   }
 
   function addToJoinedEvents(eventId: string){
     if (activeUser) {
       EventService.addUserToJoinedList(activeUser._id, eventId)
-      UserService.addJoinedEvent(activeUser._id, eventId).then((data: User)=> setActiveUser(data))
+      UserService.addJoinedEvent(activeUser._id, eventId).then((data: UserType)=> setActiveUser(data))
     }
   }
   function removeJoinedEvent(eventId: string){
     if (activeUser) {
       EventService.removeUserFromJoinedList(activeUser._id, eventId)
-      UserService.removeJoinedEvent(activeUser._id, eventId).then((data: User)=> setActiveUser(data))
+      UserService.removeJoinedEvent(activeUser._id, eventId).then((data: UserType)=> setActiveUser(data))
     }
   }
 
@@ -61,7 +61,7 @@ const App: React.FC = () => {
 
   function getAllUsers () {
     UserService.getAllUsers()
-    .then((data: User[]) => { console.log(data, 'getAllUsers')
+    .then((data: UserType[]) => { console.log(data, 'getAllUsers')
       setUsers(data)
     })
   }
@@ -69,7 +69,7 @@ const App: React.FC = () => {
    function getAllEvents () {
     if(activeUser){
       EventService.getAllEvents(activeUser._id)
-      .then((data: Event[]) => { console.log(data, 'getAllEvents')
+      .then((data: EventType[]) => { console.log(data, 'getAllEvents')
         setEvents(formatEvents(activeUser, data))
       })
       .then(() => {

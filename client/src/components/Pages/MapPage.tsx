@@ -1,7 +1,7 @@
 import * as L from "leaflet";
 import { MapContainer, TileLayer,Marker, Popup, useMapEvents, Tooltip} from 'react-leaflet'
 import Context from '../context/context';
-import { useContext, useEffect, useState } from 'react';
+import { ReactHTMLElement, useContext, useEffect, useState } from 'react';
 import Layout from "../Layout/Layout";
 import SearchComponent from "../UI/SearchComponent";
 import './MapPage.css'
@@ -24,7 +24,7 @@ function LocationMarker () {
     whenReady() {
       map.locate()
     },
-    locationfound(e) {
+    locationfound(e: any) {
       setPosition(e.latlng)
       map.flyTo(e.latlng, map.getZoom())
     },
@@ -54,7 +54,7 @@ var eventPositionIcon = new L.Icon({
 
 function getMarkers(){
   return(
-    events.map(event => {
+    events?.map(event => {
       if(event.coordinates.length ===2){
         return event.title.toLowerCase().indexOf(query.toLowerCase()) !== -1 && <Marker
         position={[event.coordinates[0],event.coordinates[1]]}

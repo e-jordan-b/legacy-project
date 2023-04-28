@@ -10,25 +10,39 @@ import LoadingComponent from "../UI/LoadingComponent";
 import {Dropdown} from "antd";
 import * as ActiveUserService from '../../services/active_user_service';
 import * as UserService from '../../services/user_service';
+import { UserType } from "../../@types/UserType";
+import { EventType } from "../../@types/EventType";
 
-const ProfilePage = (props) => {
+const ProfilePage = () => {
 
   const {events, users, activeUser, setActiveUser, navigate} = useContext(Context);
 
   const {state} = useLocation();
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState<UserType | null>(null)
   const [isProfileFromActiveUser, setIsProfileFromActiveUser] = useState(false)
-  const [filteredOwnEvents, setFilteredOwnEvents] = useState(null)
-  const [isFriend, setIsFriend] = useState();
-  const [friends, setFriends] = useState()
+  const [filteredOwnEvents, setFilteredOwnEvents] = useState<EventType[] | null>(null)
+  const [isFriend, setIsFriend] = useState<boolean>();
+  const [friends, setFriends] = useState<number>(0)
 
-async function findUserByID (id) {
-  setUser(await users.find(user => user._id === id));
-  if(activeUser._id == id) setIsProfileFromActiveUser(true)
+async function findUserByID (id: string) {
+  // if(users !== undefined){
+  //   setUser( users.find(user => user._id === id));
+  // }
+  if(users !== null){
+    const user2 = users.find(user => user._id === id);
+    setUser(user2 ?? null);
+  }
+  if(activeUser !== null) {
+    if(activeUser._id === id) setIsProfileFromActiveUser(true)
+  }
 }
 
 function filterOwnEvents(){
-  setFilteredOwnEvents(events.filter(event => event.owner === user._id))
+  if(events !== null && user !== null) {
+    const event = events.filter(event => event.owner === user._id)
+    setFilteredOwnEvents(event)
+    // setFilteredOwnEvents(events.filter(event => event.owner === user._id))
+  }
 }
 
 useEffect(() => {
@@ -40,8 +54,8 @@ useEffect(() => {
 }, [users, activeUser, state])
 
 useEffect(() => {
-  if(user && events){
-    if(user.friends.find(friend => friend == activeUser._id)){
+  if(user && events && activeUser){
+    if(user.friends.find(friend => friend === activeUser._id)){
       setIsFriend(true)
     }
     setFriends(user.friends.length)
@@ -52,15 +66,15 @@ useEffect(() => {
 const handleAddFriend = () => {
   setIsFriend(true)
   setFriends(friends+1)
-  UserService.addFriend(activeUser._id, user._id)
+  if (activeUser && user) UserService.addFriend(activeUser._id, user._id)
 }
 const handleRemoveFriend = () => {
   setIsFriend(false)
   setFriends(friends-1)
-  UserService.removeFriend(activeUser._id, user._id)
+  if (activeUser && user) UserService.removeFriend(activeUser._id, user._id)
 }
 
-const handleLogout = async(username) => {
+const handleLogout = async(username: string) => {
  await ActiveUserService.deleteActiveUser(username)
  await setActiveUser(null);
  navigate('/login');
@@ -70,7 +84,7 @@ const items=[
   {
     key:'1',
     label: (
-      <Button onClick={()=>handleLogout(activeUser.username)}>Logout</Button>
+      <Button onClick={()=> activeUser && handleLogout(activeUser.username)}>Logout</Button>
     )
   }
 ]
