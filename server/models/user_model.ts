@@ -9,7 +9,7 @@ interface IUser {
   phone?: string; 
   email?: string;
   age: number; 
-  friends?: string[];
+  friends: string[];
   following?: string[];
   savedEvents: string[];
   joinedEvents: string[];
@@ -46,7 +46,7 @@ const userSchema = new Schema<IUser>({
   },
   friends: {
     type: [String],  // Array of other user IDs
-    required: false,
+    required: true,
   },
   following: {
     type: [String],
