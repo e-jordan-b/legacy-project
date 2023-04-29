@@ -5,7 +5,7 @@ import eventController from './controllers/event_controller';
 import activeUserController from './controllers/activeUser_controller';
 import Multer from "multer";
 
-const storage:Multer.StorageEngine = Multer.memoryStorage();
+const storage: Multer.StorageEngine = Multer.memoryStorage();
 const upload = Multer({
   storage,
 });

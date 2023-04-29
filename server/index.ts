@@ -8,7 +8,7 @@ import bodyParser from 'body-parser';
 
 dotenv.config();
 
-const app = express();
+export const app = express();
 const SERVER_PORT = process.env.PORT || 3002;
 
 const expirationDate:Date = new Date();
@@ -36,12 +36,11 @@ app
   .use(bodyParser.urlencoded({ extended: false }))
   .use(router)
   .use(session(sessionOptions))
-  .listen(SERVER_PORT, (err?: Error) => {
+
+export const server = app.listen(SERVER_PORT, (err?: Error) => {
     if (err) {
       console.log(`😞 Sorry, something went wrong! ${err}`); // eslint-disable-line no-console
     } else {
       console.log(`🚀 Server (sessions) is listening on port ${SERVER_PORT}!`); // eslint-disable-line no-console
     }
   });
-
-  
