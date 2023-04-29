@@ -16,10 +16,10 @@ const upload = Multer({
 
 
 // USER AUTHENTICATION ROUTES
-router.get('/login/:username/:password', userController.loginUser);
-router.get('/get-active-user', activeUserController.getActiveUser);
-router.post('/set-active-user', activeUserController.setActiveUser);
-router.post('/delete-active-user', activeUserController.deleteActiveUser)
+// router.get('/login/:username/:password', userController.loginUser);
+// router.get('/get-active-user', activeUserController.getActiveUser);
+// router.post('/set-active-user', activeUserController.setActiveUser);
+// router.post('/delete-active-user', activeUserController.deleteActiveUser)
 
 // PAGES ROUTES
 
