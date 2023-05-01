@@ -1,4 +1,4 @@
-import { Request, Response } from 'express'; 
+import { Request, Response } from 'express';
 import Event from '../models/event_model';
 import cloudinary2 from 'cloudinary';
 const cloudinary = cloudinary2.v2;
@@ -31,8 +31,8 @@ const postEvent = async function(req:Request, res:Response): Promise<void> {
 
     res.status(201).json(req.body);
   }catch(e){
-    res.status(400);
     console.log(e);
+    res.status(400).send('Invalid Data');
   }
 }
 
@@ -54,26 +54,31 @@ const getAllEvents = async function (req:Request, res:Response): Promise<void> {
 
 const postEventUser = async(req:Request, res:Response): Promise<void> => {
   try{
+    console.log(req.body.eventId, "IIIIIIDDDDDDDD", req.body.action, "AACTTIOOON")
     const event = await Event.findOne({_id: req.body.eventId})
     if (event) {
-      if (req.body.type === 'add') {
+      if (req.body.action === 'add') {
         event.joined.push(req.body.userId);
+        console.log('added')
         await event.save();
+        res.status(201).json({"message": 'added'})
       }
 
-      if (req.body.type === 'remove') {
+      if (req.body.action === 'remove') {
         const arrayWithoutUnjoinedUser = event.joined.filter(user => user !== req.body.userId)
         event.joined = arrayWithoutUnjoinedUser;
+        console.log('removed')
         await event.save();
+        res.status(201).json({"message": 'removed'})
       }
 
-      res.status(201).json(event);
+      // res.status(201).json(event);
     } else {
       throw new Error('Event does not exist!');
     }
   }catch(e){
-    res.status(400);
     console.log(e);
+    res.status(400).send('not found');
   }
 }
 

@@ -109,4 +109,5 @@
 //   "exclude": [
 //     "./dist/**/*" // This is what fixed it!
 // ]
+// "exclude": ["./coverage", "./dist", "src/__tests__", "jest.config.js"],
 }
