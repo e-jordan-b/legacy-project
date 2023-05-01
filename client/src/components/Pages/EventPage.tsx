@@ -5,7 +5,7 @@ import Context from "../context/context";
 import { useLocation } from "react-router-dom";
 import { useContext, useEffect, useState } from "react";
 import { Avatar, FloatButton } from "antd";
-import Event from '../Event.js'
+import Event from '../Event'
 import './EventPage.css';
 import { MapContainer, TileLayer,Marker} from 'react-leaflet'
 // import { UserType } from "../../@types/UserType";

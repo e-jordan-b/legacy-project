@@ -3,6 +3,7 @@ import Context from "./context/context";
 import Event from "./Event";
 import './EventList.css';
 import LoadingComponent from "./UI/LoadingComponent";
+import { EventType } from "../@types/EventType";
 
 function EventList (props) {
 const {isLoading, query} = useContext(Context)
@@ -11,7 +12,7 @@ const {isLoading, query} = useContext(Context)
   <>
  {isLoading ? <LoadingComponent /> :
  <div className="event-list" id="list">
-    {props.events.map((singleEvent, index) => {
+    {props.events.map((singleEvent: EventType, index: number) => {
       if(singleEvent.title !== ''){
         return singleEvent.title.toLowerCase().indexOf(query.toLowerCase()) !== -1 && <>
             {index > 0 && <div className="divider"></div>}
