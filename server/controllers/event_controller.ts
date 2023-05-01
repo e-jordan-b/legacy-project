@@ -54,6 +54,7 @@ const getAllEvents = async function (req:Request, res:Response): Promise<void> {
 
 const postEventUser = async(req:Request, res:Response): Promise<void> => {
   try{
+    console.log(req.body.eventId, "IIIIIIDDDDDDDD", req.body.action, "AACTTIOOON")
     const event = await Event.findOne({_id: req.body.eventId})
     if (event) {
       if (req.body.action === 'add') {
@@ -76,8 +77,8 @@ const postEventUser = async(req:Request, res:Response): Promise<void> => {
       throw new Error('Event does not exist!');
     }
   }catch(e){
-    res.status(400);
     console.log(e);
+    res.status(400).send('not found');
   }
 }
 
