@@ -1,5 +1,11 @@
 import { Button } from "antd";
-const CreateEventModalHeader = (props) => {
+
+type Props = {
+  step: number,
+  handleStep: (method: boolean) => void
+}
+
+const CreateEventModalHeader = (props: Props) => {
   return (
     <div className="create-modal-header">
         {props.step > 0 ?
