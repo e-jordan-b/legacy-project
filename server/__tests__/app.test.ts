@@ -72,10 +72,10 @@ const EventPayload = {
 }
 
 describe("Event Controller", () => {
-  // afterAll(async () => {
-  //   await mongoose.connection.dropDatabase();
-  //   await mongoose.connection.close();
-  // })
+  afterAll(async () => {
+    await mongoose.connection.dropDatabase();
+    // await mongoose.connection.close();
+  })
   describe("POST /event", () => {
     describe("given the correct information", () => {
       it("should return the event payload", async () => {
@@ -174,7 +174,70 @@ describe("Event Controller", () => {
   })
 })
 
+describe("User Controller", () => {
+  afterAll(async () => {
+    await mongoose.connection.dropDatabase();
+    await mongoose.connection.close();
+  })
+  describe('POST /user', () => {
+    describe("When user is correct", () => {
+      it('should return status 201', async () => {
+        const { statusCode } = await supertest(app)
+          .post('/user')
+          .send(mockUser)
 
+        expect(statusCode).toBe(201)
+      })
+      it('should return json with the new created user', async () => {
+        const { body, headers } = await supertest(app)
+          .post('/user')
+          .send(mockUser)
+
+        expect(body).toEqual(mockUser)
+        expect(headers['content-type']).toEqual(expect.stringContaining("json"))
+        expect(body.username).toBeDefined()
+        expect(body.name).toBeDefined()
+        expect(body.phone).toBeDefined()
+        expect(body.email).toBeDefined()
+        expect(body.profilePicture).toBeDefined()
+        expect(body.age).toBeDefined()
+      })
+    })
+    describe("When the information is not correct", () => {
+      it('should return status 400', async () => {
+        const { statusCode } = await supertest(app)
+          .post('/user')
+          .send({username: 'Eric'})
+        expect(statusCode).toBe(400)
+      })
+    })
+  })
+  describe('GET /login/:usernam/:password', () => {
+    describe('when given the correct information', () => {
+      it('should return status 201', async () => {
+        const { statusCode } = await supertest(app)
+          .get(`/login/${mockUser.username}/123`)
+
+        expect(statusCode).toBe(201)
+      })
+      it('should return the correct user in JSON', async () => {
+        const { body, headers } = await supertest(app)
+          .get(`/login/${mockUser.username}/123`)
+
+        expect(body[0].username).toEqual(mockUser.username)
+        expect(headers['content-type']).toEqual(expect.stringContaining("json"))
+      })
+    })
+    describe("when the username is not value", () => {
+      it("should return status 400", async () => {
+        const { statusCode } = await supertest(app)
+        .get(`/login/notcorrect/123`)
+
+      expect(statusCode).toBe(400)
+      })
+    })
+  })
+})
 
 
 

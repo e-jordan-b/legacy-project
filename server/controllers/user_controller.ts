@@ -16,10 +16,10 @@ const postUser = async(req: Request, res: Response): Promise<void> => {
       joinedEvents: []
     })
     await userInstance.save();
-    res.json(req.body);
-    res.status(201);
+
+    res.status(201).json(req.body);;
   } catch (e) {
-    res.status(400);
+    res.status(400).send('wrong information');
     console.log(e);
   }
 }
@@ -28,9 +28,9 @@ const postUser = async(req: Request, res: Response): Promise<void> => {
 const loginUser = async(req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.find({username: req.params.username});
-    res.status(201).json(user);
+    if(user) {res.status(201).json(user)};
    } catch(e) {
-    res.status(400);
+    res.status(400).send('wrong username');
     console.log(e);
    }
 }
@@ -58,7 +58,7 @@ const getUserById = async(req: Request, res: Response): Promise<void> => {
 const postUserEvent = async(req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.findOne({_id: req.body.userId});
-    
+
     if (user) {
       if (req.body.type === 'addSaved') {
         user.savedEvents.push(req.body.eventId);
@@ -91,7 +91,7 @@ const postUserFriend = async(req: Request, res: Response): Promise<void> => {
   try {
     const activeUser = await User.findOne({_id: req.body.activeUserId})
     const friendUser = await User.findOne({_id: req.body.friendUserId})
-    
+
     if (activeUser && friendUser && req.body.type !== '') {
       if (req.body.type === 'add') {
         activeUser.friends.push(req.body.friendUserId)
