@@ -1,41 +1,112 @@
 import supertest from 'supertest'
 import { app, server } from '../index'
+import EventController from '../controllers/event_controller'
 import mongoose from 'mongoose'
 // import { connectDB, disconnectDB, mongod } from '../db'
 import UserModel from '../models/user_model'
+import { isExportDeclaration } from 'typescript'
 const request = supertest(app)
 
-const url: any = process.env.MONGODB_URI
+const eventId = new mongoose.Types.ObjectId().toString()
 
-beforeEach(async () => {
-  await mongoose.connect(url);
-});
 
-afterEach(async () => {
-  await mongoose.connection.close();
-  // server.close();
-});
+const mockEvent = {
+  owner: "644116416da455b7fc0c8bba",
+  title: "Awesome Event",
+  description: "This is going to be a fantastic event",
+  date: "2023-06-01T19:00:00.000Z",
+  location: "123 Main St",
+  coordinates: [40.7128, -74.006],
+  image: "https://example.com/image.jpg",
+  limitAttendees: 50,
+  visibility: true,
+  invitees: ["Jane Smith", "Bob Johnson"],
+  hideFrom: ["user1", "user2"],
+  joined: ["Jane Smith"],
+  announcements: [],
+  canceled: false,
+  active: true,
+  liked: true
+}
 
-describe('API test', () => {
+const EventPayload = {
+  _id: eventId,
+  ...mockEvent
+}
 
-  describe("get /users", () => {
+describe("event", () => {
+  describe("create event", () => {
+    describe("given the correct information", () => {
+      it("should return the event payload", async () => {
+        const createPostMock = jest
+          .spyOn(EventController, 'postEvent')
+          // @ts-ignore
+          .mockReturnValueOnce(EventPayload);
 
-    describe("given the required information", () => {
-      it('should return correct status', async () => {
-        const response = await request.get('/users')
-        expect(response.statusCode).toBe(201)
-      }),
-      it('should return json in the content type header', async () => {
-        const response = await request.get('/users')
-        expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
-      })
+        const {statusCode, body} = await supertest(app)
+        .post('/event')
+        // @ts-ignore
+        .send(mockEvent)
+
+        expect(statusCode).toBe(201)
+        expect(body).toEqual(mockEvent)
+
+        // expect(createPostMock).toHaveBeenCalledWith(mockEvent)
+      } )
+    })
+  })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// const url: any = process.env.MONGODB_URI
+
+// beforeAll(() => {
+//   // await mongoose.connect(url);
+//   connectDB();
+// });
+
+// afterAll(() => {
+//   // await mongoose.connection.close();
+//   disconnectDB();
+//   server.close();
+// });
+
+// describe('API test', () => {
+
+//   describe("get /users", () => {
+
+//     describe("given the required information", () => {
+//       test('should return correct status', async () => {
+//         const response = await request.get('/users')
+//         expect(response.statusCode).toBe(201)
+//       }),
+//       test('should return json in the content type header', async () => {
+//         const response = await request.get('/users')
+//         expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
+//       })
       // test('should return list of all users in database', async () => {
       //   const { body } = await request.get('/users')
       //   console.log(body)
       //   expect(
-    })
-  })
-})
+//     })
+//   })
+// })
 
 // test("should respong with a 201 status code", async () => {
 //   const response = await supertest(app).post("/user").send({
