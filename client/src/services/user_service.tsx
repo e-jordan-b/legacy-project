@@ -1,7 +1,7 @@
 import {commonHeaders, fetchReq } from "./services_common_data"
 
 
-const registerUser = (username: string, age: number, password: string) => fetchReq('register', {
+const registerUser = (username: string, age: number, password: string) => fetchReq('user', {
   method: 'POST',
   headers: {...commonHeaders},
   body: JSON.stringify({username: username, age: age, password: password})
@@ -13,58 +13,25 @@ const getUserById = (userId: string) => fetchReq(`user/${userId}`);
 
 const getAllUsers = () => fetchReq('users');
 
-const addSavedEvent = (userId: string , eventId: string) => {
-  return fetchReq(`add-saved-event/${eventId}`, {
+const postUserEvent = (userId: string , eventId: string, type: string) => {
+  return fetchReq(`userEvent/${eventId}`, {
   method: 'POST',
   headers: {...commonHeaders},
-  body: JSON.stringify({userId: userId, eventId: eventId})
+  body: JSON.stringify({userId: userId, eventId: eventId, type: type})
 });}
 
-const removeSavedEvent = (userId: string, eventId: string) => {
-  return fetchReq(`remove-saved-event/${eventId}`, {
+const postUserFriend = (activeUserId: string, friendUserId: string, type: string) => {
+  return fetchReq(`userFriend/`, {
   method: 'POST',
   headers: {...commonHeaders},
-  body: JSON.stringify({userId: userId, eventId: eventId})
+  body: JSON.stringify({activeUserId: activeUserId, friendUserId:friendUserId, type: type})
 });}
-
-const addJoinedEvent = (userId: string, eventId: string) => {
-  return fetchReq(`add-joined-event/${eventId}`, {
-  method: 'POST',
-  headers: {...commonHeaders},
-  body: JSON.stringify({userId: userId, eventId: eventId})
-});}
-
-const removeJoinedEvent = (userId: string, eventId: string) => {
-  return fetchReq(`remove-joined-event/${eventId}`, {
-  method: 'POST',
-  headers: {...commonHeaders},
-  body: JSON.stringify({userId: userId, eventId: eventId})
-});}
-
-const addFriend = (activeUserId: string, friendUserId: string) => {
-  return fetchReq(`add-friend/`, {
-  method: 'POST',
-  headers: {...commonHeaders},
-  body: JSON.stringify({activeUserId: activeUserId, friendUserId:friendUserId})
-});}
-
-const removeFriend = (activeUserId: string, friendUserId: string) => {
-  return fetchReq(`remove-friend/`, {
-  method: 'POST',
-  headers: {...commonHeaders},
-  body: JSON.stringify({activeUserId: activeUserId, friendUserId:friendUserId})
-});}
-
 
 export {
   registerUser,
   loginUser,
   getUserById,
   getAllUsers,
-  addSavedEvent,
-  removeSavedEvent,
-  addJoinedEvent,
-  removeJoinedEvent,
-  addFriend,
-  removeFriend
+  postUserEvent,
+  postUserFriend
 }

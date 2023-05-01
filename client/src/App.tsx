@@ -27,23 +27,23 @@ const App: React.FC = () => {
   const [query, setQuery] = useState('')
 
   function addToSavedEvents(eventId: string){
-    if (activeUser) UserService.addSavedEvent(activeUser._id, eventId).then((data: UserType) => setActiveUser(data))
+    if (activeUser) UserService.postUserEvent(activeUser._id, eventId, "addSaved").then((data: UserType) => setActiveUser(data))
   }
 
   function removeSavedEvent(eventId: string){
-    if (activeUser) UserService.removeSavedEvent(activeUser._id, eventId).then((data: UserType)=> setActiveUser(data))
+    if (activeUser) UserService.postUserEvent(activeUser._id, eventId, "removeSaved").then((data: UserType)=> setActiveUser(data))
   }
 
   function addToJoinedEvents(eventId: string){
     if (activeUser) {
-      EventService.addUserToJoinedList(activeUser._id, eventId)
-      UserService.addJoinedEvent(activeUser._id, eventId).then((data: UserType)=> setActiveUser(data))
+      EventService.userToJoinedList(activeUser._id, eventId, 'add')
+      UserService.postUserEvent(activeUser._id, eventId, "addJoined").then((data: UserType)=> setActiveUser(data))
     }
   }
   function removeJoinedEvent(eventId: string){
     if (activeUser) {
-      EventService.removeUserFromJoinedList(activeUser._id, eventId)
-      UserService.removeJoinedEvent(activeUser._id, eventId).then((data: UserType)=> setActiveUser(data))
+      EventService.userToJoinedList(activeUser._id, eventId, 'remove')
+      UserService.postUserEvent(activeUser._id, eventId, "removeJoined").then((data: UserType)=> setActiveUser(data))
     }
   }
 
@@ -56,7 +56,7 @@ const App: React.FC = () => {
   // manually and then change the id here in the function.
   // In the future this would be dinamically set with an authentication process.
   async function getActiveUser() {
-    setActiveUser(await UserService.getUserById("644116416da455b7fc0c8bba"))
+    setActiveUser(await UserService.getUserById("644a9a9d605307dc30844df2"))
    }
 
   function getAllUsers () {

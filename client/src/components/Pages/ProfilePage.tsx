@@ -66,12 +66,12 @@ useEffect(() => {
 const handleAddFriend = () => {
   setIsFriend(true)
   setFriends(friends+1)
-  if (activeUser && user) UserService.addFriend(activeUser._id, user._id)
+  if (activeUser && user) UserService.postUserFriend(activeUser._id, user._id, 'add')
 }
 const handleRemoveFriend = () => {
   setIsFriend(false)
   setFriends(friends-1)
-  if (activeUser && user) UserService.removeFriend(activeUser._id, user._id)
+  if (activeUser && user) UserService.postUserFriend(activeUser._id, user._id, 'remove')
 }
 
 const handleLogout = async(username: string) => {

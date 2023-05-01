@@ -1,6 +1,7 @@
 import {commonHeaders, fetchReq } from "./services_common_data"
+import { UserType } from "../@types/UserType"
 
-const setActiveUser = async (user) => {
+const setActiveUser = async (user: UserType) => {
   return await fetchReq('set-active-user', {
   method: 'POST',
   headers: {...commonHeaders},
@@ -19,9 +20,9 @@ const setActiveUser = async (user) => {
 });
 }
 
-const getActiveUser = () => fetchReq('get-active-user');
+const getActiveUser = ():Promise<UserType> => fetchReq('get-active-user');
 
-const deleteActiveUser = (username) => fetchReq('delete-active-user', {
+const deleteActiveUser = (username: string) => fetchReq('delete-active-user', {
   method: 'POST',
   headers: {...commonHeaders},
   body: JSON.stringify({username: username})
