@@ -40,7 +40,7 @@ const CreateEvent = (props) => {
   const [description, setDescription] = useState('');
   const [date, setDate] = useState<string | null>(null);
   const [location, setLocation] = useState('');
-  const [coordinates, setCoordinates] = useState<any[] | null>(null);
+  const [coordinates, setCoordinates] = useState<string[] | null>(null);
   const [limitAttendees, setLimitAttendees] = useState<string | null>(null);
   const [visibility, setVisibility] = useState(true);
   const [invitees, setInvitees] = useState<string[]>([]);
