@@ -31,8 +31,8 @@ const postEvent = async function(req:Request, res:Response): Promise<void> {
 
     res.status(201).json(req.body);
   }catch(e){
-    res.status(400);
     console.log(e);
+    res.status(400).send('Invalid Data');
   }
 }
 

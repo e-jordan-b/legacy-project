@@ -30,11 +30,14 @@ const mockEvent = {
 }
 
 const EventPayload = {
-  _id: eventId,
   ...mockEvent
 }
 
 describe("event", () => {
+  afterAll(async () => {
+    await mongoose.connection.dropDatabase();
+    await mongoose.connection.close();
+  })
   describe("create event", () => {
     describe("given the correct information", () => {
       it("should return the event payload", async () => {
@@ -43,16 +46,37 @@ describe("event", () => {
           // @ts-ignore
           .mockReturnValueOnce(EventPayload);
 
-        const {statusCode, body} = await supertest(app)
+        const {statusCode, body, headers} = await supertest(app)
         .post('/event')
         // @ts-ignore
         .send(mockEvent)
 
         expect(statusCode).toBe(201)
-        expect(body).toEqual(mockEvent)
+        expect(body).toEqual(EventPayload)
+        expect(headers['content-type']).toEqual(expect.stringContaining("json"))
+      })
 
-        // expect(createPostMock).toHaveBeenCalledWith(mockEvent)
-      } )
+      it("values should be defined", async () => {
+        const {statusCode, body} = await supertest(app)
+        .post('/event')
+        .send(mockEvent)
+
+        expect(body.owner).toBeDefined()
+        expect(body.title).toBeDefined()
+        expect(body.description).toBeDefined()
+        expect(body.image).toBeDefined()
+        expect(body.location).toBeDefined()
+      })
+
+    })
+    describe("given the wrong information", () => {
+      it("should return status 400", async () => {
+        const {statusCode} = await supertest(app)
+        .post('/event')
+        .send("invalid data")
+
+        expect(statusCode).toBe(400)
+      })
     })
   })
 })
