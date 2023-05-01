@@ -1,7 +1,20 @@
 import { Input} from 'antd';
 
+type propsType = {
+  id: string;
+  name: string;
+  type: string;
+  autoComplete: string;
+  required: boolean;
+  maxLength: number;
+  minLength: number;
+  placeholder: string;
+  onchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
+  value: string;
+}
 
-const InputComponent = (props) => {
+const InputComponent = (props: propsType) => {
 
   return (
     <Input

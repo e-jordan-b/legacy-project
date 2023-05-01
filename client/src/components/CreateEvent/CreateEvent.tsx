@@ -51,7 +51,7 @@ const CreateEvent = (props) => {
 
   const [formIsValid, setFormIsValid] = useState(false)
 
-  function handleInputChange (e: React.ChangeEvent<HTMLInputElement>) {
+  function handleInputChange (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>) {
     const input = e.target.name;
     if(input === 'title') setTitle(e.target.value)
     if(input === 'description') setDescription(e.target.value)
@@ -65,14 +65,14 @@ const CreateEvent = (props) => {
   //   const newValue = e.target.value;
   //   sethideFrom(prevHideFrom => [...prevHideFrom, newValue])
   //  }
-   function handleHideFromSelect(e: string[]) {sethideFrom(e)}
+   function handleHideFromSelect(e: React.ChangeEvent<HTMLInputElement>) {sethideFrom([e.target.value])}
 
   // function handleInviteesSelect(e: React.ChangeEvent<HTMLInputElement>) {
   //   const newValue = e.target;
   //   setInvitees(preInvitee => [...preInvitee, newValue])
   //  }
 
-  function handleInviteesSelect(e: string[]) {setInvitees(e)}
+  function handleInviteesSelect(e: React.ChangeEvent<HTMLInputElement>) {setInvitees([e.target.value])}
   function handleMapSelect(newCoordinates: string[]) {setCoordinates(newCoordinates)}
 
   async function photoUpload (file: File){
@@ -206,7 +206,7 @@ const CreateEvent = (props) => {
         <TextareaInputComponent
             id="description"
             name="description"
-            type="textarea"
+            // type="textarea"
             autoSize={{ minRows: 2, maxRows: 6 }}
             required={props.required}
             placeholder={props.placeholder}
@@ -293,14 +293,14 @@ const CreateEvent = (props) => {
           autoComplete="limitAttendees"
           required={false}
           placeholder="no limit"
-          onchange={(e)=>{console.log(e);setLimitAttendees(e)}}
+          onchange={(e: React.ChangeEvent<HTMLInputElement>): void =>{console.log(e);setLimitAttendees(e.target.value)}}
           />
         </Form.Item>
 
         <Form.Item name="visibility" label="Visibility">
           <SwitchInputComponent
            id="visibility"
-           name="visibility"
+          //  name="visibility"
            onchange={handleSwitch}
           />
         </Form.Item>

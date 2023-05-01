@@ -1,4 +1,16 @@
 import { InputNumber } from "antd";
+
+type propsType = {
+  id: string;
+  name: string;
+  required: boolean;
+  max: number;
+  min: number;
+  placeholder: string;
+  onchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  defaultNumber?: number;
+}
+
 const NumberInputComponent = (props) => {
 
   return (
