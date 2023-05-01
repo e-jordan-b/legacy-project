@@ -10,8 +10,8 @@ const SearchComponent = () => {
   const {setQuery} = useContext(Context)
 
 
-  function onChangeHandler(e) {
-    setQuery(e.target.value)
+  function onChangeHandler(e: React.ChangeEvent<HTMLInputElement>): void {
+    if (e.target.value) setQuery(e.target.value);
   }
 
   return (

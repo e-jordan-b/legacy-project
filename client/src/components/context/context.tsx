@@ -18,7 +18,8 @@ interface MyContextType {
   removeSavedEvent: (a: string) => void;
   addToJoinedEvents: (a: string) => void;
   removeJoinedEvent: (a: string) => void;
-  setQuery: React.Dispatch<string> | null;
+  // setQuery: React.Dispatch<string> | null;
+  setQuery: (query: string) => void;
   query: string
 }
 
@@ -37,7 +38,7 @@ const Context = createContext<MyContextType>({
   removeSavedEvent: () => {},
   addToJoinedEvents: () => {},
   removeJoinedEvent: () => {},
-  setQuery: null,
+  setQuery: () => {},
   query: '',
 });
 
