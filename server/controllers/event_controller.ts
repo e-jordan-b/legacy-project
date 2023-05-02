@@ -84,7 +84,7 @@ const postEventUser = async(req:Request, res:Response): Promise<void> => {
 
 async function handleUpload(file: Express.Multer.File): Promise<any> {
   const b64: string = Buffer.from(file.buffer).toString("base64");
-  let dataURI: string = "data:" + file.mimetype + ";base64," + b64;
+  const dataURI: string = "data:" + file.mimetype + ";base64," + b64;
   const res = await cloudinary.uploader.upload(dataURI, {
     resource_type: "auto",
   });

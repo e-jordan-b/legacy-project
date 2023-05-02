@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 const setActiveUser = async (req: Request, res: Response): Promise<void> => {
   console.log(req.body)
   try {
-    ActiveUser.create({
+    await ActiveUser.create({
       identifier: req.body.identifier,
       username: req.body.username,
       name: req.body.name,

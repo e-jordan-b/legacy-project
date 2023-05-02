@@ -17,7 +17,7 @@ const postUser = async(req: Request, res: Response): Promise<void> => {
     })
     await userInstance.save();
 
-    res.status(201).json(req.body);;
+    res.status(201).json(req.body);
   } catch (e) {
     res.status(400).send('wrong information');
     console.log(e);
@@ -28,7 +28,7 @@ const postUser = async(req: Request, res: Response): Promise<void> => {
 const loginUser = async(req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.find({username: req.params.username});
-    if(user) {res.status(201).json(user)};
+    if(user) {res.status(201).json(user)}
    } catch(e) {
     res.status(400).send('wrong username');
     console.log(e);

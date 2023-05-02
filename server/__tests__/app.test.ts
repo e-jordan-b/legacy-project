@@ -4,12 +4,12 @@ import EventController from '../controllers/event_controller'
 import Event from '../models/event_model'
 import mongoose from 'mongoose'
 // import { connectDB, disconnectDB, mongod } from '../db'
-import UserModel from '../models/user_model'
-import { isExportDeclaration } from 'typescript'
-const request = supertest(app)
+// import UserModel from '../models/user_model'
+// import { isExportDeclaration } from 'typescript'
+// const request = supertest(app)
 
 const mockResponse = {
-  status: jest.fn().mockReturnThis(),
+    status: jest.fn().mockReturnThis(),
   json: jest.fn(),
   send: jest.fn(), };
 
@@ -81,12 +81,14 @@ describe("Event Controller", () => {
       it("should return the event payload", async () => {
         const createPostMock = jest
           .spyOn(EventController, 'postEvent')
-          // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
           .mockReturnValueOnce(EventPayload);
 
         const {statusCode, body, headers} = await supertest(app)
         .post('/event')
-        // @ts-ignore
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        //@ts-ignore
         .send(mockEvent)
 
         expect(statusCode).toBe(201)
@@ -95,7 +97,7 @@ describe("Event Controller", () => {
       })
 
       it("values should be defined", async () => {
-        const {statusCode, body} = await supertest(app)
+        const {body} = await supertest(app)
         .post('/event')
         .send(mockEvent)
 
@@ -144,6 +146,7 @@ describe("Event Controller", () => {
     describe("When called correctly", () => {
       it("should return status 201 when action is add", async () => {
         const event = await Event.findOne({title: mockEvent.title})
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
         mockForPostEventUser._id = event._id
         const { statusCode } = await supertest(app)
@@ -154,6 +157,7 @@ describe("Event Controller", () => {
       })
       it("should return status 201 when action is removed", async () => {
         const event = await Event.findOne({title: mockEvent.title})
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
         mockForPostEventUser._id = event._id
         const { statusCode } = await supertest(app)
@@ -238,68 +242,3 @@ describe("User Controller", () => {
     })
   })
 })
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// const url: any = process.env.MONGODB_URI
-
-// beforeAll(() => {
-//   // await mongoose.connect(url);
-//   connectDB();
-// });
-
-// afterAll(() => {
-//   // await mongoose.connection.close();
-//   disconnectDB();
-//   server.close();
-// });
-
-// describe('API test', () => {
-
-//   describe("get /users", () => {
-
-//     describe("given the required information", () => {
-//       test('should return correct status', async () => {
-//         const response = await request.get('/users')
-//         expect(response.statusCode).toBe(201)
-//       }),
-//       test('should return json in the content type header', async () => {
-//         const response = await request.get('/users')
-//         expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
-//       })
-      // test('should return list of all users in database', async () => {
-      //   const { body } = await request.get('/users')
-      //   console.log(body)
-      //   expect(
-//     })
-//   })
-// })
-
-// test("should respong with a 201 status code", async () => {
-//   const response = await supertest(app).post("/user").send({
-//       name: "John Smith",
-//       username: "john_smith",
-//       profilePicture: "https://example.com/profile.jpg",
-//       phone: "+1 (555) 123-4567",
-//       email: "john.smith@example.com",
-//       age: 30,
-//       friends: ["alice", "bob", "charlie"],
-//       following: ["xyz", "abc"],
-//       savedEvents: ["event1", "event2"],
-//       joinedEvents: ["event1"]
-//     })
-//   expect(response.statusCode).toBe(201)
-// })

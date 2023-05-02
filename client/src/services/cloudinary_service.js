@@ -1,5 +1,5 @@
 
-const BASE_URL = 'http://localhost:3002/upload';
+const BASE_URL = 'http://localhost:3001/upload';
 
 const fetchReq = async (parameters={}) => {
   return await fetch(`${BASE_URL}`, parameters)
