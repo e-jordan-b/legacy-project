@@ -5,7 +5,7 @@ import { Request, Response } from 'express';
 const setActiveUser = async (req: Request, res: Response): Promise<void> => {
   console.log(req.body)
   try {
-    await ActiveUser.create({
+    const active = await ActiveUser.create({
       identifier: req.body.identifier,
       username: req.body.username,
       name: req.body.name,
@@ -18,10 +18,10 @@ const setActiveUser = async (req: Request, res: Response): Promise<void> => {
       savedEvents: req.body.savedEvents,
       joinedEvents: req.body.joinedEvents
     })
-    res.json(req.body);
-    res.status(201);
+    ;
+    res.status(201).json(active);
   } catch (e) {
-    res.status(400);
+    res.status(400).json('something went wrong');
     console.log(e);
   }
 };
@@ -31,7 +31,7 @@ const getActiveUser = async(req: Request, res: Response): Promise<void> => {
     const activeUser = await ActiveUser.find({});
     console.log('activeuser', activeUser)
     if(activeUser.length != 0){
-      res.json(activeUser[0]);
+      res.status(201).json(activeUser[0]);
     }else{
       res.json(false)
     }
@@ -40,7 +40,7 @@ const getActiveUser = async(req: Request, res: Response): Promise<void> => {
   }
   catch (e) {
     // res.json(false)
-    res.status(400);
+    res.status(400).json('something went wrong');
     console.log(e);
   }
 }

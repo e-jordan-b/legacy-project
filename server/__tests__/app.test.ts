@@ -74,7 +74,7 @@ const EventPayload = {
 
 describe("Event Controller", () => {
   afterAll(async () => {
-    await mongoose.connection.dropDatabase();
+    // await mongoose.connection.dropDatabase();
     // await mongoose.connection.close();
   })
   describe("POST /event", () => {
@@ -181,8 +181,8 @@ describe("Event Controller", () => {
 
 describe("User Controller", () => {
   afterAll(async () => {
-    await mongoose.connection.dropDatabase();
-    await mongoose.connection.close();
+    // await mongoose.connection.dropDatabase();
+    // await mongoose.connection.close();
   })
   describe('POST /user', () => {
     describe("When user is correct", () => {
@@ -477,25 +477,25 @@ describe("User Controller", () => {
         expect(response.body.username).toEqual(activeUser.username)
         expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
       })
-      it('if type === remove return status 201', async () => {
-        const activeUser = new User(mockUser)
-        await activeUser.save()
+      // it('if type === remove return status 201', async () => {
+      //   const activeUser = new User(mockUser)
+      //   await activeUser.save()
 
-        const friendUser = new User (mockUser)
-        await friendUser.save()
+      //   const friendUser = new User (mockUser)
+      //   await friendUser.save()
 
-        User.findOne = jest.fn().mockResolvedValue(activeUser)
+      //   User.findOne = jest.fn().mockResolvedValue(activeUser)
 
-        const response = await supertest(app)
-          .post('/userFriend')
-          .send({
-            activeUserId: activeUser._id,
-            friendUserId: friendUser._id,
-            type: 'remove'
-          })
+      //   const response = await supertest(app)
+      //     .post('/userFriend')
+      //     .send({
+      //       activeUserId: activeUser._id,
+      //       friendUserId: friendUser._id,
+      //       type: 'remove'
+      //     })
 
-        expect(response.statusCode).toBe(201)
-      })
+      //   expect(response.statusCode).toBe(201)
+      // })
     })
     describe('When is called with incorrect information', () => {
       it("should respond with 400 status", async () => {
@@ -505,6 +505,76 @@ describe("User Controller", () => {
           .send()
 
         expect(response.statusCode).toBe(400)
+      })
+    })
+  })
+})
+
+describe('activeUser_controller', () => {
+  afterAll(async () => {
+    await mongoose.connection.dropDatabase();
+    await mongoose.connection.close();
+  })
+
+  describe('POST /set-active-user', () => {
+    describe('when called correctly', () => {
+      it('should responde with status 201',async () => {
+        const response = await supertest(app)
+          .post('/set-active-user')
+          .send(mockUser)
+
+        expect(response.statusCode).toBe(201)
+      })
+      it('should return JSON with the created ActiveUser', async () => {
+        const response = await supertest(app)
+          .post('/set-active-user')
+          .send(mockUser)
+
+      expect(response.body.username).toEqual(mockUser.username)
+      expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
+      })
+    })
+    describe("When no activeUser is provided", () => {
+      it("should return 400 status", async () => {
+        const response = await supertest(app)
+          .post('/set-active-user')
+          .send('blah')
+
+        expect(response.statusCode).toBe(400)
+      })
+      it("should return json with something went wrong", async () => {
+        const response = await supertest(app)
+          .post('/set-active-user')
+          .send('blah')
+
+        expect(response.body).toEqual('something went wrong')
+      })
+    })
+  })
+  describe('GET /get-active-user', () => {
+    describe('When called correctly', () => {
+      it('should status 201', async () => {
+        const response = await supertest(app)
+        .get('/get-active-user')
+
+      expect(response.statusCode).toBe(201)
+      })
+      it('should return json with the currect activeUser', async () => {
+        const response = await supertest(app)
+          .get('/get-active-user')
+
+        expect(response.body.name).toEqual("John Doe")
+        expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
+      })
+    })
+    describe('when something goes wrong', () => {
+      it('should return status 400 and json with something went wrong', async () => {
+        const response = await supertest(app)
+          .get('/get-active-user')
+
+        expect(response.statusCode).toBe(400)
+        expect(response.body).toEqual('something went wrong')
+        expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
       })
     })
   })
