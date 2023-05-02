@@ -50,11 +50,10 @@ const deleteActiveUser= async(req: Request, res: Response): Promise<void> => {
   console.log('delete', req.body.username)
   try{
     await ActiveUser.findOneAndRemove({username: req.body.username});
-    res.json(req.body);
-    res.status(201);
+    res.status(201).json(req.body);
   }
   catch (e) {
-    res.status(400);
+    res.status(400).json('something went wrong');
     console.log(e);
   }
 }

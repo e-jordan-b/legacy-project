@@ -4,6 +4,8 @@ import EventController from '../controllers/event_controller'
 import Event from '../models/event_model'
 import mongoose from 'mongoose'
 import User from '../models/user_model'
+import ActiveUser from '../models/activeUser_model'
+
 // import { connectDB, disconnectDB, mongod } from '../db'
 // import UserModel from '../models/user_model'
 // import { isExportDeclaration } from 'typescript'
@@ -569,12 +571,49 @@ describe('activeUser_controller', () => {
     })
     describe('when something goes wrong', () => {
       it('should return status 400 and json with something went wrong', async () => {
+        jest.spyOn(ActiveUser, 'find').mockImplementation(() => {
+          throw new Error('Database error');
+        });
         const response = await supertest(app)
           .get('/get-active-user')
+          .set('Accept', 'application/json')
 
         expect(response.statusCode).toBe(400)
         expect(response.body).toEqual('something went wrong')
         expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
+      })
+    })
+  })
+  describe('POST /delete-active-user', () => {
+    describe('when called correctly', () => {
+      it('should return status 201', async () => {
+        const username = 'johndoe';
+        const response = await supertest(app)
+          .post('/delete-active-user')
+          .send({ username });
+
+        expect(response.status).toBe(201);
+      })
+      it('should return json with the argument passed', async () => {
+        const username = 'johndoe';
+        const response = await supertest(app)
+          .post('/delete-active-user')
+          .send({ username });
+
+        expect(response.body).toEqual({ username });
+      })
+    })
+    describe('when passed the wrong information', () => {
+      it('should return status 400', async () => {
+        jest.spyOn(ActiveUser, 'findOneAndRemove').mockImplementation(() => {
+          throw new Error('Database error');
+        });
+        const username = 1234;
+        const response = await supertest(app)
+          .post('/delete-active-user')
+          .send({ username });
+
+        expect(response.status).toBe(400)
       })
     })
   })
