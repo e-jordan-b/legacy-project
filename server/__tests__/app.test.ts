@@ -17,8 +17,8 @@ const mockUser = {
   phone: "1234567890",
   email: "johndoe@example.com",
   age: 30,
-  friends: ["friend1", "friend2", "friend3"],
-  following: ["user1", "user2"],
+  friends: ['friend1', 'friend2'],
+  following: [],
   savedEvents: [],
   joinedEvents: []
 }
@@ -349,7 +349,7 @@ describe("User Controller", () => {
     })
   })
   describe("POST /userEvent", () => {
-    describe('postUserEvent function', () => {
+    describe('When given the correct information', () => {
       it('if type === addSaved, should return status code 201', async () => {
         // create a test user with a known ID
         // const testUser = new User(mockUser);
@@ -433,6 +433,78 @@ describe("User Controller", () => {
       expect(statusCode).toBe(400)
       expect(body).toEqual('something went wrong')
       expect(headers['content-type']).toEqual(expect.stringContaining("json"))
+      })
+    })
+  })
+  describe('/userFriend', () => {
+    describe('When called correctly', () => {
+      it('if type === add should return status 201', async () => {
+        const activeUser = new User(mockUser)
+        await activeUser.save()
+
+        const friendUser = new User (mockUser)
+        await friendUser.save()
+
+        User.findOne = jest.fn().mockResolvedValue(activeUser)
+
+        const response = await supertest(app)
+          .post('/userFriend')
+          .send({
+            activeUserId: activeUser._id,
+            friendUserId: friendUser._id,
+            type: 'add'
+          })
+
+        expect(response.statusCode).toBe(201)
+      })
+      it('if type === add should save the id to the friends array and return the activeUser as JSON', async () => {
+        const activeUser = new User(mockUser)
+        await activeUser.save()
+
+        const friendUser = new User (mockUser)
+        await friendUser.save()
+
+        User.findOne = jest.fn().mockResolvedValue(activeUser)
+
+        const response = await supertest(app)
+          .post('/userFriend')
+          .send({
+            activeUserId: activeUser._id,
+            friendUserId: friendUser._id,
+            type: 'add'
+          })
+        expect(response.body.friends).toHaveLength(4)
+        expect(response.body.username).toEqual(activeUser.username)
+        expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
+      })
+      it('if type === remove return status 201', async () => {
+        const activeUser = new User(mockUser)
+        await activeUser.save()
+
+        const friendUser = new User (mockUser)
+        await friendUser.save()
+
+        User.findOne = jest.fn().mockResolvedValue(activeUser)
+
+        const response = await supertest(app)
+          .post('/userFriend')
+          .send({
+            activeUserId: activeUser._id,
+            friendUserId: friendUser._id,
+            type: 'remove'
+          })
+
+        expect(response.statusCode).toBe(201)
+      })
+    })
+    describe('When is called with incorrect information', () => {
+      it("should respond with 400 status", async () => {
+
+        const response = await supertest(app)
+          .post('/userFriend')
+          .send()
+
+        expect(response.statusCode).toBe(400)
       })
     })
   })

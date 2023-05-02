@@ -59,7 +59,6 @@ const postUserEvent = async(req: Request, res: Response): Promise<void> => {
   try {
 
     const user = await User.findOne({_id: req.body.userId});
-    console.log(user)
     if (user) {
       if (req.body.type === 'addSaved') {
         user.savedEvents.push(req.body.eventId);
@@ -96,18 +95,23 @@ const postUserFriend = async(req: Request, res: Response): Promise<void> => {
     if (activeUser && friendUser && req.body.type !== '') {
       if (req.body.type === 'add') {
         activeUser.friends.push(req.body.friendUserId)
-        activeUser.save();
+        await activeUser.save();
         friendUser.friends.push(req.body.activeUserId)
-        friendUser.save();
+        await friendUser.save();
       }
 
       if (req.body.type === 'remove') {
+        console.log('im here')
+        console.log(activeUser.friends)
         const ActiveUserArrayWithoutFriend = activeUser.friends.filter(friend => friend !== req.body.friendUserId)
         activeUser.friends = ActiveUserArrayWithoutFriend;
-        activeUser.save();
+        console.log(activeUser.friends)
+        await activeUser.save();
         const FriendUserArrayWithoutFriend = friendUser.friends.filter(friend => friend !== req.body.activeUserId)
+        console.log(friendUser.friends)
         friendUser.friends = FriendUserArrayWithoutFriend;
-        friendUser.save();
+        console.log(friendUser.friends)
+        await friendUser.save();
       }
 
       res.status(201).json(activeUser);
@@ -115,7 +119,7 @@ const postUserFriend = async(req: Request, res: Response): Promise<void> => {
       throw new Error ('User/Friend does not exists or the type has not been indicated!');
     }
    } catch(e) {
-    res.status(400);
+    res.status(400).json('something went wrong');
     console.log(e);
    }
 }
