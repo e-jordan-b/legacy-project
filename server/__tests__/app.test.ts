@@ -19,8 +19,8 @@ const mockUser = {
   age: 30,
   friends: ["friend1", "friend2", "friend3"],
   following: ["user1", "user2"],
-  savedEvents: ["event1", "event2", "event3"],
-  joinedEvents: ["event1", "event3"]
+  savedEvents: [],
+  joinedEvents: []
 }
 
 const mockEvent = {
@@ -345,6 +345,94 @@ describe("User Controller", () => {
 
         expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
         expect(response.body).toEqual('something went wrong');
+      })
+    })
+  })
+  describe("POST /userEvent", () => {
+    describe('postUserEvent function', () => {
+      it('if type === addSaved, should return status code 201', async () => {
+        // create a test user with a known ID
+        // const testUser = new User(mockUser);
+        User.findOne = jest.fn().mockResolvedValue(new User(mockUser))
+
+        const response = await supertest(app)
+          .post('/userEvent')
+          .send({mockUser, type:'addSaved'});
+
+        expect(response.status).toBe(201);
+
+      });
+      it('if type === addSaved, should modify the savedEvents and joinedEvents arr', async () => {
+        User.findOne = jest.fn().mockResolvedValue(new User(mockUser))
+
+        const response = await supertest(app)
+          .post('/userEvent')
+          .send({ mockUser, eventId: '123', type: 'addSaved'});
+
+        expect(response.body.savedEvents).toEqual(['123']);
+        expect(response.body.joinedEvents).toEqual([]);
+      })
+      it('if type === removedSaved, should return status code 201', async () => {
+        User.findOne = jest.fn().mockResolvedValue(new User(mockUser))
+
+        const response = await supertest(app)
+          .post('/userEvent')
+          .send({mockUser, type:'removeSaved'});
+
+        expect(response.status).toBe(201);
+
+      });
+      it('if type === removeSaved, should modify the savedEvents and joinedEvents arr', async () => {
+        User.findOne = jest.fn().mockResolvedValue(new User(mockUser))
+
+        const response = await supertest(app)
+          .post('/userEvent')
+          .send({ mockUser, eventId: '123', type: 'removeSaved'});
+
+        expect(response.body.savedEvents).toEqual([]);
+        expect(response.body.joinedEvents).toEqual([]);
+      })
+      it('if type === addJoined, should return status code 201', async () => {
+        User.findOne = jest.fn().mockResolvedValue(new User(mockUser))
+
+        const response = await supertest(app)
+          .post('/userEvent')
+          .send({mockUser, type:'addJoined'});
+
+        expect(response.status).toBe(201);
+
+      });
+      it('if type === addJoined, should modify the savedEvents and joinedEvents arr', async () => {
+        User.findOne = jest.fn().mockResolvedValue(new User(mockUser))
+
+        const response = await supertest(app)
+          .post('/userEvent')
+          .send({ mockUser, eventId: '123', type: 'addJoined'});
+
+        expect(response.body.savedEvents).toEqual([]);
+        expect(response.body.joinedEvents).toEqual(['123']);
+      })
+    })
+    describe("When given the wrong input", () => {
+      it("should return JSON with User does not exists", async () => {
+        const {body, headers} = await supertest(app)
+          .post('/userEvent')
+          .send({_id: '123'})
+
+        expect(body).toEqual('User does not exists!')
+        expect(headers['content-type']).toEqual(expect.stringContaining("json"))
+      })
+      it("should return status 400 and json with something went wrong", async () => {
+        User.findOne = jest.fn().mockImplementation(() => {
+          throw new Error('Error')
+        })
+        const {statusCode, body, headers} = await supertest(app)
+        .post('/userEvent')
+        .send({_id: '123'})
+
+      expect(statusCode).toBe(400)
+      expect(body).toEqual('something went wrong')
+      expect(headers['content-type']).toEqual(expect.stringContaining("json"))
       })
     })
   })

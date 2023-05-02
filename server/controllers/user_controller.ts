@@ -57,8 +57,9 @@ const getUserById = async(req: Request, res: Response): Promise<void> => {
 
 const postUserEvent = async(req: Request, res: Response): Promise<void> => {
   try {
-    const user = await User.findOne({_id: req.body.userId});
 
+    const user = await User.findOne({_id: req.body.userId});
+    console.log(user)
     if (user) {
       if (req.body.type === 'addSaved') {
         user.savedEvents.push(req.body.eventId);
@@ -76,13 +77,13 @@ const postUserEvent = async(req: Request, res: Response): Promise<void> => {
         }
       }
 
-      user?.save();
+      await user.save();
       res.status(201).json(user);
     } else {
-      throw new Error ('User does not exists!');
+      res.json('User does not exists!');
     }
    } catch(e) {
-    res.status(400);
+    res.status(400).json('something went wrong');
     console.log(e);
    }
 }
