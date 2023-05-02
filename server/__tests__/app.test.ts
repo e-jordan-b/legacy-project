@@ -3,15 +3,11 @@ import { app, server } from '../index'
 import EventController from '../controllers/event_controller'
 import Event from '../models/event_model'
 import mongoose from 'mongoose'
+import User from '../models/user_model'
 // import { connectDB, disconnectDB, mongod } from '../db'
 // import UserModel from '../models/user_model'
 // import { isExportDeclaration } from 'typescript'
 // const request = supertest(app)
-
-const mockResponse = {
-    status: jest.fn().mockReturnThis(),
-  json: jest.fn(),
-  send: jest.fn(), };
 
 const mockUser = {
   id: '644116416da455b7fc0c8bba',
@@ -66,6 +62,11 @@ const mockForPostEventUser = {
   active: true,
   liked: true
 }
+
+const testUsers = [
+  { username: 'user1', email: 'user1@example.com' },
+  { username: 'user2', email: 'user2@example.com' },
+];
 
 const EventPayload = {
   ...mockEvent
@@ -214,6 +215,13 @@ describe("User Controller", () => {
           .send({username: 'Eric'})
         expect(statusCode).toBe(400)
       })
+      it('should return json with wrong information', async () => {
+        const response = await supertest(app)
+          .post('/user')
+          .send({username: 'Eric'})
+        expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
+        expect(response.body).toEqual('wrong information')
+      })
     })
   })
   describe('GET /login/:usernam/:password', () => {
@@ -234,10 +242,109 @@ describe("User Controller", () => {
     })
     describe("when the username is not value", () => {
       it("should return status 400", async () => {
-        const { statusCode } = await supertest(app)
+        User.find = jest.fn().mockImplementation(() => {
+          throw new Error('Error')
+        })
+        const response = await supertest(app)
         .get(`/login/notcorrect/123`)
 
-      expect(statusCode).toBe(400)
+      expect(response.status).toBe(400)
+      expect(User.find).toBeCalled()
+      })
+      it("should return json with wrong username", async () => {
+        User.find = jest.fn().mockImplementation(() => {
+          throw new Error('Error')
+        })
+        const response = await supertest(app)
+        .get(`/login/notcorrect/123`)
+
+      expect(response.body).toEqual('wrong username')
+      })
+    })
+  })
+  describe("GET /users", () => {
+    describe("When called correctly", () => {
+      it("should return status code 201", async () => {
+        const { statusCode } = await supertest(app)
+          .get(`/users`)
+        expect(statusCode).toBe(201)
+      })
+      it("should return json array", async () => {
+        User.find = jest.fn().mockResolvedValue(testUsers)
+        const response = await supertest(app)
+          .get(`/users`)
+        expect(Array.isArray(response.body)).toBe(true)
+        expect(User.find).toBeCalled()
+        expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
+      })
+    })
+    describe("When an error ocurs", () => {
+      it("should give 400 status", async () => {
+        User.find = jest.fn().mockImplementation(() => {
+          throw new Error('Error')
+        })
+        const response = await supertest(app)
+        .get(`/users`)
+
+      expect(response.status).toBe(400)
+      expect(User.find).toBeCalled()
+      })
+      it("should return json with something went wrong", async () => {
+        User.find = jest.fn().mockImplementation(() => {
+          throw new Error('Error')
+        })
+        const response = await supertest(app)
+        .get(`/users`)
+
+      expect(response.body).toEqual('something went wrong')
+      })
+    })
+  })
+  describe('GET /user/:userId', () => {
+    describe("When called correctly", () => {
+      it("should return status 201", async () => {
+        const { statusCode } = await supertest(app)
+          .get('/user/644116416da455b7fc0c8bba')
+
+        expect(statusCode).toBe(201)
+      })
+      it("should return the user as json", async () => {
+        const testUser = {
+          _id: 'testUserId',
+          username: 'testUser',
+          email: 'testUser@example.com'
+        };
+
+        User.find = jest.fn().mockResolvedValue([testUser])
+
+        const response = await supertest(app).get(`/user/${testUser._id}`)
+
+        expect(response.status).toBe(201)
+        expect(response.body).toEqual([testUser])
+        expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
+      })
+    })
+    describe("If something goes wrong", () => {
+      it('should return status 400', async () => {
+        User.find = jest.fn().mockImplementation(() => {
+          throw new Error('Error')
+        })
+
+        const response = await supertest(app)
+          .get('/user/invalidUserId');
+
+        expect(response.status).toBe(400);
+      })
+      it('should return json with something went wrong', async () => {
+        User.find = jest.fn().mockImplementation(() => {
+          throw new Error('Error')
+        })
+
+        const response = await supertest(app)
+          .get('/user/invalidUserId');
+
+        expect(response.headers['content-type']).toEqual(expect.stringContaining("json"))
+        expect(response.body).toEqual('something went wrong');
       })
     })
   })

@@ -19,7 +19,7 @@ const postUser = async(req: Request, res: Response): Promise<void> => {
 
     res.status(201).json(req.body);
   } catch (e) {
-    res.status(400).send('wrong information');
+    res.status(400).json('wrong information');
     console.log(e);
   }
 }
@@ -30,7 +30,7 @@ const loginUser = async(req: Request, res: Response): Promise<void> => {
     const user = await User.find({username: req.params.username});
     if(user) {res.status(201).json(user)}
    } catch(e) {
-    res.status(400).send('wrong username');
+    res.status(400).json('wrong username');
     console.log(e);
    }
 }
@@ -40,7 +40,7 @@ const getAllUsers = async(req: Request, res: Response): Promise<void> => {
     const users = await User.find();
     res.status(201).json(users);
    } catch(e) {
-    res.status(400);
+    res.status(400).json('something went wrong');
     console.log(e);
    }
 }
@@ -50,7 +50,7 @@ const getUserById = async(req: Request, res: Response): Promise<void> => {
     const user = await User.find({_id: req.params.userId});
     res.status(201).json(user);
    } catch(e) {
-    res.status(400);
+    res.status(400).json('something went wrong');
     console.log(e);
    }
 }

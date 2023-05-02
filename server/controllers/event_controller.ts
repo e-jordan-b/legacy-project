@@ -32,7 +32,7 @@ const postEvent = async function(req:Request, res:Response): Promise<void> {
     res.status(201).json(req.body);
   }catch(e){
     console.log(e);
-    res.status(400).send('Invalid Data');
+    res.status(400).json('Invalid Data');
   }
 }
 
@@ -54,7 +54,6 @@ const getAllEvents = async function (req:Request, res:Response): Promise<void> {
 
 const postEventUser = async(req:Request, res:Response): Promise<void> => {
   try{
-    console.log(req.body.eventId, "IIIIIIDDDDDDDD", req.body.action, "AACTTIOOON")
     const event = await Event.findOne({_id: req.body.eventId})
     if (event) {
       if (req.body.action === 'add') {
@@ -78,7 +77,7 @@ const postEventUser = async(req:Request, res:Response): Promise<void> => {
     }
   }catch(e){
     console.log(e);
-    res.status(400).send('not found');
+    res.status(400).json('not found');
   }
 }
 
