@@ -1,3 +1,4 @@
+// FILE NOT BEING USED ANYWHERE
 import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
 import { Upload, message } from 'antd';
 import { useState } from 'react';
@@ -21,12 +22,12 @@ import { useState } from 'react';
 //   return isJpgOrPng && isLt2M;
 // };
 
-const UploadInputComponent = (props) => {
+const UploadInputComponent = (props: any) => {
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState<string>();
   // const [image, setImage] = useState();
 
-  const handleChange = (e) => {
+  const handleChange = (e:any) => {
     const newImage = e.target.files[0];
     props.imageUpload(e);
     if(newImage){

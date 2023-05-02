@@ -1,3 +1,4 @@
+//@ts-nocheck
 import InputComponent from "../UI/inputs/InputComponent";
 import { Form, Button} from "antd";
 import { useState } from "react";

@@ -1,19 +1,18 @@
+
 import { useState, useContext, useEffect } from "react";
-import InputComponent from "../UI/inputs/InputComponent";
+import InputComponent from "../UI/inputs/InputComponent"; // We can get rid of this
 import { Button, Form  } from "antd";
 import Context from "../context/context";
 import SelectInputComponent from "../UI/inputs/SelectInputComponent";
 import ModalComponent from "../UI/ModalComponent";
-import SwitchInputComponent from "../UI/inputs/SwitchInputComponent";
-import NumberInputComponent from "../UI/inputs/NumberInputComponent";
+import SwitchInputComponent from "../UI/inputs/SwitchInputComponent"; // We can get rid of this
+import NumberInputComponent from "../UI/inputs/NumberInputComponent"; // We can get rid of this
+import { InputNumber, Input, Switch, Select } from "antd";
 import './CreateEvent.css'
 import * as EventService from "../../services/event_service";
 import { sendPictureToCloud } from "../../services/cloudinary_service";
 import TextareaInputComponent from "../UI/inputs/TextareaInputComponent";
-import PlacesAutocomplete, {
-  geocodeByAddress,
-  getLatLng,
-} from 'react-places-autocomplete';
+import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import MapComponent from "../UI/MapComponent";
 import { formatEvents } from "../../helpers/formatting_functions";
 import CreateEventModalHeader from './CreateEventModalHeader';
@@ -30,7 +29,14 @@ interface CloudinaryResponse {
   created_at: string;
 }
 
-const CreateEvent = (props) => {
+type createEventProps = {
+  open: boolean;
+  close: () => void;
+  required?: boolean | undefined;
+  placeholder?: string | undefined;
+}
+
+const CreateEvent = (props: createEventProps) => {
 
   const {activeUser, users, setEvents, events} = useContext(Context);
 
@@ -38,10 +44,10 @@ const CreateEvent = (props) => {
   const [step, setStep] = useState(0);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [date, setDate] = useState<string | null>(null);
+  const [date, setDate] = useState<string | undefined>(undefined);
   const [location, setLocation] = useState('');
   const [coordinates, setCoordinates] = useState<string[] | null>(null);
-  const [limitAttendees, setLimitAttendees] = useState<string | null>(null);
+  const [limitAttendees, setLimitAttendees] = useState<number | null>(null);
   const [visibility, setVisibility] = useState(true);
   const [invitees, setInvitees] = useState<string[]>([]);
   const [hideFrom, sethideFrom] = useState<string[]>([]);
@@ -56,7 +62,7 @@ const CreateEvent = (props) => {
     if(input === 'title') setTitle(e.target.value)
     if(input === 'description') setDescription(e.target.value)
     if(input === 'date') setDate(e.target.value)
-    if(input === 'limitAttendees') setLimitAttendees(e.target.value)
+    // if(input === 'limitAttendees') setLimitAttendees(Number(e.target.value))
   }
 
   function handleSwitch(){ setVisibility(!visibility) }
@@ -89,13 +95,13 @@ const CreateEvent = (props) => {
     console.log(e)
     setLocation(e);
     geocodeByAddress(e)
-    .then((results: any) => getLatLng(results[0]))
-    .then((latLng: any) => {
+      .then((results: any) => getLatLng(results[0]))
+      .then((latLng: any) => {
         console.log(latLng)
         setCoordinates([latLng.lat, latLng.lng]);
-    }
-    )
-    .catch((error: Error) => console.error('Error', error));
+      }
+      )
+      .catch((error: Error) => console.error('Error', error));
   };
 
   function handleStep (method: boolean) {
@@ -109,7 +115,8 @@ const CreateEvent = (props) => {
       temp.push({
         "label": option.username,
         "value": option._id
-      })})
+      })
+    })
     setDisplayOptions(temp);
   }
 
@@ -167,115 +174,100 @@ const CreateEvent = (props) => {
   }, [displayOptions])
 
   return (
-
     <ModalComponent
-    title="Create new Event"
-    open={props.open}
-    close={props.close}
+      title="Create new Event"
+      open={props.open}
+      close={props.close}
     >
-      <CreateEventModalHeader step={step} handleStep={handleStep} />
+    <CreateEventModalHeader step={step} handleStep={handleStep} />
+    <div className="modal-form-wrapper">
+      {!isLoading && <> 
+        {step === 0 && <>
+          <Form name="create-event-first" onFinish={() => handleStep(true)}>
+            <Form.Item name="title" label="Title">
+              <Input
+                id="title"
+                name="title"
+                type="text"
+                autoComplete="title"
+                required={true}
+                maxLength={220}
+                minLength={4}
+                placeholder="max 220 characters"
+                onChange={handleInputChange}
+                value={title}
+              />
+            </Form.Item>
 
-       <div className="modal-form-wrapper">
-      {!isLoading && <>
-        {step === 0 &&
-          <>
-          <Form
-        name="create-event-first"
-        onFinish={() => handleStep(true)}
-        >
-        <Form.Item
-        name="title"
-        label="Title"
-        >
-          <InputComponent
-          id="title"
-          name="title"
-          type="text"
-          autoComplete="title"
-          required={true}
-          maxLength={220}
-          minLength={4}
-          placeholder="max 220 characters"
-          onchange={handleInputChange}
-          value={title}
-          />
-        </Form.Item>
+            <Form.Item name="description" label="Description">
+              <Input.TextArea
+                id="description"
+                name="description"
+                // type="textarea"
+                autoSize={{ minRows: 2, maxRows: 6 }}
+                required={props.required}
+                placeholder={props.placeholder}
+                onChange={handleInputChange}
+                disabled={false}
+                maxLength={2000}
+                value={description}
+              />
+            </Form.Item>
 
-        <Form.Item name="description" label="Description">
+            <Form.Item name="date" label="Time">
+              <Input
+                id="date"
+                name="date"
+                type="datetime-local"
+                autoComplete="date"
+                required={true}
+                placeholder="max 220 characters"
+                onChange={handleInputChange}
+                value={date}/>
+            </Form.Item>
 
-        <TextareaInputComponent
-            id="description"
-            name="description"
-            // type="textarea"
-            autoSize={{ minRows: 2, maxRows: 6 }}
-            required={props.required}
-            placeholder={props.placeholder}
-            onchange={handleInputChange}
-            disabled={false}
-            maxLength={2000}
-            value={description}
-        />
-        </Form.Item>
-
-        <Form.Item name="date" label="Time"
-         >
-          <InputComponent
-          id="date"
-          name="date"
-          type="datetime-local"
-          autoComplete="date"
-          required={true}
-          placeholder="max 220 characters"
-          onchange={handleInputChange}
-          value={date}/>
-        </Form.Item>
-
-        <Form.Item name="location" label="Location">
-          <PlacesAutocomplete
-              className='autocomplete-input'
-              value={location}
-              onChange={(e) => setLocation(e)}
-              onSelect={handleLocationSelect}
-              required
-
+            <Form.Item name="location" label="Location">
+              <PlacesAutocomplete
+                  value={location}
+                  onChange={(e) => setLocation(e)}
+                  onSelect={handleLocationSelect}
               >
               {({ getInputProps, suggestions, getSuggestionItemProps, loading }) => (
-              <div>
+                <div className='autocomplete-input'>
                   <input
                   {...getInputProps({
                       placeholder: 'Search Places ...',
                       className: 'location-search-input',
-                  })}
-
+                    })
+                  }
                   />
+
                   <div className="autocomplete-dropdown-container">
                   {loading && <div>Loading...</div>}
                   {suggestions.map(suggestion => {
-                      const className = suggestion.active
-                      ? 'suggestion-item--active'
-                      : 'suggestion-item';
+                      const className = suggestion.active ? 'suggestion-item--active' : 'suggestion-item';
                       // inline style for demonstration purpose
-                      const style = suggestion.active
-                      ? { backgroundColor: '#fafafa', cursor: 'pointer' }
-                      : { backgroundColor: '#ffffff', cursor: 'pointer' };
+                      const style = suggestion.active ? { backgroundColor: '#fafafa', cursor: 'pointer' } : { backgroundColor: '#ffffff', cursor: 'pointer' };
                       return (
-                      <div
+                        <div
                           {...getSuggestionItemProps(suggestion, {
-                          className,
-                          style,
-                          })}
-                      >
-                          <span>{suggestion.description}</span>
-                      </div>
+                              className,
+                              style,
+                            })
+                          }
+                        > 
+                        <span>{suggestion.description}</span>
+                        </div>
                       );
-                  })}
+                    })
+                  }
                   </div>
-              </div>
+                </div>
               )}
-          </PlacesAutocomplete>
-        </Form.Item>
-        {coordinates && <MapComponent initialValue={coordinates ? coordinates : null} handleSelect={handleMapSelect}/>}
-        </Form>
+              </PlacesAutocomplete>
+            </Form.Item>
+          {coordinates && <MapComponent initialValue={coordinates ? coordinates : null} handleSelect={handleMapSelect}/>}
+          </Form>
         </>
         }
         </>
@@ -287,46 +279,46 @@ const CreateEvent = (props) => {
         name="create-event-second"
         onFinish={() => handleStep(true)}>
         <Form.Item name="limitAttendees" label="Limit Attendees">
-          <NumberInputComponent
+          <InputNumber
           id="limitAttendees"
           name="limitAttendees"
           autoComplete="limitAttendees"
           required={false}
           placeholder="no limit"
-          onchange={(e: React.ChangeEvent<HTMLInputElement>): void =>{console.log(e);setLimitAttendees(e.target.value)}}
+          onChange={(numberOfAttendees:number | null): void =>{setLimitAttendees(numberOfAttendees)}}
           />
         </Form.Item>
 
         <Form.Item name="visibility" label="Visibility">
-          <SwitchInputComponent
-           id="visibility"
-          //  name="visibility"
-           onchange={handleSwitch}
+          <Switch 
+            id="visibility" 
+            //  name="visibility" 
+            onChange={handleSwitch}
           />
         </Form.Item>
 
         {!visibility &&
-          <Form.Item name="invitees" label="">
-          <SelectInputComponent
-           id="invitees"
-           type="select"
-           name="invitees"
-           placeholder="select members"
-           onchange={handleInviteesSelect}
-           options={displayOptions}
-           />
+        <Form.Item name="invitees" label="">
+          <Select
+            id="invitees"
+            // type="select" THIS PROPERTY DOES NOT EXIST IN SELECT COMPONENT
+            // name="invitees" THIS PROPERTY DOES NOT EXIST IN SELECT COMPONENT
+            placeholder="select members"
+            onChange={handleInviteesSelect}
+            options={displayOptions}
+          />
         </Form.Item>}
 
 
         <Form.Item name="hideFrom" label="Hide From">
-        <SelectInputComponent
-           id="hideFrom"
-           type="select"
-           name="hideFrom"
-           placeholder="select members"
-           onchange={handleHideFromSelect}
-          options={displayOptions}
-           />
+          <Select
+            id="hideFrom"
+            // type="select" THIS PROPERTY DOES NOT EXIST IN SELECT COMPONENT
+            // name="hideFrom" THIS PROPERTY DOES NOT EXIST IN SELECT COMPONENT
+            placeholder="select members"
+            onChange={handleHideFromSelect}
+            options={displayOptions}
+            />
         </Form.Item>
         </Form>
         </>

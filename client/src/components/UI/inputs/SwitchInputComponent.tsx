@@ -1,16 +1,17 @@
-import { Switch} from 'antd';
+import React, { FunctionComponent } from 'react';
+import { Switch, SwitchProps } from 'antd';
 
-type switchInputComponentProps = {
-  onchange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-}
+// type switchInputComponentProps = {
+//   onchange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+// }
 
-const SwitchInputComponent = (props) => {
+const SwitchInputComponent: FunctionComponent<SwitchProps> = (props) => {
 
   return <Switch
   // name={props.name}
   checkedChildren="Private"
   unCheckedChildren="Public"
-  onClick={props.onchange}
+  onClick={props.onChange}
   />
 
 }

@@ -1,7 +1,7 @@
 import './Event.css';
 import { useContext, useEffect, useState } from "react";
 import Context from "./context/context";
-import {HeartOutlined, HeartFilled, EditFilled} from '@ant-design/icons';
+import { HeartOutlined, HeartFilled, EditFilled } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import { EventType } from "../@types/EventType";
 
@@ -31,22 +31,22 @@ function Event (props: eventProps) {
 
   const monthNames = ["January", "February", "March", "April", "May", "June","July", "August", "September", "October", "November", "December"];
 
-  function formatTimeAmPm(date) {
+  function formatTimeAmPm(date: Date) {
     var hours = date.getHours();
     var minutes = date.getMinutes();
     var amOrpm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12;
-    minutes = minutes < 10 ? '0'+ minutes : minutes;
+    const minutesStr = minutes < 10 ? '0'+ String(minutes) : String(minutes);
     return  `${hours}:${minutes} ${amOrpm}`;
   }
 
-  function getNumberAttendees(joined) {
-    if(joined.length)
-    return joined.length;
-  }
+  // function getNumberAttendees(joined) {
+  //   if(joined.length)
+  //   return joined.length;
+  // }
 
-  function getUserName(userId) {
+  function getUserName(userId: string) {
     if(users){
       const owner = users.find(user => {
         return user._id === userId

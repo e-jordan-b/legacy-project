@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { useContext } from "react";
 import Context from "../context/context";
 import InputComponent from "../UI/inputs/InputComponent";

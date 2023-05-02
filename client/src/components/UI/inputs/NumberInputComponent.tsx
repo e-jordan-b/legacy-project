@@ -1,29 +1,19 @@
-import { InputNumber } from "antd";
+// WE CAN GET RID OF THIS FILE
+import React, { FunctionComponent } from 'react';
+import { InputNumber, InputNumberProps } from "antd";
 
-type propsType = {
-  id: string;
-  name: string;
-  required: boolean;
-  max: number;
-  min: number;
-  placeholder: string;
-  onchange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  defaultNumber?: number;
-}
-
-const NumberInputComponent = (props) => {
+const NumberInputComponent: FunctionComponent<InputNumberProps>  = ({ id, name, required, max, min, placeholder, onChange }) => {
 
   return (
     <InputNumber
-      id={props.id}
-      name={props.name}
-      min={props.min}
-      max={props.max}
-      defaultValue={props.defaultNumber}
-      placeholder={props.placeholder}
-      required={props.required}
-      onChange={props.onchange}
-       />
+      id={id}
+      name={name}
+      min={min}
+      max={max}
+      placeholder={placeholder}
+      required={required}
+      onChange={onChange}
+    />
   )
 
 }
