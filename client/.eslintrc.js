@@ -30,5 +30,9 @@ module.exports = {
   ],
   rules: {
     indent: ['error', 2],
+    'no-empty-function': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-empty-function': 'off',
+    '@typescript-eslint/no-unsafe-argument': 'off',
   },
 };

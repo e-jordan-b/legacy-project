@@ -1,37 +1,34 @@
-import {commonHeaders, fetchReq } from "./services_common_data"
+import {commonHeaders, fetchReq} from './services_common_data';
 
-
-const registerUser = (username: string, age: number, password: string) => fetchReq('user', {
-  method: 'POST',
-  headers: {...commonHeaders},
-  body: JSON.stringify({username: username, age: age, password: password})
+const registerUser = async (username: string, age: number, password: string) => fetchReq('user', {
+	method: 'POST',
+	headers: {...commonHeaders},
+	body: JSON.stringify({username, age, password}),
 });
 
-const loginUser = (username: string,  password: string) => fetchReq(`login/${username}/${password}`);
+const loginUser = async (username: string, password: string) => fetchReq(`login/${username}/${password}`);
 
-const getUserById = (userId: string) => fetchReq(`user/${userId}`);
+const getUserById = async (userId: string) => fetchReq(`user/${userId}`);
 
-const getAllUsers = () => fetchReq('users');
+const getAllUsers = async () => fetchReq('users');
 
-const postUserEvent = (userId: string , eventId: string, type: string) => {
-  return fetchReq(`userEvent/${eventId}`, {
-  method: 'POST',
-  headers: {...commonHeaders},
-  body: JSON.stringify({userId: userId, eventId: eventId, type: type})
-});}
+const postUserEvent = async (userId: string, eventId: string, type: string) => fetchReq('userEvent', {
+	method: 'POST',
+	headers: {...commonHeaders},
+	body: JSON.stringify({userId, eventId, type}),
+});
 
-const postUserFriend = (activeUserId: string, friendUserId: string, type: string) => {
-  return fetchReq(`userFriend/`, {
-  method: 'POST',
-  headers: {...commonHeaders},
-  body: JSON.stringify({activeUserId: activeUserId, friendUserId:friendUserId, type: type})
-});}
+const postUserFriend = async (activeUserId: string, friendUserId: string, type: string) => fetchReq('userFriend/', {
+	method: 'POST',
+	headers: {...commonHeaders},
+	body: JSON.stringify({activeUserId, friendUserId, type}),
+});
 
 export {
-  registerUser,
-  loginUser,
-  getUserById,
-  getAllUsers,
-  postUserEvent,
-  postUserFriend
-}
+	registerUser,
+	loginUser,
+	getUserById,
+	getAllUsers,
+	postUserEvent,
+	postUserFriend,
+};

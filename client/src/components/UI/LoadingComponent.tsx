@@ -1,11 +1,10 @@
-import { Spin } from "antd";
+import React from 'react';
+import {Spin} from 'antd';
 
-const LoadingComponent = () => {
-  return (
-  <div className="loading-container">
-    <Spin size="large" />
-  </div>
-  )
-}
+const LoadingComponent = () => (
+	<div className='loading-container'>
+		<Spin size='large' />
+	</div>
+);
 
 export default LoadingComponent;
