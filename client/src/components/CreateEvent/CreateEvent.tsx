@@ -1,16 +1,12 @@
-
+//@ts-nocheck
 import { useState, useContext, useEffect } from "react";
 import { Button, Form  } from "antd";
 import Context from "../context/context";
-import SelectInputComponent from "../UI/inputs/SelectInputComponent";
 import ModalComponent from "../UI/ModalComponent";
-import SwitchInputComponent from "../UI/inputs/SwitchInputComponent"; // We can get rid of this
-import NumberInputComponent from "../UI/inputs/NumberInputComponent"; // We can get rid of this
 import { InputNumber, Input, Switch, Select } from "antd";
 import './CreateEvent.css'
 import * as EventService from "../../services/event_service";
 import { sendPictureToCloud } from "../../services/cloudinary_service";
-import TextareaInputComponent from "../UI/inputs/TextareaInputComponent";
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 import MapComponent from "../UI/MapComponent";
 import { formatEvents } from "../../helpers/formatting_functions";
