@@ -1,7 +1,15 @@
-import { Modal } from "antd";
-import { useState } from "react";
+// NOT USED
+import { Modal, ModalProps } from "antd";
+import { useState, FunctionComponent } from "react";
 
-const ModalComponent = (props) => {
+type modalComponentProps = {
+  title?: string;
+  open?: boolean;
+  close?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  children?: any;
+}
+
+const ModalComponent: FunctionComponent<modalComponentProps> = (props) => {
 
   const [confirmLoading, setConfirmLoading] = useState(false);
   const [modalText, setModalText] = useState('Content of the modal');

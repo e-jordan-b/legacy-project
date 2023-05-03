@@ -5,7 +5,12 @@ import './EventList.css';
 import LoadingComponent from "./UI/LoadingComponent";
 import { EventType } from "../@types/EventType";
 
-function EventList (props) {
+type eventListProps = {
+  events: EventType[] ;
+  isEventFromOwner?: boolean;
+}
+
+function EventList (props: eventListProps) {
 const {isLoading, query} = useContext(Context)
 
  return(

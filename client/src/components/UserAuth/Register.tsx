@@ -1,5 +1,5 @@
-import InputComponent from "../UI/inputs/InputComponent";
-import { Form, Button} from "antd";
+//d@ts-nocheck
+import { Form, Button, Input } from "antd";
 import { useState } from "react";
 import { registerUser } from "../../services/user_service";
 import { Link } from "react-router-dom";
@@ -46,17 +46,17 @@ const Register = () => {
         onFinish={handleFormSubmit}
         >
        <Form.Item name="username" label="username">
-          <InputComponent
+          <Input
           id="username"
           name="username"
           type="text"
           autoComplete="username"
           required={true}
           placeholder="Choose a username"
-          onchange={handleInputChange}/>
+          onChange={handleInputChange}/>
         </Form.Item>
         <Form.Item name="userAge" label="Age">
-          <InputComponent
+          <Input
           id="userAge"
           name="userAge"
           type="number"
@@ -64,10 +64,10 @@ const Register = () => {
           required={true}
           placeholder="Enter your age"
           //TODO: add min-max age
-          onchange={handleInputChange} />
+          onChange={handleInputChange} />
         </Form.Item>
         <Form.Item name="password" label="Password">
-          <InputComponent
+          <Input
           id="password"
           name="password"
           type="password"
@@ -75,10 +75,10 @@ const Register = () => {
           required={true}
           placeholder="Enter a password"
           //TODO: add min-max age
-          onchange={handleInputChange} />
+          onChange={handleInputChange} />
         </Form.Item>
         <Form.Item label="Confirm password" name="confirmPassword">
-          <InputComponent id="confirmPassword"
+          <Input id="confirmPassword"
             name="confirmPassword"
             type="password"
             autoComplete="confirm-password"
