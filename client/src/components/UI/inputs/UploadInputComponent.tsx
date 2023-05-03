@@ -1,10 +1,10 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 // FILE NOT BEING USED ANYWHERE
-import { PlusOutlined, LoadingOutlined } from '@ant-design/icons';
-import { Upload, message } from 'antd';
-import { useState } from 'react';
+import {PlusOutlined, LoadingOutlined} from '@ant-design/icons';
+import {Upload, message} from 'antd';
+import React, {useState} from 'react';
 
-
-// const getBase64 = (img, callback) => {
+// Const getBase64 = (img, callback) => {
 //   const reader = new FileReader();
 //   reader.addEventListener('load', () => callback(reader.result));
 //   reader.readAsDataURL(img);
@@ -23,42 +23,44 @@ import { useState } from 'react';
 // };
 
 const UploadInputComponent = (props: any) => {
-  const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string>();
-  // const [image, setImage] = useState();
+	const [loading, setLoading] = useState(false);
+	const [imageUrl, setImageUrl] = useState<string>();
+	// Const [image, setImage] = useState();
 
-  const handleChange = (e:any) => {
-    const newImage = e.target.files[0];
-    props.imageUpload(e);
-    if(newImage){
-      setImageUrl(URL.createObjectURL(newImage));
-    }
-  };
+	const handleChange = (e: any) => {
+		const newImage = e.target.files[0];
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+		props.imageUpload(e);
+		if (newImage) {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			setImageUrl(URL.createObjectURL(newImage));
+		}
+	};
 
-  // const uploadButton = (
-  //   <div>
-  //     {loading ? <LoadingOutlined /> : <PlusOutlined />}
-  //     <div
-  //       style={{
-  //         marginTop: 8,
-  //       }}
-  //     >
-  //       Upload
-  //     </div>
-  //   </div>
-  // );
+	// Const uploadButton = (
+	//   <div>
+	//     {loading ? <LoadingOutlined /> : <PlusOutlined />}
+	//     <div
+	//       style={{
+	//         marginTop: 8,
+	//       }}
+	//     >
+	//       Upload
+	//     </div>
+	//   </div>
+	// );
 
-  return (
-    <>
+	return (
+		<>
 
-    <input
-    accept="image/*"
-    id="photo-event-upload"
-    type="file"
-    onChange={handleChange}>
+			<input
+				accept='image/*'
+				id='photo-event-upload'
+				type='file'
+				onChange={handleChange}>
 
-    </input>
-      {/* <Upload
+			</input>
+			{/* <Upload
         name="avatar"
         listType="picture-card"
         className="avatar-uploader"
@@ -80,7 +82,8 @@ const UploadInputComponent = (props: any) => {
           uploadButton
         )}
       </Upload> */}
-    </>
-  );
+		</>
+	);
 };
+
 export default UploadInputComponent;
