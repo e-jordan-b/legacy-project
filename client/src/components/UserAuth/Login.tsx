@@ -1,8 +1,7 @@
 //d@ts-nocheck
 import { useContext } from "react";
 import Context from "../context/context";
-import InputComponent from "../UI/inputs/InputComponent";
-import { Form, Button} from "antd";
+import { Form, Button, Input } from "antd";
 import { useState } from "react";
 import * as UserService from "../../services/user_service";
 import * as ActiveUserService from "../../services/active_user_service";
@@ -44,7 +43,7 @@ const Login = () => {
         onFinish={handleFormSubmit}
         >
        <Form.Item name="username" label="username">
-          <InputComponent
+          <Input
           id="username"
           name="username"
           type="text"
@@ -56,7 +55,7 @@ const Login = () => {
         <input name="chrome-autofill-dummy1" style={{display:'none'}} disabled/>
 
         <Form.Item name="password" label="password">
-          <InputComponent
+          <Input
           id="password"
           name="password"
           type="password"

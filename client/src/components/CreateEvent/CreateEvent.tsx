@@ -1,6 +1,5 @@
 
 import { useState, useContext, useEffect } from "react";
-import InputComponent from "../UI/inputs/InputComponent"; // We can get rid of this
 import { Button, Form  } from "antd";
 import Context from "../context/context";
 import SelectInputComponent from "../UI/inputs/SelectInputComponent";
