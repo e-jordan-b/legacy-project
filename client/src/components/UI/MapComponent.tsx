@@ -60,7 +60,7 @@ const MapComponent = (props: propsType) => {
   const {events, isLoading} = useContext(Context);
   const [center, setCenter] = useState(props.initialValue)
 
-  if (props.initialValue) return (
+  if (props.initialValue) {return (
     <>
       {!isLoading &&
         <MapContainer
@@ -79,7 +79,9 @@ const MapComponent = (props: propsType) => {
         </MapContainer>
       }
     </>
-  )
+  )} else {
+    return null;
+  }
 
 }
 
