@@ -29,13 +29,14 @@ const Login = () => {
 	}
 
 	const handleFormSubmit = async () => {
-		await UserService.loginUser(username, password)
+		await UserService.loginUser(username, password);
 		// .then(async(res) => {
 		//     //await ActiveUserService.setActiveUser(res[0])
 		// })
-			.then(() => {
-				navigate('/');
-			});
+		// .then(() => {
+		// 	navigate('/');
+		// });
+		navigate('/');
 	};
 
 	return (
@@ -45,7 +46,7 @@ const Login = () => {
 				name='control-ref'
 				onFinish={handleFormSubmit}
 			>
-				<Form.Item name='username' label='username'>
+				<Form.Item name='username' label='username' htmlFor='username'>
 					<Input
 						id='username'
 						name='username'
@@ -57,7 +58,7 @@ const Login = () => {
 				</Form.Item>
 				<input name='chrome-autofill-dummy1' style={{display: 'none'}} disabled/>
 
-				<Form.Item name='password' label='password'>
+				<Form.Item name='password' label='password' htmlFor='password'>
 					<Input
 						id='password'
 						name='password'
@@ -73,7 +74,7 @@ const Login = () => {
 					</Button>
 				</Form.Item>
 			</Form>
-			<Link to='/register'>Create an account</Link>
+			{/* <Link to='/register'>Create an account</Link> */}
 		</div>
 	);
 };
