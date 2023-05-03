@@ -6,7 +6,7 @@ interface IAnnouncement {
   text?: string,
   createdAt?: Date,
   owner?: string
-};
+}
 
 interface IEvent {
   owner: mongoose.ObjectId,
@@ -15,17 +15,17 @@ interface IEvent {
   date: Date,
   location: string,
   coordinates?: number[],
-  image?: string, 
+  image?: string,
   limitAttendees?: mongoose.Mixed,
   visibility?: boolean,
   invitees?: string[],
   hideFrom: string[],
   joined: string[],
-  announcements?: IAnnouncement[], 
-  canceled: boolean, 
+  announcements?: IAnnouncement[],
+  canceled: boolean,
   active: boolean,
   liked: boolean,
-};
+}
 
 // 2. Create a Schema corresponding to the document interface.
 const Announcement = new Schema<IAnnouncement>({

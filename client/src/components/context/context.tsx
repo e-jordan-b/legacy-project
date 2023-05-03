@@ -3,6 +3,7 @@ import { NavigateFunction } from 'react-router-dom';
 import { UserType } from '../../@types/UserType';
 import { EventType } from '../../@types/EventType';
 
+
 interface MyContextType {
   navigate: NavigateFunction;
   // setAuthenticated: (value: boolean) => void;

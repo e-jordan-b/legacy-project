@@ -3,7 +3,7 @@ import express from 'express';
 import cors from 'cors';
 import router from './router';
 import session, { SessionOptions } from 'express-session';
-import passport from 'passport';
+// import passport from 'passport';
 import bodyParser from 'body-parser';
 
 dotenv.config();
@@ -39,7 +39,7 @@ app
 
 export const server = app.listen(SERVER_PORT, (err?: Error) => {
     if (err) {
-      console.log(`😞 Sorry, something went wrong! ${err}`); // eslint-disable-line no-console
+      console.log(`😞 Sorry, something went wrong! ${err.toString()}`); // eslint-disable-line no-console
     } else {
       console.log(`🚀 Server (sessions) is listening on port ${SERVER_PORT}!`); // eslint-disable-line no-console
     }
