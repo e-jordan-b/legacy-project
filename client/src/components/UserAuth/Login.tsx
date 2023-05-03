@@ -1,4 +1,4 @@
-//@ts-nocheck
+//d@ts-nocheck
 import { useContext } from "react";
 import Context from "../context/context";
 import InputComponent from "../UI/inputs/InputComponent";
@@ -8,6 +8,7 @@ import * as UserService from "../../services/user_service";
 import * as ActiveUserService from "../../services/active_user_service";
 import './Auth.css';
 import { Link } from "react-router-dom";
+import { createLanguageService } from "typescript";
 
 
 const Login = () => {
@@ -50,7 +51,7 @@ const Login = () => {
           autoComplete="username"
           required={true}
           placeholder="Enter your username"
-          onchange={handleInputChange}/>
+          onChange={handleInputChange}/>
         </Form.Item>
         <input name="chrome-autofill-dummy1" style={{display:'none'}} disabled/>
 
@@ -62,7 +63,7 @@ const Login = () => {
           autoComplete="password"
           required={true}
           placeholder="Enter your password"
-          onchange={handleInputChange}/>
+          onChange={handleInputChange}/>
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" htmlType="submit">

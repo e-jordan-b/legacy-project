@@ -1,4 +1,4 @@
-//@ts-nocheck
+//d@ts-nocheck
 import InputComponent from "../UI/inputs/InputComponent";
 import { Form, Button} from "antd";
 import { useState } from "react";
@@ -54,7 +54,7 @@ const Register = () => {
           autoComplete="username"
           required={true}
           placeholder="Choose a username"
-          onchange={handleInputChange}/>
+          onChange={handleInputChange}/>
         </Form.Item>
         <Form.Item name="userAge" label="Age">
           <InputComponent
@@ -65,7 +65,7 @@ const Register = () => {
           required={true}
           placeholder="Enter your age"
           //TODO: add min-max age
-          onchange={handleInputChange} />
+          onChange={handleInputChange} />
         </Form.Item>
         <Form.Item name="password" label="Password">
           <InputComponent
@@ -76,7 +76,7 @@ const Register = () => {
           required={true}
           placeholder="Enter a password"
           //TODO: add min-max age
-          onchange={handleInputChange} />
+          onChange={handleInputChange} />
         </Form.Item>
         <Form.Item label="Confirm password" name="confirmPassword">
           <InputComponent id="confirmPassword"
