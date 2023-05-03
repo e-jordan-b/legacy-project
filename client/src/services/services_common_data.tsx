@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:3002';
+const BASE_URL = 'http://localhost:3001';
 
 export const commonHeaders: {[key: string]: string} = {
   "Content-Type": "application/json",

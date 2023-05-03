@@ -13,7 +13,7 @@ const upload = Multer({
 // ActiveUser Routes
 router.get('/get-active-user', activeUserController.getActiveUser);
 router.post('/set-active-user', activeUserController.setActiveUser);
-router.post('/delete-active-user', activeUserController.deleteActiveUser)
+router.post('/delete-active-user', activeUserController.deleteActiveUser); //delete
 
 // User Routes
 router.get('/login/:username/:password', userController.loginUser);

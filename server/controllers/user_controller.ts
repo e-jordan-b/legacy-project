@@ -17,9 +17,9 @@ const postUser = async(req: Request, res: Response): Promise<void> => {
     })
     await userInstance.save();
 
-    res.status(201).json(req.body);;
+    res.status(201).json(req.body);
   } catch (e) {
-    res.status(400).send('wrong information');
+    res.status(400).json('wrong information');
     console.log(e);
   }
 }
@@ -28,9 +28,9 @@ const postUser = async(req: Request, res: Response): Promise<void> => {
 const loginUser = async(req: Request, res: Response): Promise<void> => {
   try {
     const user = await User.find({username: req.params.username});
-    if(user) {res.status(201).json(user)};
+    if(user) {res.status(201).json(user)}
    } catch(e) {
-    res.status(400).send('wrong username');
+    res.status(400).json('wrong username');
     console.log(e);
    }
 }
@@ -40,7 +40,7 @@ const getAllUsers = async(req: Request, res: Response): Promise<void> => {
     const users = await User.find();
     res.status(201).json(users);
    } catch(e) {
-    res.status(400);
+    res.status(400).json('something went wrong');
     console.log(e);
    }
 }
@@ -50,15 +50,15 @@ const getUserById = async(req: Request, res: Response): Promise<void> => {
     const user = await User.find({_id: req.params.userId});
     res.status(201).json(user);
    } catch(e) {
-    res.status(400);
+    res.status(400).json('something went wrong');
     console.log(e);
    }
 }
 
 const postUserEvent = async(req: Request, res: Response): Promise<void> => {
   try {
-    const user = await User.findOne({_id: req.body.userId});
 
+    const user = await User.findOne({_id: req.body.userId});
     if (user) {
       if (req.body.type === 'addSaved') {
         user.savedEvents.push(req.body.eventId);
@@ -76,13 +76,13 @@ const postUserEvent = async(req: Request, res: Response): Promise<void> => {
         }
       }
 
-      user?.save();
+      await user.save();
       res.status(201).json(user);
     } else {
-      throw new Error ('User does not exists!');
+      res.json('User does not exists!');
     }
    } catch(e) {
-    res.status(400);
+    res.status(400).json('something went wrong');
     console.log(e);
    }
 }
@@ -95,18 +95,23 @@ const postUserFriend = async(req: Request, res: Response): Promise<void> => {
     if (activeUser && friendUser && req.body.type !== '') {
       if (req.body.type === 'add') {
         activeUser.friends.push(req.body.friendUserId)
-        activeUser.save();
+        await activeUser.save();
         friendUser.friends.push(req.body.activeUserId)
-        friendUser.save();
+        await friendUser.save();
       }
 
       if (req.body.type === 'remove') {
+        console.log('im here')
+        console.log(activeUser.friends)
         const ActiveUserArrayWithoutFriend = activeUser.friends.filter(friend => friend !== req.body.friendUserId)
         activeUser.friends = ActiveUserArrayWithoutFriend;
-        activeUser.save();
+        console.log(activeUser.friends)
+        await activeUser.save();
         const FriendUserArrayWithoutFriend = friendUser.friends.filter(friend => friend !== req.body.activeUserId)
+        console.log(friendUser.friends)
         friendUser.friends = FriendUserArrayWithoutFriend;
-        friendUser.save();
+        console.log(friendUser.friends)
+        await friendUser.save();
       }
 
       res.status(201).json(activeUser);
@@ -114,7 +119,7 @@ const postUserFriend = async(req: Request, res: Response): Promise<void> => {
       throw new Error ('User/Friend does not exists or the type has not been indicated!');
     }
    } catch(e) {
-    res.status(400);
+    res.status(400).json('something went wrong');
     console.log(e);
    }
 }
