@@ -7,6 +7,6 @@ import '@testing-library/jest-dom';
 describe('LoadingComponent', () => {
   it('renders', () => {
     render(<LoadingComponent />);
-    expect(screen.getByTestId('container')).toHaveClass('loading-container');
+    expect(screen.getByTestId('loading')).toHaveClass('loading-container');
   });
 });
