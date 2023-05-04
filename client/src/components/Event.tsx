@@ -78,12 +78,12 @@ function Event(props: EventProps) {
 				<img src={`https://res.cloudinary.com/dyjtzcm9r/image/upload/c_scale,w_653/v1682328789/${props.data.image}`} alt={`event ${props.data.title}`} className='event-image'/>
 				<div className='event-like'>
 					<p>{numberUsersJoiningEvent}</p>
-					{props.isEventFromOwner ? <EditFilled />
+					{props.isEventFromOwner ? <EditFilled data-testid='edit-filled'/>
 						: <>
-							{liked ? <HeartFilled onClick={() => {
+							{liked ? <HeartFilled data-testid='heart-filled' onClick={() => {
 								setLiked(false);
 								removeSavedEvent(props.data._id);
-							}}/> : <HeartOutlined onClick={() => {
+							}}/> : <HeartOutlined data-testid='heart-outlined' onClick={() => {
 								setLiked(true);
 								addToSavedEvents(props.data._id);
 							}}
