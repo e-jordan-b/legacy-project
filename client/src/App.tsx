@@ -78,7 +78,7 @@ const App: React.FC = () => {
 		// 		setActiveUser(data);
 		// 	})
 		// 	.catch(Error);
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-assignment
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		let user = await UserService.getUserById('644116416da455b7fc0c8bba');
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		user = user[0];

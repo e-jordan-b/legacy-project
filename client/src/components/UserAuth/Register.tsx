@@ -49,7 +49,7 @@ const Register = () => {
 				name='control-ref'
 				onFinish={handleFormSubmit}
 			>
-				<Form.Item name='username' label='username'>
+				<Form.Item name='username' label='username' htmlFor='username'>
 					<Input
 						id='username'
 						name='username'
@@ -59,7 +59,7 @@ const Register = () => {
 						placeholder='Choose a username'
 						onChange={handleInputChange}/>
 				</Form.Item>
-				<Form.Item name='userAge' label='Age'>
+				<Form.Item name='userAge' label='Age' htmlFor='userAge'>
 					<Input
 						id='userAge'
 						name='userAge'
@@ -70,7 +70,7 @@ const Register = () => {
 						// TODO: add min-max age
 						onChange={handleInputChange} />
 				</Form.Item>
-				<Form.Item name='password' label='Password'>
+				<Form.Item name='password' label='Password' htmlFor='password'>
 					<Input
 						id='password'
 						name='password'
@@ -81,7 +81,7 @@ const Register = () => {
 						// TODO: add min-max age
 						onChange={handleInputChange} />
 				</Form.Item>
-				<Form.Item label='Confirm password' name='confirmPassword'>
+				<Form.Item label='Confirm password' name='confirmPassword' htmlFor='confirmPassword'>
 					<Input id='confirmPassword'
 						name='confirmPassword'
 						type='password'
@@ -96,7 +96,7 @@ const Register = () => {
 					</Button>
 				</Form.Item>
 			</Form>
-			<Link to='/login'></Link>
+			{/* <Link to='/login'></Link> */}
 		</div>
 	);
 };
