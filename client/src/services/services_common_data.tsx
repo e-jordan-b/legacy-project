@@ -1,4 +1,4 @@
-const BaseUrl = 'http://localhost:3030';
+const BaseUrl = 'http://localhost:3002';
 
 export const commonHeaders: Record<string, string> = {
 	'Content-Type': 'application/json',

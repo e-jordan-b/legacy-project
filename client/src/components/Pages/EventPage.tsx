@@ -54,7 +54,7 @@ const EventPage = () => {
 
 	return (
 		<Layout>
-			<div className='event-page'>
+			<div className='event-page' data-testid='container2'>
 				{event ? <><Event link={false} data={event} numberUsersJoining={numberUsersJoining}></Event>
 
 					<MapContainer className='event-page-map-container' center={aux} zoom={13} scrollWheelZoom={false}>
