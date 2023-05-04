@@ -17,7 +17,7 @@ function EventList(props: EventListProps) {
 	return (
 		<>
 			{isLoading ? <LoadingComponent />
-				: <div className='event-list' id='list'>
+				: <div className='event-list' id='list' data-testid='loading'>
 					{props.events?.map((singleEvent: EventType, index: number) => {
 						if (singleEvent.title !== '') {
 							return singleEvent.title.toLowerCase().includes(query.toLowerCase()) && <>
