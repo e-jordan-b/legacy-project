@@ -17,9 +17,4 @@ const HomePage = () => {
 	);
 };
 
-// Return (
-// 	<></>
-// );
-// };
-
 export default HomePage;
