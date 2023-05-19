@@ -42,6 +42,20 @@ There's a third activeUser Model that was created to handle Authentication but i
 
 In each file of the Models you can see extra annotations about each's properties.
 
+## Tech Stack
+### Front End
+* TypeScipt
+* React
+* React leaflet
+* React Router
+* Ant design
+### Back End
+* TypeScipt
+* Express
+* MongoDB
+* Supertest
+* Node
+
 ## Developers
 * Eric Jordan - [GitHub](https://github.com/e-jordan-b)
 * Adrian Labernia - [GitHub](https://github.com/adri14233)
