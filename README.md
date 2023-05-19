@@ -1,5 +1,7 @@
 # ImIn app
 
+![logo](client/public/imin-logo-text.png)
+
 ## Introduction
 
 Welcome to ImIn - a full-stack application built with React, Node, and Express. This app allows users to create plans or events and invite friends to join them. The backend of the application uses MongoDB and Mongoose to store and manage data, while the frontend utilizes Cloudinary to store user-inputted pictures in the cloud. Additionally, the app utilizes the Google Places API to autocomplete addresses and obtain coordinates, and Leaflet to display maps. With ImIn, users can easily create and manage events, share them with friends, and make unforgettable memories. We hope you enjoy using our app!
@@ -27,6 +29,10 @@ The repo has two folders: One for the front-end, called Client and one for the b
 2. run "npm start" to start the React application.
 3. The app will run in "http://localhost:3000/" per default.
 
+### Run Tests
+1. In your terminal navigate to /client or /server.
+2. Run "npm test".
+
 ## Structure
 
 ### Server
@@ -35,3 +41,13 @@ The server follows an MVC pattern, with two main models: USER and Event.
 There's a third activeUser Model that was created to handle Authentication but it is still in the works. About authentication, there's a first structure set up with the npm package Passport, but it is not used yet.
 
 In each file of the Models you can see extra annotations about each's properties.
+
+## Developers
+* Eric Jordan - [GitHub](https://github.com/e-jordan-b)
+* Adrian Labernia - [GitHub](https://github.com/adri14233)
+* Aina Perez - [GitHub](https://github.com/ainaperez)
+
+## Screenshots 
+![screenshot1](img_readme/legacy1.PNG)
+### 
+![screenshot1](img_readme/legacy2.PNG)
